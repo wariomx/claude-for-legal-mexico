@@ -1,164 +1,176 @@
-# Claude for Legal
+# Claude para Legal
 
-Reference agents, skills, and data connectors for the legal workflows we see most — in-house commercial, privacy, product, corporate, employment, litigation, regulatory, AI governance, IP, and the learning side of the practice (law school clinics and students).
+Agentes de referencia, skills y conectores de datos para los flujos de trabajo legales más comunes — jurídico comercial, privacidad, producto, corporativo, laboral, litigación, regulatorio, gobernanza de IA, propiedad intelectual, seguros, y la formación jurídica (clínicas jurídicas y estudiantes de derecho).
 
-> **New here?** Start with [QUICKSTART.md](QUICKSTART.md) — install in 60 seconds. This README is the full reference.
+> **¿Primera vez aquí?** Comienza con [QUICKSTART.md](QUICKSTART.md) — instala en 60 segundos. Este README es la referencia completa.
 
-Everything here is available **two ways from one source**: install it as a [Claude Cowork](https://claude.com/product/cowork) or [Claude Code](https://claude.com/product/claude-code) plugin, or deploy it through the [Claude Managed Agents API](https://docs.claude.com/en/api/managed-agents) behind your own workflow engine. Same system prompt, same skills — you choose where it runs.
+Todo está disponible **de dos formas desde una sola fuente**: instálalo como plugin de [Claude Cowork](https://claude.com/product/cowork) o [Claude Code](https://claude.com/product/claude-code), o despliégalo a través de la [API de Agentes Gestionados de Claude](https://docs.claude.com/en/api/managed-agents) detrás de tu propio motor de flujo de trabajo. El mismo system prompt, las mismas skills — tú eliges dónde corre.
 
-## Getting started in Cowork
-- [Install Claude Desktop](https://claude.com/download)
-- Get access to Claude Cowork
-- Follow the instructions in the video below:
+## Primeros Pasos en Cowork
+- [Instala Claude Desktop](https://claude.com/download)
+- Obtén acceso a Claude Cowork
+- Sigue las instrucciones del video a continuación:
 
 https://github.com/user-attachments/assets/51394f0a-5277-4fe2-b81c-5c5e9ac876b5
 
 > [!IMPORTANT]
-> **Every output from these plugins is a draft for attorney review — not legal advice, not a legal conclusion, not a substitute for a lawyer.** They are built with guardrails that reflect that: source attribution on every citation, conservative defaults on privilege and subjective legal calls, jurisdiction assumptions surfaced, and explicit gates before anything is filed, sent, or relied on. A lawyer reviews, verifies, and takes professional responsibility for anything that leaves the building. These plugins make that review faster; they do not replace it.
+> **Toda salida de estos plugins es un borrador para revisión del abogado — no es asesoría legal, no es una conclusión jurídica, no sustituye a un abogado.** Están construidos con salvaguardas que lo reflejan: atribución de fuente en cada cita, valores conservadores por defecto en privilegio y decisiones legales subjetivas, supuestos de jurisdicción expuestos, y compuertas explícitas antes de presentar, enviar o actuar sobre cualquier documento. Un abogado revisa, verifica y asume la responsabilidad profesional de todo lo que sale de la oficina. Estos plugins hacen esa revisión más rápida; no la reemplazan.
 >
-> **These plugins do not represent Anthropic's legal positions.** They are tools that help lawyers analyze issues. Where a skill includes a checklist item, a suggested framework, a risk flag, or a characterization of case law or regulatory guidance, that is an aid to the reviewing attorney's own analysis, not a statement of Anthropic's view of the law. The law in many of these areas is unsettled and evolving. The attorney using the plugin — not the plugin, and not Anthropic — is responsible for the legal positions taken in their work product.
+> **Estos plugins no representan las posiciones legales de Anthropic.** Son herramientas que ayudan a los abogados a analizar asuntos. Cuando un skill incluye un ítem de lista de verificación, un marco sugerido, una bandera de riesgo, o una caracterización de jurisprudencia o guía regulatoria, eso es un apoyo al análisis propio del abogado revisor, no una declaración de la posición de Anthropic sobre el derecho. El derecho en muchas de estas áreas es incierto y está en evolución. El abogado que usa el plugin — no el plugin, y no Anthropic — es responsable de las posiciones legales adoptadas en su trabajo.
 
-## Licensing
+## Licenciamiento
 
-The plugins in this repository are licensed under two different terms:
+Los plugins en este repositorio están licenciados bajo dos términos diferentes:
 
-- **Upstream plugins** (commercial-legal, privacy-legal, product-legal, corporate-legal, employment-legal, regulatory-legal, ai-governance-legal, litigation-legal, law-student, legal-clinic, legal-builder-hub, ip-legal, cocounsel-legal) — **Apache 2.0**. See the root `LICENSE` file and `NOTICE`.
+- **Plugins upstream** (commercial-legal, privacy-legal, product-legal, corporate-legal, employment-legal, regulatory-legal, ai-governance-legal, litigation-legal, law-student, legal-clinic, legal-builder-hub, ip-legal, cocounsel-legal) — **Apache 2.0**. Ver el archivo `LICENSE` raíz y `NOTICE`.
 
-- **Mexico plugins** (conectores-legal-mexico, corporativo-legal-mexico, litigacion-legal-mexico, propiedad-intelectual-legal-mexico, laboral-legal-mexico, privacidad-legal-mexico, regulatorio-legal-mexico, fiscal-legal-mexico, ia-governanza-legal-mexico) — **AGPLv3+**. Free to use, modify, and distribute under the GNU Affero General Public License v3.0 or later — including for commercial use, provided modifications are shared under the same terms. A commercial license (without AGPLv3's share-alike requirement) is available — contact **wario@soft.law**. See `LICENSE` and `LICENSE-EXCEPTIONS.md` in each plugin directory.
+- **Plugins México** (conectores-legal-mexico, corporativo-legal-mexico, litigacion-legal-mexico, propiedad-intelectual-legal-mexico, laboral-legal-mexico, privacidad-legal-mexico, regulatorio-legal-mexico, fiscal-legal-mexico, ia-governanza-legal-mexico, seguros-legal-mexico) — **AGPLv3+**. Libres de usar, modificar y distribuir bajo la Licencia Pública General de Affero GNU v3.0 o posterior — incluyendo uso comercial, siempre que las modificaciones se compartan bajo los mismos términos. Una licencia comercial (sin el requisito de compartir de la AGPLv3) está disponible — contactar **wario@soft.law**. Ver `LICENSE` y `LICENSE-EXCEPTIONS.md` en cada directorio de plugin.
 
-What's in the repo:
+Lo que hay en el repositorio:
 
-- **Practice-area plugins** covering in-house, firm, and academic legal work — each one built around a cold-start interview that learns your playbook and a `CLAUDE.md` practice profile that every skill reads from.
-- **Managed-agent cookbooks** for the scheduled, eyes-on-the-feed workflows (renewal watcher, docket watcher, regulatory feed monitor, diligence grid, launch radar).
-- **MCP connectors** across general productivity (Slack, Google Drive, Box) and legal-specific systems (Ironclad, DocuSign, iManage, Everlaw, CourtListener, and more).
-- **[Named agents](#agents)** — end-to-end workflow agents (Vendor Agreement Reviewer, DSAR Responder, Termination Reviewer, Claim Chart Builder, …) with job-style names and a single command to run each one.
+- **Plugins por área de práctica** que cubren trabajo legal de jurídico interno, despacho y académico — cada uno construido alrededor de una entrevista de configuración que aprende tu manual de práctica y un perfil de práctica `CLAUDE.md` que todas las skills leen.
+- **Cookbooks de agentes gestionados** para los flujos de trabajo con monitoreo programado (vigilante de renovaciones, vigilante de expedientes, monitor de feeds regulatorios, revisión de data room, radar de lanzamientos).
+- **Conectores MCP** en productividad general (Slack, Google Drive, Box) y sistemas específicos para legal (Ironclad, DocuSign, iManage, Everlaw, CourtListener, y más).
+- **[Agentes con nombre](#agentes)** — agentes de flujo de trabajo completo con nombres por tipo de trabajo y un único comando para ejecutar cada uno.
 
-## Agents
+## Agentes
 
-Each agent is named for the workflow it runs. They're the most common surface — start with the ones that match your work, then tune the underlying skill, the practice profile, and the connectors to how your team does it.
+Cada agente recibe el nombre del flujo de trabajo que ejecuta. Son la superficie más común — comienza con los que corresponden a tu trabajo, luego ajusta el skill subyacente, el perfil de práctica y los conectores a cómo lo hace tu equipo.
 
-| Agent | What it does | Plugin | Command |
+| Agente | Qué hace | Plugin | Comando |
 |---|---|---|---|
-| **Vendor Agreement Reviewer** | Reviews a vendor MSA against your playbook and produces a redline memo | `commercial-legal` | `/commercial-legal:review` |
-| **NDA Triager** | GREEN/YELLOW/RED triage of inbound NDAs so only the hard ones hit a lawyer's desk | `commercial-legal` | `/commercial-legal:review` |
-| **Amendment Tracer** | Traces how a contract has changed across its base agreement and every amendment | `commercial-legal` | `/commercial-legal:amendment-history` |
-| **Renewal Watcher** | Scans the contract register for cancel-by and renewal deadlines | `commercial-legal` | scheduled agent |
-| **Deal Debrief** | Weekly sweep of signed agreements with playbook deviations — prompts the attorney to log context while memory is fresh | `commercial-legal` | scheduled agent |
-| **Playbook Monitor** | Watches the deviation log and proposes playbook updates when a clause has drifted | `commercial-legal` | scheduled agent |
-| **Escalation Router** | Routes contract issues to the right approver and drafts the ask | `commercial-legal` | `/commercial-legal:escalation-flagger` |
-| **Tabular Diligence Review** | Tabular review over a data room with one row per document and every cell cited | `corporate-legal` | `/corporate-legal:tabular-review` |
-| **Issue Extractor** | Reads VDR documents and extracts issues per house categories and materiality thresholds | `corporate-legal` | `/corporate-legal:diligence-issue-extraction` |
-| **Board Consent Drafter** | Drafts unanimous written consents in house format with precedent search | `corporate-legal` | `/corporate-legal:written-consent` |
-| **Material Contracts Schedule Builder** | Builds the disclosure schedule from diligence findings against the purchase-agreement threshold | `corporate-legal` | `/corporate-legal:material-contract-schedule` |
-| **Entity Compliance Tracker** | Computes filing deadlines across jurisdictions and entity types, runs health audits | `corporate-legal` | `/corporate-legal:entity-compliance` |
-| **Closing Checklist Driver** | Tracks every condition, consent, document, and filing blocking close | `corporate-legal` | `/corporate-legal:closing-checklist` |
-| **Integration Runbook** | Phased post-closing integration plan with consent tracking and weekly status | `corporate-legal` | `/corporate-legal:integration-management` |
-| **Data Room Watcher** | Monitors the VDR for new uploads and posts closing checklist status on schedule | `corporate-legal` | scheduled agent |
-| **Termination Reviewer** | Runs a proposed termination against jurisdiction-specific risk flags | `employment-legal` | `/employment-legal:termination-review` |
-| **Hire Reviewer** | Reviews offer letters and restrictive covenants with a jurisdiction check | `employment-legal` | `/employment-legal:hiring-review` |
-| **Worker Classification Screener** | Tests a proposed engagement against the controlling state test | `employment-legal` | `/employment-legal:worker-classification` |
-| **Leave Tracker** | Monitors open leaves with FMLA/CFRA/PFL/ADA deadlines and decision-point alerts | `employment-legal` | scheduled agent |
-| **Investigation Lead** | Opens, tracks, adds to, and summarizes internal investigation matters | `employment-legal` | `/employment-legal:investigation-open` |
-| **Policy Drafter** | Drafts employment policies with state supplements where law differs | `employment-legal` | `/employment-legal:policy-drafting` |
-| **International Expansion Planner** | Kicks off EOR-vs-entity planning and outside-counsel briefing for a new country | `employment-legal` | `/employment-legal:expansion-kickoff` |
-| **Wage & Hour Q&A** | Jurisdiction-aware employment Q&A for the "quick question" channel | `employment-legal` | `/employment-legal:wage-hour-qa` |
-| **DSAR Responder** | Drafts DSAR acknowledgments and substantive responses within statutory timelines | `privacy-legal` | `/privacy-legal:dsar-response` |
-| **DPA Reviewer** | Reviews a DPA against your playbook as controller or processor | `privacy-legal` | `/privacy-legal:dpa-review` |
-| **PIA Generator** | Generates a Privacy Impact Assessment in house format for a new feature or activity | `privacy-legal` | `/privacy-legal:pia-generation` |
-| **Privacy Triager** | Decides whether a processing activity needs a PIA, a mandatory GDPR DPIA, or can proceed | `privacy-legal` | `/privacy-legal:use-case-triage` |
-| **Privacy Reg Gap Checker** | Diffs a new or changed regulation against current privacy policy and practice | `privacy-legal` | `/privacy-legal:reg-gap-analysis` |
-| **Privacy Policy Monitor** | Sweeps saved PIAs, DPA reviews, and triage results for policy drift | `privacy-legal` | `/privacy-legal:policy-monitor` |
-| **Launch Reviewer** | Reviews a product launch against your risk calibration | `product-legal` | `/product-legal:launch-review` |
-| **Marketing Claims Checker** | Flags copy that needs substantiation, reframing, or cutting | `product-legal` | `/product-legal:marketing-claims-review` |
-| **"Is this a problem?" Triage** | Fast answer for the quick Slack question — pattern-matches your calibration | `product-legal` | `/product-legal:is-this-a-problem` |
-| **Launch Watcher** | Watches the launch tracker for upcoming launches that need legal review | `product-legal` | scheduled agent |
-| **Reg Feed Watcher** | Polls regulatory feeds and writes the Monday-morning digest | `regulatory-legal` | scheduled agent |
-| **On-demand Reg Check** | Check regulatory feeds now and report what's new since last check | `regulatory-legal` | `/regulatory-legal:reg-feed-watcher` |
-| **Policy Diff** | Diffs a specific regulatory change against the indexed policy library | `regulatory-legal` | `/regulatory-legal:policy-diff` |
-| **Gap Tracker** | Open gaps tracker — what's flagged and not yet closed | `regulatory-legal` | `/regulatory-legal:gaps` |
-| **Policy Redrafter** | Marked-up policy redraft closing a gap — a proposal for the policy owner's review, not a direct edit to source documents | `regulatory-legal` | `/regulatory-legal:policy-redraft` |
-| **NPRM Comment Tracker** | Review open NPRM comment periods, log decisions, track deadlines | `regulatory-legal` | `/regulatory-legal:comments` |
-| **AI Use Case Triager** | Classifies proposed AI use cases against your registry | `ai-governance-legal` | `/ai-governance-legal:use-case-triage` |
-| **AI Impact Assessor** | Runs an AIA across the regimes in scope | `ai-governance-legal` | `/ai-governance-legal:aia-generation` |
-| **Vendor AI Reviewer** | Reviews vendor AI terms for training-on-data, liability, model-change, and policy gaps | `ai-governance-legal` | `/ai-governance-legal:vendor-ai-review` |
-| **AI Reg Gap Checker** | Diffs a new AI regulation against your current governance posture | `ai-governance-legal` | `/ai-governance-legal:reg-gap-analysis` |
-| **AI Policy Monitor** | Sweeps saved AIAs, triage results, and vendor reviews for AI-policy drift | `ai-governance-legal` | `/ai-governance-legal:policy-monitor` |
-| **Trademark Clearance Screener** | First-pass clearance with knockout check and confusion heuristics | `ip-legal` | `/ip-legal:clearance` |
-| **Cease & Desist Drafter** | Drafts or triages a C&D, calibrated to your enforcement posture | `ip-legal` | `/ip-legal:cease-desist` |
-| **DMCA Takedown** | Drafts a takedown, triages one received, or drafts a §512(g) counter-notice | `ip-legal` | `/ip-legal:takedown` |
-| **OSS Compliance Checker** | Classifies open source licenses against your deployment model | `ip-legal` | `/ip-legal:oss-review` |
-| **FTO Triager** | Structured first look at potentially blocking patents — triage, not an opinion | `ip-legal` | `/ip-legal:fto-triage` |
-| **Infringement Triager** | Triage across TM / copyright / patent / trade secret — factors, not a finding | `ip-legal` | `/ip-legal:infringement-triage` |
-| **IP Clause Reviewer** | Reviews assignment, ownership, license grants, warranties, and indemnities | `ip-legal` | `/ip-legal:ip-clause-review` |
-| **IP Portfolio Tracker** | Registrations, renewals, maintenance fees, use declarations | `ip-legal` | `/ip-legal:portfolio` |
-| **IP Renewal Watcher** | Scheduled deadline report from the IP portfolio register | `ip-legal` | scheduled agent |
-| **Claim Chart Builder** | Element-by-element claim chart, patent or civil cause of action | `litigation-legal` | `/litigation-legal:claim-chart` |
-| **Docket Watcher** | Monitors court dockets for filings and deadlines | `litigation-legal` | scheduled agent |
-| **Vigilante de Expedientes** | Vigila expedientes judiciales en el Poder Judicial Federal y CJJ; calcula plazos procesales y publica reporte de estado | `litigacion-legal-mexico` | scheduled agent |
-| **Verificador Jurídico** | Auditoría QA de skills y documentos: verifica plazos, artículos, conceptos doctrinarios y vigencia contra fuentes primarias mexicanas | `litigacion-legal-mexico` | `/litigacion-legal-mexico:verificador-juridico` |
-| **Vigilante de Renovaciones PI** | Reporte priorizado de vencimientos de marcas, patentes, derechos de autor y reservas ante IMPI e INDAUTOR | `propiedad-intelectual-legal-mexico` | scheduled agent |
-| **Demand Letter Drafter** | Drafts a demand with FRE 408 awareness and a send gate | `litigation-legal` | `/litigation-legal:demand-draft` |
-| **Demand Intake** | Pre-drafting context gathering — parties, facts, basis, leverage, privilege | `litigation-legal` | `/litigation-legal:demand-intake` |
-| **Demand Received Triage** | Triages an inbound demand — options, portfolio cross-check, handoff | `litigation-legal` | `/litigation-legal:demand-received` |
-| **Subpoena Triage** | Classifies, scopes, and plans compliance with a new subpoena | `litigation-legal` | `/litigation-legal:subpoena-triage` |
-| **Chronology Builder** | Builds or updates a chronology from declared sources and uploads | `litigation-legal` | `/litigation-legal:chronology` |
-| **Deposition Prep** | Builds a deposition outline tied to case theory with docs and impeachment | `litigation-legal` | `/litigation-legal:deposition-prep` |
-| **Brief Section Drafter** | Drafts a brief section in house style, consistent with case theory | `litigation-legal` | `/litigation-legal:brief-section-drafter` |
-| **Privilege Log Reviewer** | First-pass privilege log review — obvious calls + flags for attorney review | `litigation-legal` | `/litigation-legal:privilege-log-review` |
-| **Legal Hold** | Issue, refresh, release, or report on legal holds | `litigation-legal` | `/litigation-legal:legal-hold` |
-| **Matter Intake** | Uniform intake for a new matter — writes matter.md, history.md, appends to log | `litigation-legal` | `/litigation-legal:matter-intake` |
-| **Matter Briefing** | Deep briefing on one matter — ready for a GC or outside counsel call | `litigation-legal` | `/litigation-legal:matter-briefing` |
-| **Portfolio Status** | Risk distribution, upcoming deadlines, stale matters | `litigation-legal` | `/litigation-legal:portfolio-status` |
-| **Outside Counsel Status** | Generates weekly status-request drafts across the active portfolio | `litigation-legal` | `/litigation-legal:oc-status` |
-| **Clinic Intake** | Structured client intake with cross-area issue spotting and conflict flags | `legal-clinic` | `/legal-clinic:client-intake` |
-| **Case Memo Scaffold** | IRAC-scaffolded case analysis memo with research gaps flagged | `legal-clinic` | `/legal-clinic:memo` |
-| **Research Roadmap** | Statutes to check, case law areas, Westlaw search terms — leads, not cites | `legal-clinic` | `/legal-clinic:research-start` |
-| **Clinic Deadline Tracker** | Add, report, update, and close case deadlines with malpractice-aware warnings | `legal-clinic` | `/legal-clinic:deadlines` |
-| **Case Status Summarizer** | Case status by audience — client, professor, or court-ready | `legal-clinic` | `/legal-clinic:status` |
-| **Client Letter Drafter** | Routine client correspondence — appointment confirms, doc requests, updates | `legal-clinic` | `/legal-clinic:client-letter` |
-| **Student Ramp** | Semester onboarding — clinic procedures, tool walkthrough, practice exercises | `legal-clinic` | `/legal-clinic:ramp` |
-| **Semester Handoff** | End-of-semester case handoff memos — the mirror of ramp | `legal-clinic` | `/legal-clinic:semester-handoff` |
-| **Supervisor Review Queue** | Professor's review queue (when formal review supervision is configured) | `legal-clinic` | `/legal-clinic:supervisor-review-queue` |
-| **Bar Prep Coach** | Jurisdiction-aware MBE and essay practice targeted at weak subjects | `law-student` | `/law-student:bar-prep-questions` |
-| **Socratic Drill Sergeant** | It asks, you answer, it pushes back — does not give you the answer | `law-student` | `/law-student:socratic-drill` |
-| **IRAC Grader** | Grades your IRAC essay on structure, issue-spotting, rules, analysis | `law-student` | `/law-student:irac-practice` |
-| **Case Briefer** | Brief a case in your preferred format | `law-student` | `/law-student:case-brief` |
-| **Outline Builder** | Build or extend an outline in your format from class notes and casebook | `law-student` | `/law-student:outline-builder` |
-| **Cold Call Prep** | Predicts professor's questions and drills them before class | `law-student` | `/law-student:cold-call-prep` |
-| **Exam Forecaster** | Analyze past exams from the same professor; forecast likely emphases | `law-student` | `/law-student:exam-forecast` |
-| **Legal Writing Critic** | Structural feedback on a draft — never rewrites | `law-student` | `/law-student:legal-writing` |
-| **Flashcard Drillmaster** | Generate or drill flashcards — Leitner-style buckets | `law-student` | `/law-student:flashcards` |
-| **Study Planner** | Long-term study plan with scheduled sessions, adaptive to session history | `law-student` | `/law-student:study-plan` |
-| **Skill Registry Browser** | Search watched registries for community legal skills | `legal-builder-hub` | `/legal-builder-hub:registry-browser` |
-| **Skill Installer** | Install a community skill with trust checks and skills-QA | `legal-builder-hub` | `/legal-builder-hub:skill-installer` |
-| **Skill QA** | Evaluate a skill against the Legal Skill Design Framework | `legal-builder-hub` | `/legal-builder-hub:skills-qa` |
-| **Community Skill Recommender** | Suggest community skills based on recent activity in other plugins | `legal-builder-hub` | `/legal-builder-hub:related-skills-surfacer` |
-| **Community Skill Updater** | Check for updates to installed community skills | `legal-builder-hub` | `/legal-builder-hub:auto-updater` |
-| **Registry Sync** | Periodic check of watched registries for new and updated skills | `legal-builder-hub` | scheduled agent |
+| **Revisor de Contratos con Proveedores** | Revisa un MSA de proveedor contra tu playbook y produce un memo con redline | `commercial-legal` | `/commercial-legal:review` |
+| **Triador de NDAs** | Triaje VERDE/AMARILLO/ROJO de NDAs entrantes para que solo los difíciles lleguen al escritorio del abogado | `commercial-legal` | `/commercial-legal:review` |
+| **Trazador de Enmiendas** | Traza cómo ha cambiado un contrato a través de su acuerdo base y cada enmienda | `commercial-legal` | `/commercial-legal:amendment-history` |
+| **Vigilante de Renovaciones** | Escanea el registro de contratos por fechas de cancelación y renovación | `commercial-legal` | agente programado |
+| **Debrief de Cierre** | Barrido semanal de acuerdos firmados con desviaciones del playbook | `commercial-legal` | agente programado |
+| **Monitor de Playbook** | Vigila el registro de desviaciones y propone actualizaciones cuando una cláusula ha derivado | `commercial-legal` | agente programado |
+| **Enrutador de Escaladas** | Enruta asuntos contractuales al aprobador correcto y redacta la solicitud | `commercial-legal` | `/commercial-legal:escalation-flagger` |
+| **Revisión Tabular de Debida Diligencia** | Revisión tabular de un data room con una fila por documento y cada celda citada | `corporate-legal` | `/corporate-legal:tabular-review` |
+| **Extractor de Hallazgos** | Lee documentos de VDR y extrae hallazgos por categorías y umbrales de la casa | `corporate-legal` | `/corporate-legal:diligence-issue-extraction` |
+| **Redactor de Consentimiento del Consejo** | Redacta consentimientos escritos unánimes en formato casa con búsqueda de precedentes | `corporate-legal` | `/corporate-legal:written-consent` |
+| **Constructor de Calendario de Contratos Materiales** | Construye el anexo de revelaciones a partir de hallazgos de debida diligencia | `corporate-legal` | `/corporate-legal:material-contract-schedule` |
+| **Rastreador de Cumplimiento de Entidades** | Calcula fechas de presentación por jurisdicción y tipo de entidad | `corporate-legal` | `/corporate-legal:entity-compliance` |
+| **Conductor de Lista de Cierre** | Rastrea cada condición, consentimiento, documento y presentación que bloquea el cierre | `corporate-legal` | `/corporate-legal:closing-checklist` |
+| **Manual de Integración** | Plan de integración post-cierre por fases con seguimiento de consentimientos | `corporate-legal` | `/corporate-legal:integration-management` |
+| **Vigilante de Data Room** | Monitorea el VDR por nuevas cargas y publica el estatus de la lista de cierre | `corporate-legal` | agente programado |
+| **Revisor de Terminaciones** | Ejecuta una terminación propuesta contra indicadores de riesgo por jurisdicción | `employment-legal` | `/employment-legal:termination-review` |
+| **Revisor de Contrataciones** | Revisa cartas de oferta y cláusulas restrictivas con verificación de jurisdicción | `employment-legal` | `/employment-legal:hiring-review` |
+| **Clasificador de Trabajadores** | Evalúa un contrato propuesto contra el test de la jurisdicción aplicable | `employment-legal` | `/employment-legal:worker-classification` |
+| **Rastreador de Ausencias** | Monitorea ausencias abiertas con alertas de plazos FMLA/CFRA/PFL/ADA | `employment-legal` | agente programado |
+| **Director de Investigaciones** | Abre, rastrea, complementa y resume asuntos de investigación interna | `employment-legal` | `/employment-legal:investigation-open` |
+| **Redactor de Políticas** | Redacta políticas laborales con suplementos estatales donde la ley difiere | `employment-legal` | `/employment-legal:policy-drafting` |
+| **Planificador de Expansión Internacional** | Inicia la planificación EOR vs. entidad para un nuevo país | `employment-legal` | `/employment-legal:expansion-kickoff` |
+| **Q&A de Salarios y Jornada** | Q&A laboral consciente de jurisdicción para el canal de "preguntas rápidas" | `employment-legal` | `/employment-legal:wage-hour-qa` |
+| **Respondedor de DSAR** | Redacta acuses de recibo y respuestas de DSAR dentro de los plazos legales | `privacy-legal` | `/privacy-legal:dsar-response` |
+| **Revisor de DPA** | Revisa un DPA contra tu playbook como responsable o encargado | `privacy-legal` | `/privacy-legal:dpa-review` |
+| **Generador de PIA** | Genera una Evaluación de Impacto de Privacidad en formato casa | `privacy-legal` | `/privacy-legal:pia-generation` |
+| **Triador de Privacidad** | Decide si una actividad de tratamiento necesita PIA, DPIA de GDPR, o puede proceder | `privacy-legal` | `/privacy-legal:use-case-triage` |
+| **Verificador de Brechas de Privacidad** | Coteja una regulación nueva contra la política y práctica actual de privacidad | `privacy-legal` | `/privacy-legal:reg-gap-analysis` |
+| **Monitor de Política de Privacidad** | Barre PIAs, revisiones de DPA y resultados de triaje por desviación de política | `privacy-legal` | `/privacy-legal:policy-monitor` |
+| **Revisor de Lanzamientos** | Revisa un lanzamiento de producto contra tu calibración de riesgo | `product-legal` | `/product-legal:launch-review` |
+| **Verificador de Claims de Marketing** | Señala copias que necesitan sustentación, reencuadre o eliminación | `product-legal` | `/product-legal:marketing-claims-review` |
+| **Triaje "¿Esto es un problema?"** | Respuesta rápida para la pregunta de Slack — coincide patrones con tu calibración | `product-legal` | `/product-legal:is-this-a-problem` |
+| **Vigilante de Lanzamientos** | Vigila el rastreador de lanzamientos por lanzamientos próximos que necesitan revisión | `product-legal` | agente programado |
+| **Vigilante de Feeds Regulatorios** | Consulta feeds regulatorios y redacta el resumen del lunes | `regulatory-legal` | agente programado |
+| **Verificación Regulatoria a Demanda** | Consulta feeds regulatorios ahora y reporta novedades | `regulatory-legal` | `/regulatory-legal:reg-feed-watcher` |
+| **Diff de Política** | Coteja un cambio regulatorio contra la biblioteca de políticas | `regulatory-legal` | `/regulatory-legal:policy-diff` |
+| **Rastreador de Brechas** | Rastreador de brechas abiertas — qué está señalado y aún no cerrado | `regulatory-legal` | `/regulatory-legal:gaps` |
+| **Redactor de Políticas Regulatorias** | Borrador de política cerrando una brecha — propuesta para revisión, no edición directa | `regulatory-legal` | `/regulatory-legal:policy-redraft` |
+| **Rastreador de Comentarios NPRM** | Revisa períodos abiertos de comentarios de NPRM, registra decisiones, rastrea plazos | `regulatory-legal` | `/regulatory-legal:comments` |
+| **Triador de Casos de Uso de IA** | Clasifica casos de uso de IA propuestos contra tu registro | `ai-governance-legal` | `/ai-governance-legal:use-case-triage` |
+| **Evaluador de Impacto de IA** | Ejecuta una evaluación de impacto de IA en los regímenes en alcance | `ai-governance-legal` | `/ai-governance-legal:aia-generation` |
+| **Revisor de IA de Proveedores** | Revisa términos de IA por entrenamiento sobre datos, responsabilidad y brechas de política | `ai-governance-legal` | `/ai-governance-legal:vendor-ai-review` |
+| **Verificador de Brechas de Regulación de IA** | Coteja una nueva regulación de IA contra tu postura actual de gobernanza | `ai-governance-legal` | `/ai-governance-legal:reg-gap-analysis` |
+| **Monitor de Política de IA** | Barre AIAs, triajes y revisiones de proveedores por desviación de política | `ai-governance-legal` | `/ai-governance-legal:policy-monitor` |
+| **Evaluador de Disponibilidad de Marca** | Primera revisión de disponibilidad con verificación de knockout y heurísticas de confusión | `ip-legal` | `/ip-legal:clearance` |
+| **Redactor de Carta de Requerimiento** | Redacta o triaje una carta de requerimiento, calibrado a tu postura de enforcement | `ip-legal` | `/ip-legal:cease-desist` |
+| **Takedown DMCA** | Redacta un takedown, triaje uno recibido, o redacta un contra-aviso §512(g) | `ip-legal` | `/ip-legal:takedown` |
+| **Verificador de Cumplimiento OSS** | Clasifica licencias de código abierto contra tu modelo de despliegue | `ip-legal` | `/ip-legal:oss-review` |
+| **Triador de FTO** | Primera mirada estructurada a patentes potencialmente bloqueantes — triaje, no una opinión | `ip-legal` | `/ip-legal:fto-triage` |
+| **Triador de Infracción de PI** | Triaje a través de los cuatro derechos de PI — factores, no una conclusión | `ip-legal` | `/ip-legal:infringement-triage` |
+| **Revisor de Cláusulas de PI** | Revisa cláusulas de cesión, titularidad, licencia, garantías e indemnidades | `ip-legal` | `/ip-legal:ip-clause-review` |
+| **Rastreador de Portafolio de PI** | Registros, renovaciones, cuotas de mantenimiento, declaraciones de uso | `ip-legal` | `/ip-legal:portfolio` |
+| **Vigilante de Renovaciones de PI** | Reporte programado de plazos del registro de portafolio de PI | `ip-legal` | agente programado |
+| **Constructor de Cuadros de Elementos** | Cuadro de elementos por elemento, patente o causa de acción civil | `litigation-legal` | `/litigation-legal:claim-chart` |
+| **Vigilante de Expedientes** | Monitorea expedientes judiciales por presentaciones y plazos | `litigation-legal` | agente programado |
+| **Vigilante de Expedientes (México)** | Vigila expedientes en el Poder Judicial Federal y CJJ; calcula plazos procesales | `litigacion-legal-mexico` | agente programado |
+| **Verificador Jurídico** | QA de skills y documentos: verifica plazos, artículos y vigencia contra fuentes primarias mexicanas | `litigacion-legal-mexico` | `/litigacion-legal-mexico:verificador-juridico` |
+| **Vigilante de Renovaciones PI (México)** | Reporte priorizado de vencimientos ante IMPI e INDAUTOR | `propiedad-intelectual-legal-mexico` | agente programado |
+| **Redactor de Requerimiento** | Redacta carta de requerimiento con compuerta pre-envío y salida .docx | `litigation-legal` | `/litigation-legal:demand-draft` |
+| **Intake de Requerimiento** | Recopilación de contexto pre-redacción — partes, hechos, fundamento, palanca | `litigation-legal` | `/litigation-legal:demand-intake` |
+| **Triaje de Requerimiento Recibido** | Triaje de requerimiento entrante — opciones, cotejo con portafolio, entrega | `litigation-legal` | `/litigation-legal:demand-received` |
+| **Triaje de Citatorio** | Clasifica, delimita y planifica el cumplimiento de un nuevo citatorio | `litigation-legal` | `/litigation-legal:subpoena-triage` |
+| **Constructor de Cronología** | Construye o actualiza una cronología desde fuentes declaradas y cargas | `litigation-legal` | `/litigation-legal:chronology` |
+| **Preparación de Deposición** | Construye un esquema de deposición vinculado a la teoría del caso | `litigation-legal` | `/litigation-legal:deposition-prep` |
+| **Redactor de Sección de Escrito** | Redacta una sección de escrito en estilo casa, coherente con la teoría del caso | `litigation-legal` | `/litigation-legal:brief-section-drafter` |
+| **Revisor de Registro de Confidencialidad** | Primera revisión del registro de privilegio — llamadas obvias + señalamientos | `litigation-legal` | `/litigation-legal:privilege-log-review` |
+| **Retención Documental** | Emitir, refrescar, liberar o reportar sobre retenciones documentales | `litigation-legal` | `/litigation-legal:legal-hold` |
+| **Intake de Asunto** | Intake uniforme de nuevo asunto — escribe matter.md, history.md, adjunta al log | `litigation-legal` | `/litigation-legal:matter-intake` |
+| **Briefing de Asunto** | Briefing profundo de un asunto para llamada con DG o abogados externos | `litigation-legal` | `/litigation-legal:matter-briefing` |
+| **Estatus de Portafolio** | Distribución de riesgo, plazos próximos, asuntos sin movimiento | `litigation-legal` | `/litigation-legal:portfolio-status` |
+| **Estatus de Abogados Externos** | Genera borradores de solicitud de estatus semanal para el portafolio activo | `litigation-legal` | `/litigation-legal:oc-status` |
+| **Intake de Clínica** | Intake estructurado de cliente con identificación de problemas y señalamientos de conflicto | `legal-clinic` | `/legal-clinic:client-intake` |
+| **Scaffold de Memo de Caso** | Memo de análisis con estructura IRAC y brechas de investigación señaladas | `legal-clinic` | `/legal-clinic:memo` |
+| **Hoja de Ruta de Investigación** | Estatutos, áreas de jurisprudencia, términos de búsqueda — pistas, no citas | `legal-clinic` | `/legal-clinic:research-start` |
+| **Rastreador de Plazos de Clínica** | Agregar, reportar, actualizar y cerrar plazos con advertencias de responsabilidad | `legal-clinic` | `/legal-clinic:deadlines` |
+| **Resumen de Estatus de Caso** | Estatus del caso por audiencia — cliente, profesor o listo para tribunal | `legal-clinic` | `/legal-clinic:status` |
+| **Redactor de Carta al Cliente** | Correspondencia rutinaria — confirmaciones, solicitudes de documentos, actualizaciones | `legal-clinic` | `/legal-clinic:client-letter` |
+| **Incorporación de Estudiante** | Inducción de semestre — procedimientos de clínica, recorrido de herramientas | `legal-clinic` | `/legal-clinic:ramp` |
+| **Entrega de Semestre** | Memos de entrega de casos al fin de semestre | `legal-clinic` | `/legal-clinic:semester-handoff` |
+| **Cola de Revisión del Supervisor** | Cola de revisión del profesor (cuando supervisión formal está configurada) | `legal-clinic` | `/legal-clinic:supervisor-review-queue` |
+| **Coach de Preparación para el Examen** | Práctica de MBE y ensayos, dirigida a materias débiles | `law-student` | `/law-student:bar-prep-questions` |
+| **Sargento de Taladro Socrático** | Él pregunta, tú respondes, él contraargumenta — no da la respuesta | `law-student` | `/law-student:socratic-drill` |
+| **Calificador de IRAC** | Califica tu ensayo IRAC en estructura, identificación de problemas, reglas, análisis | `law-student` | `/law-student:irac-practice` |
+| **Resumidor de Casos** | Resume un caso en tu formato preferido | `law-student` | `/law-student:case-brief` |
+| **Constructor de Esquemas** | Construye o extiende un esquema desde notas de clase y libro de texto | `law-student` | `/law-student:outline-builder` |
+| **Preparación para Clase** | Predice las preguntas del profesor y las practica antes de clase | `law-student` | `/law-student:cold-call-prep` |
+| **Pronosticador de Examen** | Analiza exámenes pasados del mismo profesor; pronostica énfasis probables | `law-student` | `/law-student:exam-forecast` |
+| **Crítico de Escritura Legal** | Retroalimentación estructural sobre un borrador — nunca reescribe | `law-student` | `/law-student:legal-writing` |
+| **Maestro de Tarjetas de Memoria** | Genera o practica tarjetas — cubetas estilo Leitner | `law-student` | `/law-student:flashcards` |
+| **Planificador de Estudio** | Plan de estudio a largo plazo con sesiones programadas | `law-student` | `/law-student:study-plan` |
+| **Navegador del Registro de Skills** | Busca skills legales de comunidad en registros vigilados | `legal-builder-hub` | `/legal-builder-hub:registry-browser` |
+| **Instalador de Skills** | Instala un skill de comunidad con verificaciones de confianza y QA | `legal-builder-hub` | `/legal-builder-hub:skill-installer` |
+| **QA de Skills** | Evalúa un skill contra el Marco de Diseño de Skills Legales | `legal-builder-hub` | `/legal-builder-hub:skills-qa` |
+| **Recomendador de Skills de Comunidad** | Sugiere skills de comunidad basado en actividad reciente en otros plugins | `legal-builder-hub` | `/legal-builder-hub:related-skills-surfacer` |
+| **Actualizador de Skills de Comunidad** | Verifica actualizaciones de skills de comunidad instalados | `legal-builder-hub` | `/legal-builder-hub:auto-updater` |
+| **Sincronización de Registro** | Verificación periódica de registros vigilados por skills nuevos y actualizados | `legal-builder-hub` | agente programado |
 
-For Managed Agent deployment — `agent.yaml`, leaf-worker subagents, steering-event examples, and per-agent security notes — see **[managed-agent-cookbooks/](./managed-agent-cookbooks)**.
+Para despliegue como Agente Gestionado — `agent.yaml`, subagentes hoja, ejemplos de eventos de dirección y notas de seguridad por agente — ver **[managed-agent-cookbooks/](./managed-agent-cookbooks)**.
 
-## Plugins para Mexico
+## Plugins para México
 
-Este repositorio incluye tres plugins adaptados al sistema juridico mexicano. Cada plugin contextualiza su equivalente estadounidense al derecho civil codificado de Mexico, la jurisprudencia de la SCJN, y los procedimientos ante las autoridades mexicanas.
+Este repositorio incluye plugins adaptados al sistema jurídico mexicano. Cada plugin contextualiza su equivalente estadounidense al derecho civil codificado de México, la jurisprudencia de la SCJN, y los procedimientos ante las autoridades mexicanas.
 
-| Plugin | Que hace | Skills | Agentes |
+| Plugin | Qué hace | Skills | Agentes |
 |---|---|---|---|
-| **[conectores-legal-mexico](./conectores-legal-mexico/)** | Conectores MCP compartidos — LegalDataHunter, Solve Intelligence, CJJ (Jalisco), MXLegal (STJJ), Slack, Google Drive, Box, iManage. Dependencia automática de los otros tres plugins. Incluye `/setup-completo` para configurar los 4 plugins en un solo comando | 3 | — |
+| **[conectores-legal-mexico](./conectores-legal-mexico/)** | Conectores MCP compartidos — LegalDataHunter, Solve Intelligence, CJJ (Jalisco), MXLegal (STJJ), Slack, Google Drive, Box, iManage. Dependencia automática de los otros plugins. Incluye `/setup-completo` para configurar todos los plugins en un solo comando | 3 | — |
 | **[corporativo-legal-mexico](./corporativo-legal-mexico/)** | F&A, debida diligencia, Consejo de Administración, gestión de entidades bajo LGSM — SA de CV, S de RL de CV, SAS | 13 | — |
 | **[litigacion-legal-mexico](./litigacion-legal-mexico/)** | Portafolio de litigios, plazos procesales, cuadros de elementos, cronologías, plantillas de demanda (7 tipos), redacción de escritos, preparación de pruebas, monitoreo de boletín judicial CJJ | 22 | 2 |
 | **[propiedad-intelectual-legal-mexico](./propiedad-intelectual-legal-mexico/)** | Portafolio de PI ante IMPI e INDAUTOR, FTO, clearance de marca, cartas de requerimiento, derechos morales (LFDA Art. 19), reservas de derechos | 13 | 1 |
+| **[laboral-legal-mexico](./laboral-legal-mexico/)** | Práctica laboral bajo la LFT — riesgo de terminación, cálculo de liquidación constitucional, conciliación CJFCA, cumplimiento NOM-035/037-STPS, IMSS/INFONAVIT, plataformas digitales | 11 | 1 |
+| **[privacidad-legal-mexico](./privacidad-legal-mexico/)** | Cumplimiento de la LGPDPPSP/LFPDPPP ante el INAI — avisos de privacidad, solicitudes ARCO, transferencias internacionales, EIPD, notificación de vulneraciones | 9 | — |
+| **[regulatorio-legal-mexico](./regulatorio-legal-mexico/)** | Práctica regulatoria federal — COFECE, CNBV, COFEPRIS, CONAMER, respuesta a requerimientos, comentarios públicos. Incluye agente monitor-dof | 8 | 1 |
+| **[fiscal-legal-mexico](./fiscal-legal-mexico/)** | Práctica fiscal — revisión de CFDI 4.0, requerimientos SAT, auditorías, litigación ante el TFJA, procedimientos PRODECON, planeación fiscal | 8 | — |
+| **[ia-governanza-legal-mexico](./ia-governanza-legal-mexico/)** | Gobernanza de IA — clasificación de riesgo EU AI Act, evaluaciones de impacto, revisión de contratos con proveedores de IA, políticas internas de uso | 7 | — |
+| **[seguros-legal-mexico](./seguros-legal-mexico/)** | Seguros y fianzas bajo la LGSF — revisión de pólizas, trámites CNSF, análisis de cobertura, disputas de siniestros, reaseguro, solvencia RCS, recursos CONDUSEF | 10 | — |
 
-### Instalacion rapida
+### Instalación rápida
 
 ```bash
 # 1. Registrar el repo como marketplace local
 claude plugin marketplace add .
 
-# 2. Instalar los plugins — conectores-legal-mexico se instala automaticamente como dependencia
+# 2. Instalar los plugins — conectores-legal-mexico se instala automáticamente como dependencia
 claude plugin install corporativo-legal-mexico@claude-for-legal-mexico
 claude plugin install litigacion-legal-mexico@claude-for-legal-mexico
 claude plugin install propiedad-intelectual-legal-mexico@claude-for-legal-mexico
+claude plugin install laboral-legal-mexico@claude-for-legal-mexico
+claude plugin install privacidad-legal-mexico@claude-for-legal-mexico
+claude plugin install regulatorio-legal-mexico@claude-for-legal-mexico
+claude plugin install fiscal-legal-mexico@claude-for-legal-mexico
+claude plugin install ia-governanza-legal-mexico@claude-for-legal-mexico
+claude plugin install seguros-legal-mexico@claude-for-legal-mexico
 
 # 3. Configurar la clave API de LegalDataHunter (se guarda en el llavero del sistema, no en variables de entorno)
 claude plugin configure conectores-legal-mexico@claude-for-legal-mexico
@@ -166,60 +178,67 @@ claude plugin configure conectores-legal-mexico@claude-for-legal-mexico
 
 # 4. Exportar credenciales del Portal Ciudadano CJJ al perfil del shell (solo si usas litigacion en Jalisco)
 echo 'export CJJ_NILO_EMAIL="usuario@ejemplo.com"' >> ~/.zshrc
-echo 'export CJJ_NILO_PASSWORD="tu-contrasena"' >> ~/.zshrc
+echo 'export CJJ_NILO_PASSWORD="tu-contraseña"' >> ~/.zshrc
 echo 'export CJJ_NILO_PUBLIC_TOKEN="YWxwaGEx"' >> ~/.zshrc
 source ~/.zshrc
 
-# 5. Configurar todos los plugins en un solo comando (~5 min rapido, ~20 min completo)
+# 5. Configurar todos los plugins en un solo comando (~5 min rápido, ~20 min completo)
 /conectores-legal-mexico:setup-completo
 # Configura conectores → corporativo → litigacion → PI en secuencia.
-# Pregunta empresa/industria/jurisdiccion una sola vez; los plugins 3 y 4 lo reusan.
+# Pregunta empresa/industria/jurisdicción una sola vez; los plugins siguientes lo reusan.
 # Para retomar si se interrumpe: /conectores-legal-mexico:setup-completo --from litigacion
 ```
 
-> **Credenciales seguras:** La clave de LegalDataHunter se almacena en el llavero del sistema a traves de `plugin configure` — no se escribe en variables de entorno ni en archivos. Las credenciales CJJ usan variables de entorno porque el plugin no tiene soporte `userConfig` todavia.
+> **Credenciales seguras:** La clave de LegalDataHunter se almacena en el llavero del sistema a través de `plugin configure` — no se escribe en variables de entorno ni en archivos. Las credenciales CJJ usan variables de entorno porque el plugin no tiene soporte `userConfig` todavía.
 
 ### Variables de entorno
 
-| Variable | Plugin | Descripcion |
+| Variable | Plugin | Descripción |
 |---|---|---|
 | `CJJ_NILO_EMAIL` | litigacion | Correo del Portal Ciudadano CJJ (Jalisco) — para API Nilo autenticada |
-| `CJJ_NILO_PASSWORD` | litigacion | Contrasena del Portal Ciudadano CJJ |
-| `CJJ_NILO_PUBLIC_TOKEN` | litigacion | Token publico del API Nilo |
+| `CJJ_NILO_PASSWORD` | litigacion | Contraseña del Portal Ciudadano CJJ |
+| `CJJ_NILO_PUBLIC_TOKEN` | litigacion | Token público del API Nilo |
 
-La clave de LegalDataHunter ya no va aqui — se configura con `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico` y se guarda en el llavero del sistema. **Nunca commitear credenciales al repositorio.**
+La clave de LegalDataHunter ya no va aquí — se configura con `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico` y se guarda en el llavero del sistema. **Nunca hacer commit de credenciales al repositorio.**
 
 ### Diferencias clave con los plugins estadounidenses
 
-- **Sistema juridico civil codificado** — leyes federales y estatales son la fuente primaria; la jurisprudencia (SCJN) vincula solo cuando se cumple el umbral (5 resoluciones consecutivas)
-- **Secreto profesional** — reemplaza attorney-client privilege y work product; mas estrecho que el equivalente estadounidense
-- **No existe patent agent privilege** — solo abogados titulados con cedula profesional gozan de secreto profesional
+- **Sistema jurídico civil codificado** — las leyes federales y estatales son la fuente primaria; la jurisprudencia (SCJN) vincula solo cuando se cumple el umbral (5 resoluciones consecutivas)
+- **Secreto profesional** — reemplaza el attorney-client privilege y work product; más estrecho que el equivalente estadounidense
+- **No existe patent agent privilege** — solo abogados titulados con cédula profesional gozan de secreto profesional
 - **Derechos morales (LFDA Art. 19)** — perpetuos, inalienables, irrenunciables para todas las obras
 - **Marco institucional dual de PI** — IMPI (propiedad industrial) + INDAUTOR (derechos de autor)
-- **Enforcement** — IMPI administrativo + civil (danos y perjuicios) + penal (UEIDDAPI)
-- **Monitoreo judicial** — boletin CJJ (Jalisco) via API publica + Portal Ciudadano autenticado
+- **Enforcement** — IMPI administrativo + civil (daños y perjuicios) + penal (UEIDDAPI)
+- **Monitoreo judicial** — boletín CJJ (Jalisco) vía API pública + Portal Ciudadano autenticado
 
-## Repository Layout
+## Estructura del Repositorio
 
 ```
-commercial-legal/         # in-house commercial — vendor/NDA/SaaS review, renewals, escalations
-corporate-legal/          # M&A diligence, closing checklists, board consents, entity compliance
-employment-legal/         # hire/term review, worker classification, leave, investigations
-privacy-legal/            # DPA, DSAR, PIA, privacy triage, policy monitor
-product-legal/            # launch review, marketing claims, "is this a problem?" triage
-regulatory-legal/         # reg feed watcher, policy diff, gap tracker, NPRM comments
-ai-governance-legal/      # AI use-case triage, AIAs, vendor AI review, AI reg gap-check
-ip-legal/                 # trademark clearance, FTO, C&D, DMCA, OSS, IP clauses, portfolio
-litigation-legal/         # portfolio, matters, holds, demands, depo prep, claim charts
+commercial-legal/         # jurídico comercial interno — revisión de proveedores/NDA/SaaS, renovaciones, escaladas
+corporate-legal/          # debida diligencia F&A, listas de cierre, consentimientos del consejo, cumplimiento de entidades
+employment-legal/         # revisión de contrataciones/terminaciones, clasificación de trabajadores, ausencias, investigaciones
+privacy-legal/            # DPA, DSAR, PIA, triaje de privacidad, monitor de política
+product-legal/            # revisión de lanzamientos, claims de marketing, triaje "¿es esto un problema?"
+regulatory-legal/         # vigilante de feeds regulatorios, diff de política, rastreador de brechas, comentarios NPRM
+ai-governance-legal/      # triaje de casos de uso de IA, AIAs, revisión de IA de proveedor, brecha regulatoria de IA
+ip-legal/                 # clearance de marca, FTO, C&D, DMCA, OSS, cláusulas de PI, portafolio
+litigation-legal/         # portafolio, asuntos, retenciones, requerimientos, prep de deposición, cuadros de elementos
+conectores-legal-mexico/  # conectores MCP compartidos — LegalDataHunter, CJJ, MXLegal, integraciones de productividad
 corporativo-legal-mexico/ # F&A, debida diligencia, Consejo, entidades — derecho mexicano
-litigacion-legal-mexico/  # portafolio de litigios, plazos, escritos, boletin CJJ — derecho mexicano
+litigacion-legal-mexico/  # portafolio de litigios, plazos, escritos, boletín CJJ — derecho mexicano
 propiedad-intelectual-legal-mexico/ # PI ante IMPI/INDAUTOR, FTO, marcas, derechos morales — derecho mexicano
-legal-clinic/             # clinic setup, student ramp, intake, deadlines, memos, handoffs
-law-student/              # Socratic drilling, outlining, IRAC, bar prep, flashcards
-legal-builder-hub/        # community skill discovery and install with a trust gate
-external_plugins/         # partner-built plugins maintained by their vendors
-  cocounsel-legal/        # Thomson Reuters — Westlaw Deep Research via the CoCounsel Legal MCP
-managed-agent-cookbooks/  # Claude Managed Agent cookbooks — one dir per scheduled agent
+laboral-legal-mexico/     # LFT, liquidación, CJFCA, NOM-035/037, IMSS/INFONAVIT — derecho mexicano
+privacidad-legal-mexico/  # LGPDPPSP, avisos de privacidad, ARCO, INAI — derecho mexicano
+regulatorio-legal-mexico/ # COFECE, CNBV, COFEPRIS, CONAMER, DOF — derecho mexicano
+fiscal-legal-mexico/      # SAT, CFDI, TFJA, PRODECON — derecho mexicano
+ia-governanza-legal-mexico/ # gobernanza de IA, EU AI Act, proveedores de IA — con nexo mexicano
+seguros-legal-mexico/     # LGSF, CNSF, pólizas, siniestros, reaseguro — derecho mexicano
+legal-clinic/             # configuración de clínica, incorporación de estudiantes, intake, plazos, memos, entregas
+law-student/              # taladro socrático, esquemas, IRAC, preparación para el examen, tarjetas de memoria
+legal-builder-hub/        # descubrimiento e instalación de skills de comunidad con compuerta de confianza
+external_plugins/         # plugins construidos por socios y mantenidos por sus proveedores
+  cocounsel-legal/        # Thomson Reuters — Westlaw Deep Research vía el MCP de CoCounsel Legal
+managed-agent-cookbooks/  # cookbooks de Agentes Gestionados de Claude — un directorio por agente programado
   diligence-grid/
   docket-watcher/
   launch-radar/
@@ -227,61 +246,61 @@ managed-agent-cookbooks/  # Claude Managed Agent cookbooks — one dir per sched
   renewal-watcher/
 scripts/                  # deploy-managed-agent.sh · validate.py · orchestrate.py · lint-tool-scope.py · test-cookbooks.sh
 .claude-plugin/
-  marketplace.json        # plugin registry
-.env                      # variables de entorno locales (NO commitear) — ver seccion "Variables de entorno"
+  marketplace.json        # registro de plugins
+.env                      # variables de entorno locales (NO hacer commit) — ver sección "Variables de entorno"
 ```
 
-Each plugin directory has the same shape:
+Cada directorio de plugin tiene la misma forma:
 
 ```
 <plugin>/
   .claude-plugin/plugin.json
-  CLAUDE.md               # template practice profile — filled in by /<plugin>:cold-start-interview
+  CLAUDE.md               # plantilla de perfil de práctica — llenado por /<plugin>:cold-start-interview
   README.md
-  skills/                 # skills — each is a /<plugin>:<skill> slash command
-  agents/                 # scheduled agents (if any)
-  hooks/                  # pre- and post-tool hooks (if any)
+  skills/                 # skills — cada uno es un comando de barra /<plugin>:<skill>
+  agents/                 # agentes programados (si los hay)
+  hooks/                  # hooks pre- y post-herramienta (si los hay)
 ```
 
-## Getting Started
+## Primeros Pasos
 
 ### Claude Cowork
 
-In Cowork:
+En Cowork:
 
-1. Open the **Cowork** tab.
-2. Click **Customize** in the left sidebar.
-3. Click **Browse plugins** and install the ones you want, **or** upload a custom plugin file (any plugin directory zipped up).
+1. Abre la pestaña **Cowork**.
+2. Haz clic en **Personalizar** en la barra lateral izquierda.
+3. Haz clic en **Explorar plugins** e instala los que quieras, **o** sube un archivo de plugin personalizado (cualquier directorio de plugin comprimido).
 
-After install, skills fire automatically when relevant, slash commands are available via `/`, and the scheduled agents run on the cadence set in their frontmatter.
+Después de instalar, las skills se activan automáticamente cuando son relevantes, los comandos de barra están disponibles vía `/`, y los agentes programados corren según la cadencia establecida en su frontmatter.
 
 ### Claude Code
 
 ```bash
-# Add the marketplace (use the absolute path to this repo or a GitHub URL)
-/plugin marketplace add <path-to-this-repo>
+# Agrega el marketplace (usa la ruta absoluta a este repo o una URL de GitHub)
+/plugin marketplace add <ruta-a-este-repo>
 
-# Install a plugin — pick the ones that match your practice
+# Instala un plugin — elige los que corresponden a tu práctica
 /plugin install commercial-legal@claude-for-legal-mexico
 /plugin install privacy-legal@claude-for-legal-mexico
 /plugin install corporate-legal@claude-for-legal-mexico
 
-# Restart Claude Code, then run setup for each plugin you installed.
-# This writes your practice profile to ~/.claude/plugins/config/claude-for-legal/<plugin>/CLAUDE.md
+# Reinicia Claude Code, luego ejecuta la configuración para cada plugin instalado.
+# Esto escribe tu perfil de práctica en ~/.claude/plugins/config/claude-for-legal/<plugin>/CLAUDE.md
 /commercial-legal:cold-start-interview
 /privacy-legal:cold-start-interview
 /corporate-legal:cold-start-interview
 ```
 
-**Run the cold-start interview first.** Every other skill in a plugin reads from the practice profile it writes. Skipping setup is the single most common reason a skill produces generic output. The interview takes 10–20 minutes per plugin and will ask you to point at seed documents (a signed MSA, a playbook, a prior review memo — whatever fits the plugin). More seed material is better; a **quick start** option is available if you want to be productive in 2 minutes and refine later.
+**Ejecuta la entrevista de configuración primero.** Cada otro skill en un plugin lee del perfil de práctica que escribe. Saltarse la configuración es la razón más común por la que un skill produce resultados genéricos. La entrevista toma 10–20 minutos por plugin y te pedirá que señales documentos semilla (un MSA firmado, un playbook, un memo de revisión previo — lo que encaje con el plugin). Más material semilla es mejor; una opción de **inicio rápido** está disponible si quieres ser productivo en 2 minutos y refinar después.
 
-**Start by connecting a research tool.** Everything else is better with one, and citations are unverified without one. See [MCP Connectors](#mcp-connectors) below for the full list — CourtListener, Trellis, Descrybe, and Solve Intelligence are the research tools the citation guardrails look for.
+**Comienza conectando una herramienta de investigación.** Todo lo demás es mejor con una, y las citas no son verificadas sin ella. Ver [Conectores MCP](#conectores-mcp) a continuación para la lista completa — CourtListener, Trellis, Descrybe y Solve Intelligence son las herramientas de investigación que los guardianes de citas buscan.
 
-Updates: `/plugin update`.
+Actualizaciones: `/plugin update`.
 
-### Claude Managed Agents
+### Agentes Gestionados de Claude
 
-For the scheduled agents — regulatory feed monitor, renewal watcher, docket watcher, diligence grid, launch radar — deploy behind your own orchestrator:
+Para los agentes programados — monitor de feeds regulatorios, vigilante de renovaciones, vigilante de expedientes, revisión de data room, radar de lanzamientos — despliega detrás de tu propio orquestador:
 
 ```bash
 export ANTHROPIC_API_KEY=sk-ant-...
@@ -292,438 +311,523 @@ scripts/deploy-managed-agent.sh diligence-grid
 scripts/deploy-managed-agent.sh launch-radar
 ```
 
-Each template under [`managed-agent-cookbooks/`](./managed-agent-cookbooks) references the same system prompt and skills as its plugin counterpart. The deploy script resolves file references, uploads skills, creates leaf-worker subagents, and POSTs the orchestrator to `/v1/agents`. See [`scripts/orchestrate.py`](./scripts/orchestrate.py) for a reference event loop that routes `handoff_request` events between agents via your own orchestration layer.
+Cada plantilla bajo [`managed-agent-cookbooks/`](./managed-agent-cookbooks) hace referencia al mismo system prompt y skills que su contraparte plugin. El script de despliegue resuelve referencias de archivos, sube skills, crea subagentes hoja y hace POST del orquestador a `/v1/agents`. Ver [`scripts/orchestrate.py`](./scripts/orchestrate.py) para un bucle de eventos de referencia que enruta eventos `handoff_request` entre agentes vía tu propia capa de orquestación.
 
-> **Research Preview:** subagent delegation (`callable_agents`) is a preview capability and supports a single delegation level. See per-agent READMEs for security tier and handoff guidance.
+> **Vista Previa de Investigación:** la delegación de subagentes (`callable_agents`) es una capacidad en vista previa y admite un solo nivel de delegación. Ver READMEs por agente para el nivel de seguridad y guía de entrega.
 
-## How It Fits Together
+## Cómo se Integra Todo
 
-| | What it is | Where it lives |
+| | Qué es | Dónde vive |
 |---|---|---|
-| **Plugins** | Self-contained practice-area bundles — skills, agents, hooks, and a template practice profile. Install the ones you need. | `<plugin>/` |
-| **Skills** | Domain expertise, conventions, and step-by-step methods Claude draws on automatically when relevant — and slash actions you trigger explicitly: `/commercial-legal:review`, `/privacy-legal:dsar-response`, `/litigation-legal:claim-chart`. | `<plugin>/skills/<skill>/SKILL.md` |
-| **Agents** | Scheduled or event-driven workflows (renewal watcher, docket watcher, reg-change monitor). Runs in the background, posts to a channel or writes a file. | `<plugin>/agents/` |
-| **Practice profile** | Plain-English `CLAUDE.md` describing your playbook, escalation rules, and house style. Every skill reads from it. | `~/.claude/plugins/config/claude-for-legal/<plugin>/CLAUDE.md` |
-| **Connectors** | [MCP servers](https://modelcontextprotocol.io/) that wire Claude to your data — CLM, DMS, e-discovery, research platforms, productivity. | `.mcp.json` (per plugin) |
-| **Managed-agent cookbooks** | `agent.yaml` + depth-1 subagents + steering examples for headless deployment. | `managed-agent-cookbooks/<slug>/` |
+| **Plugins** | Paquetes de área de práctica autónomos — skills, agentes, hooks y una plantilla de perfil de práctica. Instala los que necesites. | `<plugin>/` |
+| **Skills** | Experiencia de dominio, convenciones y métodos paso a paso en los que Claude se apoya automáticamente cuando son relevantes — y acciones de barra que activas explícitamente: `/commercial-legal:review`, `/privacy-legal:dsar-response`, `/litigation-legal:claim-chart`. | `<plugin>/skills/<skill>/SKILL.md` |
+| **Agentes** | Flujos de trabajo programados o basados en eventos. Corre en segundo plano, publica en un canal o escribe un archivo. | `<plugin>/agents/` |
+| **Perfil de práctica** | `CLAUDE.md` en lenguaje llano que describe tu playbook, reglas de escalada y estilo de la casa. Todos los skills lo leen. | `~/.claude/plugins/config/claude-for-legal/<plugin>/CLAUDE.md` |
+| **Conectores** | [Servidores MCP](https://modelcontextprotocol.io/) que conectan a Claude con tus datos — CLM, DMS, e-discovery, plataformas de investigación, productividad. | `.mcp.json` (por plugin) |
+| **Cookbooks de agentes gestionados** | `agent.yaml` + subagentes nivel 1 + ejemplos de dirección para despliegue sin cabeza. | `managed-agent-cookbooks/<slug>/` |
 
-Everything is markdown and JSON. No build step.
+Todo es markdown y JSON. Sin paso de compilación.
 
-## Vertical Plugins
+## Plugins por Área
 
-Grouped by where the work sits. Each plugin's cold-start interview is what tailors it to your team — start there.
+Agrupados por dónde se ubica el trabajo. La entrevista de configuración de cada plugin es lo que lo adapta a tu equipo — comienza allí.
 
-### Transactional & advisory
+### Transaccional y consultivo
 
-| Plugin | What it adds |
+| Plugin | Qué agrega |
 |---|---|
-| **[commercial-legal](./commercial-legal)** | Playbook-aware review of vendor agreements, NDAs, and SaaS subscriptions. Amendment tracing. Renewal register with cancel-by alerts. Escalation routing. Stakeholder summaries. |
-| **[corporate-legal](./corporate-legal)** | M&A diligence with tabular review and citation-per-cell. Disclosure schedules, closing checklists, written consents, board minutes. Entity compliance tracker. Post-close integration. |
-| **[privacy-legal](./privacy-legal)** | Privacy triage (PIA vs DPIA vs proceed), PIA generation, DPA review as controller or processor, DSAR response. Policy monitor watches drift between policy and practice. |
-| **[product-legal](./product-legal)** | Launch review against house risk calibration. Marketing claims check. "Is this a problem?" triage for Slack questions. Feature risk assessment. |
-| **[employment-legal](./employment-legal)** | Hire and termination review with jurisdiction-specific flags. Worker classification. Leave tracker (FMLA/CFRA/PFL/ADA). Internal investigations. Policy drafting with state supplements. |
-| **[ai-governance-legal](./ai-governance-legal)** | AI use-case triage against your registry. Impact assessments across regimes in scope. Vendor AI review. Reg-to-policy gap analysis. |
-| **[regulatory-legal](./regulatory-legal)** | Regulatory feed watcher, policy diff, gaps tracker, NPRM comment-period tracker. The Monday-morning digest your team actually reads. |
-| **[ip-legal](./ip-legal)** | Trademark clearance, FTO triage, C&D drafting and triage, DMCA takedown and counter-notice, OSS compliance, IP clause review, portfolio tracking. |
+| **[commercial-legal](./commercial-legal)** | Revisión de contratos con proveedores, NDAs y suscripciones SaaS consciente del playbook. Trazado de enmiendas. Registro de renovaciones con alertas de cancelación. Enrutamiento de escaladas. Resúmenes para partes interesadas. |
+| **[corporate-legal](./corporate-legal)** | Debida diligencia F&A con revisión tabular y cita por celda. Anexos de revelaciones, listas de cierre, consentimientos escritos, actas del consejo. Rastreador de cumplimiento de entidades. Integración post-cierre. |
+| **[privacy-legal](./privacy-legal)** | Triaje de privacidad (PIA vs DPIA vs proceder), generación de PIA, revisión de DPA como responsable o encargado, respuesta de DSAR. Monitor de política vigila la desviación entre política y práctica. |
+| **[product-legal](./product-legal)** | Revisión de lanzamientos contra la calibración de riesgo de la casa. Verificación de claims de marketing. Triaje "¿esto es un problema?" para preguntas de Slack. Evaluación de riesgo de funcionalidades. |
+| **[employment-legal](./employment-legal)** | Revisión de contrataciones y terminaciones con banderas por jurisdicción. Clasificación de trabajadores. Rastreador de ausencias (FMLA/CFRA/PFL/ADA). Investigaciones internas. Redacción de políticas con suplementos estatales. |
+| **[ai-governance-legal](./ai-governance-legal)** | Triaje de casos de uso de IA contra tu registro. Evaluaciones de impacto en los regímenes en alcance. Revisión de IA de proveedor. Análisis de brecha regulación-política. |
+| **[regulatory-legal](./regulatory-legal)** | Vigilante de feeds regulatorios, diff de política, rastreador de brechas, rastreador de períodos de comentarios NPRM. El resumen del lunes por la mañana que tu equipo realmente lee. |
+| **[ip-legal](./ip-legal)** | Clearance de marca, triaje de FTO, redacción y triaje de C&D, takedown DMCA y contra-aviso, cumplimiento de OSS, revisión de cláusulas de PI, seguimiento de portafolio. |
 
-### Litigation
+### Litigación
 
-| Plugin | What it adds |
+| Plugin | Qué agrega |
 |---|---|
-| **[litigation-legal](./litigation-legal)** | Works two surfaces. **In-house/portfolio:** matter intake, portfolio status, legal holds, outside counsel status, demands. **Firm/solo:** chronology building, claim charts (patent and civil), deposition prep, privilege log review, brief drafting. |
+| **[litigation-legal](./litigation-legal)** | Trabaja dos superficies. **Jurídico interno/portafolio:** intake de asuntos, estatus de portafolio, retenciones documentales, estatus de abogados externos, requerimientos. **Despacho/independiente:** construcción de cronologías, cuadros de elementos (patentes y civil), preparación de deposición, revisión de registro de confidencialidad, redacción de escritos. |
 
-### Learning & practice
+### Aprendizaje y práctica
 
-| Plugin | What it adds |
+| Plugin | Qué agrega |
 |---|---|
-| **[law-student](./law-student)** | Socratic drilling, case briefing, outline building, IRAC grading, cold-call prep, flashcards, bar prep, exam forecasting, study planning. **Learning mode, not answer mode** — it never writes the answer for you. |
-| **[legal-clinic](./legal-clinic)** | Professor setup and student semester ramp. Per-practice-area supervisor guide with pedagogy posture (assist / guide / teach). Structured intake with cross-area issue spotting. Deadline tracking with malpractice-aware caution. Memo scaffolds, client letters (routine + plain-language), semester handoffs. Built within ABA Formal Op. 512. |
+| **[law-student](./law-student)** | Taladro socrático, resumen de casos, construcción de esquemas, calificación de IRAC, preparación para clase, tarjetas de memoria, preparación para el examen de barra, pronóstico de examen, planificación de estudio. **Modo aprendizaje, no modo respuesta** — nunca escribe la respuesta por ti. |
+| **[legal-clinic](./legal-clinic)** | Configuración del profesor e incorporación de estudiantes al semestre. Guía de supervisor por área de práctica con postura pedagógica (asistir / guiar / enseñar). Intake estructurado con identificación de problemas entre áreas. Seguimiento de plazos con precaución por responsabilidad profesional. Memos, cartas al cliente, entregas de semestre. Construido dentro de la Opinión Formal ABA 512. |
 
-### Ecosystem
+### Ecosistema
 
-| Plugin | What it adds |
+| Plugin | Qué agrega |
 |---|---|
-| **[legal-builder-hub](./legal-builder-hub)** | Community skill discovery and install with a real trust layer — watched registries, a QA framework (`/legal-builder-hub:skills-qa`), SHA-pinned updates, and a mandatory trust check before anything lands in your environment. |
+| **[legal-builder-hub](./legal-builder-hub)** | Descubrimiento e instalación de skills de comunidad con una capa de confianza real — registros vigilados, un marco de QA (`/legal-builder-hub:skills-qa`), actualizaciones con SHA fijo, y una verificación de confianza obligatoria antes de que cualquier cosa aterrice en tu entorno. |
 
-### External / partner-built
+### Externos / construidos por socios
 
-Plugins under [`external_plugins/`](./external_plugins) are built and maintained by their vendors. They install from this marketplace like any other plugin, but the vendor owns the code, the connector, and the support channel.
+Los plugins bajo [`external_plugins/`](./external_plugins) son construidos y mantenidos por sus proveedores. Se instalan desde este marketplace como cualquier otro plugin, pero el proveedor es dueño del código, el conector y el canal de soporte.
 
-| Plugin | Built by | What it adds |
+| Plugin | Construido por | Qué agrega |
 |---|---|---|
-| **[cocounsel-legal](./external_plugins/cocounsel-legal)** | Thomson Reuters | Westlaw Deep Research with fully cited reports — caselaw, statutes, regulations, Practical Law, and secondary sources across up to three U.S. jurisdictions per run. Requires a CoCounsel Legal subscription with the MCP connector enabled. Support: cocounselsupport@tr.com. |
+| **[cocounsel-legal](./external_plugins/cocounsel-legal)** | Thomson Reuters | Westlaw Deep Research con reportes completamente citados — jurisprudencia, estatutos, regulaciones, Practical Law y fuentes secundarias en hasta tres jurisdicciones de EE.UU. por ejecución. Requiere suscripción a CoCounsel Legal con el conector MCP habilitado. Soporte: cocounselsupport@tr.com. |
 
-## The trust layer for community legal skills
+## La capa de confianza para skills legales de comunidad
 
-The community is building legal skills fast — registries like LegalOps Consulting's `lpm-skills` and Lawvable already list dozens. But nobody certifies community skills, and a lawyer installing a random skill from GitHub is installing code that runs with access to their matter files, their practice profile, and their research connectors.
+La comunidad está construyendo skills legales rápidamente — registros como `lpm-skills` de LegalOps Consulting y Lawvable ya listan decenas. Pero nadie certifica los skills de comunidad, y un abogado que instala un skill aleatorio de GitHub está instalando código que corre con acceso a sus archivos de asuntos, su perfil de práctica y sus conectores de investigación.
 
-`legal-builder-hub` gives the ecosystem the trust layer it's missing:
+`legal-builder-hub` le da al ecosistema la capa de confianza que le falta:
 
-- **Security review** — hidden-content scan, injection detection, structural trust check on every install
-- **Allowlist** — restrictive-by-default source gate (registries, publishers, connectors, licenses)
-- **License gate** — deployment-context-aware license policy (personal / firm-internal / product-embedding)
-- **Freshness gate** — tracks whether bundled reference content (regulations, statutes, procedures) has passed its verification window, and warns at invocation
-- **Re-scan at update** — a skill that was clean at v1.0 and poisoned at v1.1 gets caught
-- **Install log** — an auditable record of what's installed, from where, under what license, with what review verdict
+- **Revisión de seguridad** — escaneo de contenido oculto, detección de inyección, verificación estructural de confianza en cada instalación
+- **Lista de permitidos** — compuerta de fuente restrictiva por defecto (registros, editores, conectores, licencias)
+- **Compuerta de licencias** — política de licencias consciente del contexto de despliegue (personal / interno de despacho / incrustación en producto)
+- **Compuerta de vigencia** — rastrea si el contenido de referencia incluido ha pasado su ventana de verificación, y advierte en la invocación
+- **Re-escaneo en actualización** — un skill que estaba limpio en v1.0 y fue comprometido en v1.1 se detecta
+- **Log de instalación** — un registro auditable de qué está instalado, de dónde, bajo qué licencia, con qué veredicto de revisión
 
-The allowlist is restrictive by default. Permissive mode is an explicit choice. A non-lawyer gets routed to their attorney contact, not an "install anyway" button.
+La lista de permitidos es restrictiva por defecto. El modo permisivo es una elección explícita. Un no-abogado es enrutado a su contacto abogado, no a un botón de "instalar de todos modos".
 
-Community skills go through the same design review (`/legal-builder-hub:skills-qa`) as the first-party plugins. If you build for lawyers, run the QA against your own skill before publishing. It's the review a lawyer would do if they could read code.
+Los skills de comunidad pasan por la misma revisión de diseño (`/legal-builder-hub:skills-qa`) que los plugins de primera parte. Si construyes para abogados, ejecuta el QA contra tu propio skill antes de publicar.
 
-## MCP Connectors
+## Conectores MCP
 
 > [!IMPORTANT]
-> **Connect a research tool first.** Every plugin ships with legal research connectors already configured — CourtListener, Trellis, Descrybe, Solve Intelligence, and others depending on practice area. You authorize them once, and from then on Claude pulls from authoritative sources and verifies its citations against current databases instead of relying on training knowledge. Citations that come through a research connector are tagged with the source. Citations from model knowledge alone are flagged `[verify]` and, if no research tool is connected at all, the reviewer note above the deliverable records that sources weren't verified so you know to check. The connectors are what make the cites trustworthy — set them up before you set up anything else.
+> **Conecta una herramienta de investigación primero.** Cada plugin viene con conectores de investigación legal ya configurados — CourtListener, Trellis, Descrybe, Solve Intelligence y otros dependiendo del área de práctica. Los autorizas una vez, y a partir de entonces Claude extrae de fuentes autorizadas y verifica sus citas contra bases de datos actuales. Las citas que llegan a través de un conector de investigación están etiquetadas con la fuente. Las citas solo del conocimiento del modelo se marcan `[verificar]` y, si no hay ninguna herramienta de investigación conectada, la nota del revisor encima del entregable registra que las fuentes no fueron verificadas. Los conectores son los que hacen que las citas sean confiables — configúralos antes de configurar cualquier otra cosa.
 
-These plugins ship connectors for the systems legal teams live in. A connector gives Claude the ability to read from and (where scoped) write to your data; the skills and commands use them.
+Estos plugins incluyen conectores para los sistemas en los que viven los equipos legales.
 
-| Connector | What it gives Claude | Plugins | Notes |
+| Conector | Qué le da a Claude | Plugins | Notas |
 |---|---|---|---|
-| **Slack** | Read channels, search, send messages and canvases | all plugins | Your workspace |
-| **Google Drive** | Read docs, sheets, slides; fetch by link | all plugins | Your account |
-| **CoCounsel Legal (Thomson Reuters)** | Westlaw Deep Research — cited reports across caselaw, statutes, regulations, Practical Law | `cocounsel-legal` | Customer subscription; OAuth |
-| **Box** | Read files and folders in VDRs and matter rooms | `corporate-legal` | Your tenant |
-| **Ironclad** | Read the contract register, renewal dates, clauses | `commercial-legal` | Customer subscription |
-| **DocuSign / DocuSign CLM** | Envelope status, executed contracts, CLM metadata | `commercial-legal` | Customer subscription |
-| **iManage** | Read from the DMS — matter workspaces, document versions | `commercial-legal`, `corporate-legal` | Customer subscription |
-| **Everlaw** | E-discovery productions, tagged sets, chronologies | `litigation-legal` | Customer subscription |
-| **LegalDataHunter** | 16M+ documentos jurídicos mexicanos — SCJN IUS, Semanario Judicial, DOF, IMPI, INDAUTOR, OrdenJuridico, SAT, jurisprudencia y legislacion federal y estatal | `conectores-legal-mexico` (dependencia compartida) | API key — via `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico` |
-| **Portal CJJ / API Nilo** | Boletín judicial y expedientes del Consejo de la Judicatura de Jalisco — juzgados mercantiles ZMG | `litigacion-legal-mexico` | Publica para boletin; credenciales Nilo para expedientes autenticados |
-| **CourtListener** | Federal dockets and opinions | `legal-clinic`, `ip-legal`, `litigation-legal`, `law-student` | Public; optional API key |
-| **Trellis** | State court dockets and motions | `litigation-legal` | Customer subscription |
-| **Aurora** | Clinic-style matter management and calendaring | `litigation-legal` | Customer subscription |
-| **Definely** | In-document drafting and defined-terms checks | `commercial-legal`, `corporate-legal` | Customer subscription |
-| **Lawve AI** | Contract review assist and clause libraries | `legal-builder-hub` | Customer subscription |
-| **Courtroom5** | Self-represented litigant workflow | `legal-clinic` | Customer subscription |
-| **Descrybe** | Case law research and summarization | `legal-clinic`, `ip-legal`, `law-student` | Customer subscription |
-| **Solve Intelligence** | Patent drafting and prosecution | `corporate-legal`, `ip-legal` | Customer subscription |
-| **TopCounsel** | Matter routing and outside counsel panel | `commercial-legal`, `corporate-legal`, `litigation-legal` | Customer subscription |
-| **Linear** | Launch tracker, issue tracking | `product-legal` | Customer workspace |
-| **Atlassian (Jira)** | Launch tracker, issue tracking | `product-legal` | Customer workspace |
-| **Asana** | Launch tracker, project tracking | `product-legal` | Customer workspace |
+| **Slack** | Leer canales, buscar, enviar mensajes y canvases | todos los plugins | Tu workspace |
+| **Google Drive** | Leer documentos, hojas, presentaciones; obtener por enlace | todos los plugins | Tu cuenta |
+| **CoCounsel Legal (Thomson Reuters)** | Westlaw Deep Research — reportes citados de jurisprudencia, estatutos, regulaciones, Practical Law | `cocounsel-legal` | Suscripción del cliente; OAuth |
+| **Box** | Leer archivos y carpetas en VDRs y salas de asuntos | `corporate-legal` | Tu tenant |
+| **Ironclad** | Leer el registro de contratos, fechas de renovación, cláusulas | `commercial-legal` | Suscripción del cliente |
+| **DocuSign / DocuSign CLM** | Estado de sobres, contratos ejecutados, metadatos de CLM | `commercial-legal` | Suscripción del cliente |
+| **iManage** | Leer desde el DMS — espacios de trabajo de asuntos, versiones de documentos | `commercial-legal`, `corporate-legal` | Suscripción del cliente |
+| **Everlaw** | Producciones de e-discovery, conjuntos etiquetados, cronologías | `litigation-legal` | Suscripción del cliente |
+| **LegalDataHunter** | 16M+ documentos jurídicos mexicanos — SCJN IUS, Semanario Judicial, DOF, IMPI, INDAUTOR, OrdenJuridico, SAT, jurisprudencia y legislación federal y estatal | `conectores-legal-mexico` (dependencia compartida) | Clave API — vía `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico` |
+| **Portal CJJ / API Nilo** | Boletín judicial y expedientes del Consejo de la Judicatura de Jalisco — juzgados mercantiles ZMG | `litigacion-legal-mexico` | Pública para boletín; credenciales Nilo para expedientes autenticados |
+| **CourtListener** | Expedientes federales y opiniones | `legal-clinic`, `ip-legal`, `litigation-legal`, `law-student` | Pública; clave API opcional |
+| **Trellis** | Expedientes y mociones de tribunales estatales | `litigation-legal` | Suscripción del cliente |
+| **Aurora** | Gestión de asuntos estilo clínica y calendarios | `litigation-legal` | Suscripción del cliente |
+| **Definely** | Redacción en documento y verificación de términos definidos | `commercial-legal`, `corporate-legal` | Suscripción del cliente |
+| **Lawve AI** | Asistencia en revisión de contratos y bibliotecas de cláusulas | `legal-builder-hub` | Suscripción del cliente |
+| **Courtroom5** | Flujo de trabajo para litigante sin representación | `legal-clinic` | Suscripción del cliente |
+| **Descrybe** | Investigación y resumen de jurisprudencia | `legal-clinic`, `ip-legal`, `law-student` | Suscripción del cliente |
+| **Solve Intelligence** | Redacción y gestión de patentes | `corporate-legal`, `ip-legal` | Suscripción del cliente |
+| **TopCounsel** | Enrutamiento de asuntos y panel de abogados externos | `commercial-legal`, `corporate-legal`, `litigation-legal` | Suscripción del cliente |
+| **Linear** | Rastreador de lanzamientos, seguimiento de asuntos | `product-legal` | Workspace del cliente |
+| **Atlassian (Jira)** | Rastreador de lanzamientos, seguimiento de asuntos | `product-legal` | Workspace del cliente |
+| **Asana** | Rastreador de lanzamientos, seguimiento de proyectos | `product-legal` | Workspace del cliente |
 
-> Connectors marked "customer subscription" need the customer's own account and API key. For API-key connectors in the Mexican plugins, configure via `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico`. For OAuth connectors (Box, Slack, Drive, iManage), authorize through Claude Cowork → Settings → Connectors, or use `claude mcp auth` in Claude Code.
+> Los conectores marcados "Suscripción del cliente" necesitan la propia cuenta y clave API del cliente. Para conectores de clave API en los plugins mexicanos, configura vía `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico`. Para conectores OAuth (Box, Slack, Drive, iManage), autoriza a través de Claude Cowork → Configuración → Conectores, o usa `claude mcp auth` en Claude Code.
 
-> **Building a connector?** See [CONNECTORS.md](./CONNECTORS.md) for what a good legal MCP server looks like and how to submit yours for inclusion.
+> **¿Construyendo un conector?** Ver [CONNECTORS.md](./CONNECTORS.md) para lo que es un buen servidor MCP legal y cómo enviar el tuyo para inclusión.
 
-## Claude for Microsoft 365
+## Claude para Microsoft 365
 
-Lawyers live in Word and Excel. **Every contract-touching skill in this repo is authored to work in the Claude for Word sidebar, with tracked changes as the output mode.** That's `commercial-legal:review` (vendor agreements, NDAs, SaaS subscriptions), `commercial-legal:amendment-history`, `ip-legal:ip-clause-review`, `ai-governance-legal:vendor-ai-review`, `privacy-legal:dpa-review`, and the diligence extraction in `corporate-legal`. A reviewer accepts or rejects each change exactly as they would for a human markup — numbering, defined terms, cross-references, and styles are preserved.
+Los abogados viven en Word y Excel. **Cada skill que toca contratos en este repositorio está redactado para funcionar en la barra lateral de Claude para Word, con cambios controlados como modo de salida.** Eso incluye `commercial-legal:review` (contratos con proveedores, NDAs, suscripciones SaaS), `commercial-legal:amendment-history`, `ip-legal:ip-clause-review`, `ai-governance-legal:vendor-ai-review`, `privacy-legal:dpa-review`, y la extracción de debida diligencia en `corporate-legal`. Un revisor acepta o rechaza cada cambio exactamente como lo haría para un marcado humano — numeración, términos definidos, referencias cruzadas y estilos son preservados.
 
-The Excel-facing skills produce workbooks that open cleanly: `corporate-legal:tabular-review` writes a multi-sheet `.xlsx` with a sources sheet, `litigation-legal:claim-chart` writes an element-by-element claim chart with citation columns, `corporate-legal:entity-compliance` writes the compliance register with deadline columns, and `commercial-legal:renewal-tracker` exports the renewal register sorted by cancel-by date.
+Los skills de Excel producen libros de trabajo que abren limpiamente: `corporate-legal:tabular-review` escribe un `.xlsx` de múltiples hojas con una hoja de fuentes, `litigation-legal:claim-chart` escribe un cuadro de elementos por elemento con columnas de citas, `corporate-legal:entity-compliance` escribe el registro de cumplimiento con columnas de plazos, y `commercial-legal:renewal-tracker` exporta el registro de renovaciones ordenado por fecha de cancelación.
 
-Install Claude for Microsoft 365 from **[Microsoft AppSource](https://marketplace.microsoft.com/en-us/product/office/wa200010453)**. Once installed, the skills from any plugin you've enabled are available from the sidebar via `/`, and connectors are reachable from the same surface. A single thread can span Word, Excel, PowerPoint, and Outlook.
+Instala Claude para Microsoft 365 desde **[Microsoft AppSource](https://marketplace.microsoft.com/en-us/product/office/wa200010453)**. Una vez instalado, los skills de cualquier plugin que hayas habilitado están disponibles desde la barra lateral vía `/`, y los conectores son accesibles desde la misma superficie. Un solo hilo puede abarcar Word, Excel, PowerPoint y Outlook.
 
-For IT admins deploying the add-in against your own cloud (Vertex AI, Bedrock, or an internal gateway) rather than Anthropic's API, see the separate [`claude-for-msft-365-install`](https://github.com/anthropics/financial-services/tree/main/claude-for-msft-365-install) tooling.
+Para administradores de TI que despliegan el complemento contra tu propia nube (Vertex AI, Bedrock o una pasarela interna) en lugar de la API de Anthropic, ver el conjunto de herramientas separado [`claude-for-msft-365-install`](https://github.com/anthropics/financial-services/tree/main/claude-for-msft-365-install).
 
-## Making It Yours
+## Personalización
 
-These are reference templates. They get better when you tune them to how your team works — and the customization mechanism is the plugin itself, not a config file buried in a repo.
+Estas son plantillas de referencia. Mejoran cuando las ajustas a cómo trabaja tu equipo — y el mecanismo de personalización es el plugin mismo, no un archivo de configuración enterrado en un repositorio.
 
-- **Run the cold-start interview.** It **is** the customization mechanism. It asks how your practice works, reads your seed documents, and writes your practice profile. Every other skill reads from that profile. A `/commercial-legal:cold-start-interview` with five signed MSAs, your playbook, and your escalation matrix will make the review skills noticeably sharper.
-- **Edit the practice profile.** Your profile lives at `~/.claude/plugins/config/claude-for-legal/<plugin>/CLAUDE.md`. Edit it directly for small fixes — a wrong escalation threshold, a new integration, a policy update. It survives plugin updates.
-- **Re-run setup.** `/<plugin>:cold-start-interview` again for a full re-interview when your practice shifts materially (new jurisdiction, new CLM, new policy).
-- **Swap connectors.** Point `.mcp.json` at your CLM, DMS, e-discovery platform, launch tracker, HRIS. Skills fall back gracefully when a connector isn't configured — no silent no-ops.
-- **Bring your playbook and templates.** Drop your terminology, house style, and branded templates into the plugin's `CLAUDE.md` and `references/`. The skills will pick them up.
-- **Fork skills for house style.** Every skill is a markdown file under `skills/`. Edit the steps, the gates, the output format.
-- **Add scheduled agents.** The agents under `<plugin>/agents/` are markdown with a cron-style schedule. Add your own for the watchers your team needs.
+- **Ejecuta la entrevista de configuración.** **Es** el mecanismo de personalización. Pregunta cómo funciona tu práctica, lee tus documentos semilla y escribe tu perfil de práctica. Cada otro skill lee de ese perfil. Un `/commercial-legal:cold-start-interview` con cinco MSAs firmados, tu playbook y tu matriz de escalada hará que los skills de revisión sean notablemente más precisos.
+- **Edita el perfil de práctica.** Tu perfil vive en `~/.claude/plugins/config/claude-for-legal/<plugin>/CLAUDE.md`. Edítalo directamente para correcciones pequeñas — un umbral de escalada incorrecto, una nueva integración, una actualización de política. Sobrevive las actualizaciones del plugin.
+- **Vuelve a ejecutar la configuración.** `/<plugin>:cold-start-interview` de nuevo para una re-entrevista completa cuando tu práctica cambia materialmente (nueva jurisdicción, nuevo CLM, nueva política).
+- **Intercambia conectores.** Apunta `.mcp.json` a tu CLM, DMS, plataforma de e-discovery, rastreador de lanzamientos, HRIS. Los skills fallan elegantemente cuando un conector no está configurado — sin no-ops silenciosos.
+- **Trae tu playbook y plantillas.** Agrega tu terminología, estilo de la casa y plantillas con marca al `CLAUDE.md` y `references/` del plugin. Los skills los tomarán.
+- **Bifurca skills para el estilo de la casa.** Cada skill es un archivo markdown bajo `skills/`. Edita los pasos, las compuertas, el formato de salida.
+- **Agrega agentes programados.** Los agentes bajo `<plugin>/agents/` son markdown con un horario estilo cron. Agrega los tuyos para los vigilantes que necesita tu equipo.
 
-No build step. Everything is markdown and JSON.
+Sin paso de compilación. Todo es markdown y JSON.
 
-## Skill & Command Reference
+## Referencia de Skills y Comandos
 
-The full map across all plugins. The cold-start interview is the first thing to run in any plugin.
+El mapa completo a través de todos los plugins. La entrevista de configuración es lo primero que hay que ejecutar en cualquier plugin.
 
 ### ai-governance-legal
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/ai-governance-legal:cold-start-interview` | cold-start-interview | Cold-start — learns your AI governance practice |
-| `/ai-governance-legal:ai-inventory` | ai-inventory | EU AI Act per-system inventory — track each system's role and risk tier |
-| `/ai-governance-legal:use-case-triage` | use-case-triage | Classify AI use case — approved, conditional, or no |
-| `/ai-governance-legal:aia-generation` | aia-generation | Run an AI impact assessment in house format |
-| `/ai-governance-legal:vendor-ai-review` | vendor-ai-review | Review vendor AI terms against governance positions |
-| `/ai-governance-legal:reg-gap-analysis` | reg-gap-analysis | Diff a new AI regulation against your governance posture |
-| `/ai-governance-legal:policy-monitor` | policy-monitor | Keep the AI policy current with practice |
-| `/ai-governance-legal:policy-starter` | policy-starter | Draft a firm AI usage policy from published model policies, adapted to your practice profile |
-| `/ai-governance-legal:matter-workspace` | matter-workspace | Manage matter workspaces (practice-level) |
+| `/ai-governance-legal:cold-start-interview` | cold-start-interview | Configuración inicial — aprende tu práctica de gobernanza de IA |
+| `/ai-governance-legal:ai-inventory` | ai-inventory | Inventario por sistema bajo el EU AI Act — rastrea el rol y nivel de riesgo de cada sistema |
+| `/ai-governance-legal:use-case-triage` | use-case-triage | Clasifica caso de uso de IA — aprobado, condicional, o no |
+| `/ai-governance-legal:aia-generation` | aia-generation | Ejecuta una evaluación de impacto de IA en formato casa |
+| `/ai-governance-legal:vendor-ai-review` | vendor-ai-review | Revisa términos de IA de proveedor contra posiciones de gobernanza |
+| `/ai-governance-legal:reg-gap-analysis` | reg-gap-analysis | Coteja una nueva regulación de IA contra tu postura de gobernanza |
+| `/ai-governance-legal:policy-monitor` | policy-monitor | Mantiene la política de IA al día con la práctica |
+| `/ai-governance-legal:policy-starter` | policy-starter | Redacta una política de uso de IA de la firma adaptada a tu perfil de práctica |
+| `/ai-governance-legal:matter-workspace` | matter-workspace | Gestiona espacios de trabajo de asuntos (nivel de práctica) |
 
 ### legal-builder-hub
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/legal-builder-hub:cold-start-interview` | cold-start-interview | Practice profile interview and starter-pack recommendation |
-| `/legal-builder-hub:registry-browser` | registry-browser | Search watched registries for community legal skills |
-| `/legal-builder-hub:skill-installer` | skill-installer | Install a community skill with trust checks |
-| `/legal-builder-hub:skills-qa` | skills-qa | Evaluate a skill against the Design Framework |
-| `/legal-builder-hub:related-skills-surfacer` | related-skills-surfacer | Suggest community skills from activity in other plugins |
-| `/legal-builder-hub:auto-updater` | auto-updater | Check for updates to installed community skills |
-| `/legal-builder-hub:disable` | skill-manager | Disable a community skill without removing files |
-| `/legal-builder-hub:uninstall` | skill-manager | Uninstall a community skill installed via the hub |
-| scheduled | registry-sync (agent) | Periodic check of watched registries for updates |
+| `/legal-builder-hub:cold-start-interview` | cold-start-interview | Entrevista de perfil de práctica y recomendación de paquete inicial |
+| `/legal-builder-hub:registry-browser` | registry-browser | Busca skills legales de comunidad en registros vigilados |
+| `/legal-builder-hub:skill-installer` | skill-installer | Instala un skill de comunidad con verificaciones de confianza |
+| `/legal-builder-hub:skills-qa` | skills-qa | Evalúa un skill contra el Marco de Diseño |
+| `/legal-builder-hub:related-skills-surfacer` | related-skills-surfacer | Sugiere skills de comunidad por actividad en otros plugins |
+| `/legal-builder-hub:auto-updater` | auto-updater | Verifica actualizaciones de skills de comunidad instalados |
+| `/legal-builder-hub:disable` | skill-manager | Deshabilita un skill de comunidad sin eliminar archivos |
+| `/legal-builder-hub:uninstall` | skill-manager | Desinstala un skill de comunidad instalado vía el hub |
+| programado | registry-sync (agente) | Verificación periódica de registros vigilados por actualizaciones |
 
 ### legal-clinic
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/legal-clinic:cold-start-interview` | cold-start-interview | Professor setup — areas, jurisdiction, supervision style |
-| `/legal-clinic:build-guide` | build-guide | Professor practice-area guide — intake, pedagogy posture, review gates |
-| `/legal-clinic:ramp` | ramp | Student semester onboarding with practice exercises |
-| `/legal-clinic:client-intake` | client-intake | Structured intake with cross-area issue spotting |
-| `/legal-clinic:client-comms-log` | client-comms-log | Log a client communication — append-only per-case record |
-| `/legal-clinic:research-start` | research-start | Research roadmap — statutes, case law, search terms |
-| `/legal-clinic:memo` | memo | IRAC-scaffolded analysis memo with research gaps flagged |
-| `/legal-clinic:draft` | draft | First draft of a common clinic document |
-| `/legal-clinic:client-letter` | client-letter · plain-language-letters | Routine client correspondence from templates |
-| `/legal-clinic:status` | status | Case status by audience — client, professor, court-ready |
-| `/legal-clinic:deadlines` | deadlines | Track case deadlines with malpractice-aware warnings |
-| `/legal-clinic:supervisor-review-queue` | supervisor-review-queue | Professor's review queue (if formal supervision) |
-| `/legal-clinic:semester-handoff` | semester-handoff | End-of-semester case handoff memos |
+| `/legal-clinic:cold-start-interview` | cold-start-interview | Configuración del profesor — áreas, jurisdicción, estilo de supervisión |
+| `/legal-clinic:build-guide` | build-guide | Guía de práctica por área del profesor — intake, postura pedagógica, compuertas de revisión |
+| `/legal-clinic:ramp` | ramp | Incorporación de estudiante al semestre con ejercicios de práctica |
+| `/legal-clinic:client-intake` | client-intake | Intake estructurado con identificación de problemas entre áreas |
+| `/legal-clinic:client-comms-log` | client-comms-log | Registra una comunicación con cliente — registro solo-adjunta por caso |
+| `/legal-clinic:research-start` | research-start | Hoja de ruta de investigación — estatutos, jurisprudencia, términos de búsqueda |
+| `/legal-clinic:memo` | memo | Memo de análisis con estructura IRAC y brechas de investigación señaladas |
+| `/legal-clinic:draft` | draft | Primer borrador de un documento común de clínica |
+| `/legal-clinic:client-letter` | client-letter · plain-language-letters | Correspondencia rutinaria con clientes desde plantillas |
+| `/legal-clinic:status` | status | Estatus del caso por audiencia — cliente, profesor, listo para tribunal |
+| `/legal-clinic:deadlines` | deadlines | Rastrea plazos de caso con advertencias de responsabilidad profesional |
+| `/legal-clinic:supervisor-review-queue` | supervisor-review-queue | Cola de revisión del profesor (si supervisión formal) |
+| `/legal-clinic:semester-handoff` | semester-handoff | Memos de entrega de casos al fin de semestre |
 
 ### commercial-legal
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/commercial-legal:cold-start-interview` | cold-start-interview | Cold-start — learn your commercial contracts practice |
-| `/commercial-legal:review` | vendor-agreement-review · nda-review · saas-msa-review | Review vendor agreement, NDA, or SaaS subscription |
-| `/commercial-legal:amendment-history` | amendment-history | Trace contract changes across base and amendments |
-| `/commercial-legal:renewal-tracker` | renewal-tracker | Show contracts with cancel-by deadlines within 90 days |
-| `/commercial-legal:escalation-flagger` | escalation-flagger | Route a contract issue and draft the ask |
-| `/commercial-legal:review-proposals` | (internal) | Review and approve pending playbook update proposals |
-| `/commercial-legal:matter-workspace` | matter-workspace | Manage matter workspaces (practice-level) |
-| — | stakeholder-summary | Translates a review into a business-stakeholder summary |
-| scheduled | renewal-watcher (agent) | Weekly sweep of the renewal register |
-| scheduled | deal-debrief (agent) | Weekly surface of signed agreements with deviations |
-| scheduled | playbook-monitor (agent) | Proposes playbook updates when a clause has drifted |
+| `/commercial-legal:cold-start-interview` | cold-start-interview | Configuración inicial — aprende tu práctica de contratos comerciales |
+| `/commercial-legal:review` | vendor-agreement-review · nda-review · saas-msa-review | Revisa contrato con proveedor, NDA o suscripción SaaS |
+| `/commercial-legal:amendment-history` | amendment-history | Traza cambios contractuales a través del acuerdo base y enmiendas |
+| `/commercial-legal:renewal-tracker` | renewal-tracker | Muestra contratos con plazos de cancelación dentro de 90 días |
+| `/commercial-legal:escalation-flagger` | escalation-flagger | Enruta un asunto contractual y redacta la solicitud |
+| `/commercial-legal:review-proposals` | (interno) | Revisa y aprueba propuestas pendientes de actualización de playbook |
+| `/commercial-legal:matter-workspace` | matter-workspace | Gestiona espacios de trabajo de asuntos (nivel de práctica) |
+| — | stakeholder-summary | Traduce una revisión en resumen para partes interesadas del negocio |
+| programado | renewal-watcher (agente) | Barrido semanal del registro de renovaciones |
+| programado | deal-debrief (agente) | Superficie semanal de acuerdos firmados con desviaciones |
+| programado | playbook-monitor (agente) | Propone actualizaciones de playbook cuando una cláusula ha derivado |
 
 ### corporate-legal
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/corporate-legal:cold-start-interview` | cold-start-interview | House cold-start, with optional `--new-deal` kickoff |
-| `/corporate-legal:tabular-review` | tabular-review | Tabular review — one row per document, every cell cited |
-| `/corporate-legal:diligence-issue-extraction` | diligence-issue-extraction | Extract issues from VDR documents per house thresholds |
-| `/corporate-legal:material-contract-schedule` | material-contract-schedule | Build material contracts disclosure schedule |
-| `/corporate-legal:closing-checklist` | closing-checklist | What's blocking close with critical path |
-| `/corporate-legal:written-consent` | written-consent | Draft board or committee consent in house format |
-| `/corporate-legal:entity-compliance` | entity-compliance | Entity compliance tracker across jurisdictions |
-| `/corporate-legal:integration-management` | integration-management | Post-closing integration tracker with consent tracking |
-| `/corporate-legal:matter-workspace` | matter-workspace | Manage matter workspaces (practice-level) |
-| — | board-minutes | Drafts board or committee minutes in house format |
-| — | deal-team-summary | Aggregates diligence findings into a deal briefing |
-| — | ai-tool-handoff | Detects Luminance/Kira, QAs bulk-tool output |
-| scheduled | dataroom-watcher (agent) | Monitors VDR uploads and posts checklist status |
+| `/corporate-legal:cold-start-interview` | cold-start-interview | Configuración de la casa, con opción `--new-deal` de inicio |
+| `/corporate-legal:tabular-review` | tabular-review | Revisión tabular — una fila por documento, cada celda citada |
+| `/corporate-legal:diligence-issue-extraction` | diligence-issue-extraction | Extrae hallazgos de documentos VDR según umbrales de la casa |
+| `/corporate-legal:material-contract-schedule` | material-contract-schedule | Construye el calendario de contratos materiales para disclosure schedule |
+| `/corporate-legal:closing-checklist` | closing-checklist | Qué bloquea el cierre con ruta crítica |
+| `/corporate-legal:written-consent` | written-consent | Redacta consentimiento del consejo o comité en formato casa |
+| `/corporate-legal:entity-compliance` | entity-compliance | Rastreador de cumplimiento de entidades por jurisdicción |
+| `/corporate-legal:integration-management` | integration-management | Rastreador de integración post-cierre con seguimiento de consentimientos |
+| `/corporate-legal:matter-workspace` | matter-workspace | Gestiona espacios de trabajo de asuntos (nivel de práctica) |
+| — | board-minutes | Redacta actas del consejo o comité en formato casa |
+| — | deal-team-summary | Agrega hallazgos de debida diligencia en briefing del equipo de deal |
+| — | ai-tool-handoff | Detecta Luminance/Kira, controla calidad de salida de herramienta masiva |
+| programado | dataroom-watcher (agente) | Monitorea cargas al VDR y publica estatus de lista de cierre |
 
 ### employment-legal
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/employment-legal:cold-start-interview` | cold-start-interview | Cold-start — learns jurisdictions and escalation rules |
-| `/employment-legal:wage-hour-qa` | wage-hour-qa | Jurisdiction-aware wage/hour and employment Q&A |
-| `/employment-legal:hiring-review` | hiring-review | Review offer letter and restrictive covenants |
-| `/employment-legal:termination-review` | termination-review | Termination review with high-risk flag detection |
-| `/employment-legal:worker-classification` | worker-classification | Classify a proposed engagement against the state test |
-| `/employment-legal:policy-drafting` | policy-drafting | Draft employment policy with state supplements |
-| `/employment-legal:leave-tracker` | leave-tracker | Check open leaves for deadline alerts |
-| `/employment-legal:log-leave` | log-leave | Add a new leave to the leave register |
-| `/employment-legal:investigation-open` | internal-investigation | Open a new internal investigation matter |
-| `/employment-legal:investigation-add` | internal-investigation | Add data to an open investigation — docs, notes |
-| `/employment-legal:investigation-memo` | internal-investigation | Draft or update the privileged investigation memo |
-| `/employment-legal:investigation-query` | internal-investigation | Ask questions against an open investigation log |
-| `/employment-legal:investigation-summary` | internal-investigation | Draft audience-specific summary from investigation memo |
-| `/employment-legal:expansion-kickoff` | international-expansion | Kick off expansion planning for a new country |
-| `/employment-legal:expansion-update` | international-expansion | Update status of an in-progress expansion project |
-| `/employment-legal:matter-workspace` | matter-workspace | Manage matter workspaces (practice-level) |
-| — | handbook-updates | Diffs handbook changes and flags state supplement impacts |
-| scheduled | leave-tracker (agent) | Weekly monitor of open leaves with hard deadlines |
+| `/employment-legal:cold-start-interview` | cold-start-interview | Configuración inicial — aprende jurisdicciones y reglas de escalada |
+| `/employment-legal:wage-hour-qa` | wage-hour-qa | Q&A laboral y de salarios/jornada consciente de jurisdicción |
+| `/employment-legal:hiring-review` | hiring-review | Revisa carta de oferta y cláusulas restrictivas |
+| `/employment-legal:termination-review` | termination-review | Revisión de terminación con detección de banderas de alto riesgo |
+| `/employment-legal:worker-classification` | worker-classification | Clasifica un contrato propuesto contra el test de la jurisdicción |
+| `/employment-legal:policy-drafting` | policy-drafting | Redacta política laboral con suplementos estatales |
+| `/employment-legal:leave-tracker` | leave-tracker | Verifica ausencias abiertas por alertas de plazo |
+| `/employment-legal:log-leave` | log-leave | Agrega una nueva ausencia al registro de ausencias |
+| `/employment-legal:investigation-open` | internal-investigation | Abre un nuevo asunto de investigación interna |
+| `/employment-legal:investigation-add` | internal-investigation | Agrega datos a una investigación abierta — documentos, notas |
+| `/employment-legal:investigation-memo` | internal-investigation | Redacta o actualiza el memo de investigación privilegiado |
+| `/employment-legal:investigation-query` | internal-investigation | Hace preguntas contra un log de investigación abierto |
+| `/employment-legal:investigation-summary` | internal-investigation | Redacta resumen por audiencia desde el memo de investigación |
+| `/employment-legal:expansion-kickoff` | international-expansion | Inicia la planificación de expansión para un nuevo país |
+| `/employment-legal:expansion-update` | international-expansion | Actualiza el estatus de un proyecto de expansión en curso |
+| `/employment-legal:matter-workspace` | matter-workspace | Gestiona espacios de trabajo de asuntos (nivel de práctica) |
+| — | handbook-updates | Coteja cambios al manual y señala impactos en suplementos estatales |
+| programado | leave-tracker (agente) | Monitor semanal de ausencias abiertas con plazos duros |
 
 ### ip-legal
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/ip-legal:cold-start-interview` | cold-start-interview | Cold-start — learn your IP practice and posture |
-| `/ip-legal:clearance` | clearance | Trademark clearance first pass — knockout + similar marks |
-| `/ip-legal:fto-triage` | fto-triage | Freedom-to-operate triage, not an FTO opinion |
-| `/ip-legal:invention-intake` | invention-intake | Invention disclosure first-pass screen — novelty, obviousness, §101, bar dates |
-| `/ip-legal:cease-desist` | cease-desist | Draft a C&D or triage one you received |
-| `/ip-legal:takedown` | takedown | DMCA notice, response triage, or §512(g) counter-notice |
-| `/ip-legal:infringement-triage` | infringement-triage | Infringement triage across all four IP rights |
-| `/ip-legal:ip-clause-review` | ip-clause-review | Review IP clauses — assignment, license, warranties |
-| `/ip-legal:oss-review` | oss-review | Open source license compliance check |
-| `/ip-legal:portfolio` | portfolio | Track IP portfolio deadlines and renewals |
-| `/ip-legal:matter-workspace` | matter-workspace | Manage matter workspaces (practice-level) |
-| scheduled | ip-renewal-watcher (agent) | Weekly report of IP portfolio deadlines |
+| `/ip-legal:cold-start-interview` | cold-start-interview | Configuración inicial — aprende tu práctica y postura de PI |
+| `/ip-legal:clearance` | clearance | Primera revisión de disponibilidad de marca — knockout + marcas similares |
+| `/ip-legal:fto-triage` | fto-triage | Triaje de libertad de operación, no una opinión de FTO |
+| `/ip-legal:invention-intake` | invention-intake | Primera revisión de divulgación de invención — novedad, obviedad, §101, fechas críticas |
+| `/ip-legal:cease-desist` | cease-desist | Redacta una C&D o triaje de una recibida |
+| `/ip-legal:takedown` | takedown | Aviso DMCA, triaje de respuesta, o contra-aviso §512(g) |
+| `/ip-legal:infringement-triage` | infringement-triage | Triaje de infracción en los cuatro derechos de PI |
+| `/ip-legal:ip-clause-review` | ip-clause-review | Revisa cláusulas de PI — cesión, licencia, garantías |
+| `/ip-legal:oss-review` | oss-review | Verificación de cumplimiento de licencias de código abierto |
+| `/ip-legal:portfolio` | portfolio | Rastrea plazos y renovaciones del portafolio de PI |
+| `/ip-legal:matter-workspace` | matter-workspace | Gestiona espacios de trabajo de asuntos (nivel de práctica) |
+| programado | ip-renewal-watcher (agente) | Reporte semanal de plazos del portafolio de PI |
 
 ### litigation-legal
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/litigation-legal:cold-start-interview` | cold-start-interview | Cold-start — risk, landscape, house brief style |
-| `/litigation-legal:matter-intake` | matter-intake | Intake a new matter — writes matter.md and history |
-| `/litigation-legal:matter-briefing` | matter-briefing | Deep briefing on one matter for a call |
-| `/litigation-legal:matter-update` | matter-update | Append a dated event to a matter's history |
-| `/litigation-legal:portfolio-status` | portfolio-status | Portfolio rollup — risk, deadlines, stale matters |
-| `/litigation-legal:matter-close` | matter-close | Close a matter — archive, retain record |
-| `/litigation-legal:matter-workspace` | matter-workspace | Manage matter workspaces (practice-level) |
-| `/litigation-legal:demand-intake` | demand-intake | Pre-drafting context — parties, facts, leverage |
-| `/litigation-legal:demand-draft` | demand-draft | Draft demand letter with FRE 408 gate and .docx output |
-| `/litigation-legal:demand-received` | demand-received | Triage inbound demand — options, portfolio cross-check |
-| `/litigation-legal:subpoena-triage` | subpoena-triage | Triage subpoena — scope, burden, privilege, plan |
-| `/litigation-legal:legal-hold` | legal-hold | Issue, refresh, release, or report on legal holds |
-| `/litigation-legal:oc-status` | oc-status | Weekly status-request emails to outside counsel |
-| `/litigation-legal:claim-chart` | claim-chart | Element chart — patent or civil cause of action |
-| `/litigation-legal:chronology` | chronology | Build or update a chronology from sources and uploads |
-| `/litigation-legal:deposition-prep` | deposition-prep | Deposition outline tied to case theory |
-| `/litigation-legal:privilege-log-review` | privilege-log-review | First-pass privilege log review with flags |
-| `/litigation-legal:brief-section-drafter` | brief-section-drafter | Draft a brief section in house style |
-| scheduled | docket-watcher (agent) | Monitors court dockets for filings and deadlines |
+| `/litigation-legal:cold-start-interview` | cold-start-interview | Configuración inicial — riesgo, panorama, estilo de escrito casa |
+| `/litigation-legal:matter-intake` | matter-intake | Intake de nuevo asunto — escribe matter.md y history |
+| `/litigation-legal:matter-briefing` | matter-briefing | Briefing profundo de un asunto para una llamada |
+| `/litigation-legal:matter-update` | matter-update | Adjunta un evento fechado al historial de un asunto |
+| `/litigation-legal:portfolio-status` | portfolio-status | Resumen del portafolio — riesgo, plazos, asuntos sin movimiento |
+| `/litigation-legal:matter-close` | matter-close | Cierra un asunto — archiva, conserva registro |
+| `/litigation-legal:matter-workspace` | matter-workspace | Gestiona espacios de trabajo de asuntos (nivel de práctica) |
+| `/litigation-legal:demand-intake` | demand-intake | Contexto pre-redacción — partes, hechos, palanca |
+| `/litigation-legal:demand-draft` | demand-draft | Redacta carta de requerimiento con compuerta FRE 408 y salida .docx |
+| `/litigation-legal:demand-received` | demand-received | Triaje de requerimiento entrante — opciones, cotejo con portafolio |
+| `/litigation-legal:subpoena-triage` | subpoena-triage | Triaje de citatorio — alcance, carga, privilegio, plan |
+| `/litigation-legal:legal-hold` | legal-hold | Emitir, refrescar, liberar o reportar sobre retenciones documentales |
+| `/litigation-legal:oc-status` | oc-status | Emails de solicitud de estatus semanal a abogados externos |
+| `/litigation-legal:claim-chart` | claim-chart | Cuadro de elementos — patente o causa de acción civil |
+| `/litigation-legal:chronology` | chronology | Construye o actualiza una cronología desde fuentes y cargas |
+| `/litigation-legal:deposition-prep` | deposition-prep | Esquema de deposición vinculado a la teoría del caso |
+| `/litigation-legal:privilege-log-review` | privilege-log-review | Primera revisión del registro de privilegio con señalamientos |
+| `/litigation-legal:brief-section-drafter` | brief-section-drafter | Redacta una sección de escrito en estilo casa |
+| programado | docket-watcher (agente) | Monitorea expedientes judiciales por presentaciones y plazos |
 
 ### privacy-legal
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/privacy-legal:cold-start-interview` | cold-start-interview | Cold-start — learns your privacy practice |
-| `/privacy-legal:use-case-triage` | use-case-triage | Determine PIA vs GDPR DPIA vs proceed |
-| `/privacy-legal:pia-generation` | pia-generation | Generate a Privacy Impact Assessment in house format |
-| `/privacy-legal:dpa-review` | dpa-review | Review a DPA — auto-detects controller vs processor |
-| `/privacy-legal:dsar-response` | dsar-response | Walk a DSAR and draft response — verify, locate, assess |
-| `/privacy-legal:reg-gap-analysis` | reg-gap-analysis | Diff a regulation against current policy and practice |
-| `/privacy-legal:policy-monitor` | policy-monitor | Keep the privacy policy current with practice |
-| `/privacy-legal:matter-workspace` | matter-workspace | Manage matter workspaces (practice-level) |
+| `/privacy-legal:cold-start-interview` | cold-start-interview | Configuración inicial — aprende tu práctica de privacidad |
+| `/privacy-legal:use-case-triage` | use-case-triage | Determina PIA vs DPIA de GDPR vs proceder |
+| `/privacy-legal:pia-generation` | pia-generation | Genera una Evaluación de Impacto de Privacidad en formato casa |
+| `/privacy-legal:dpa-review` | dpa-review | Revisa un DPA — detecta automáticamente responsable vs encargado |
+| `/privacy-legal:dsar-response` | dsar-response | Acompaña un DSAR y redacta la respuesta — verificar, localizar, evaluar |
+| `/privacy-legal:reg-gap-analysis` | reg-gap-analysis | Coteja una regulación contra la política y práctica actual |
+| `/privacy-legal:policy-monitor` | policy-monitor | Mantiene la política de privacidad al día con la práctica |
+| `/privacy-legal:matter-workspace` | matter-workspace | Gestiona espacios de trabajo de asuntos (nivel de práctica) |
 
 ### product-legal
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/product-legal:cold-start-interview` | cold-start-interview | Cold-start — connects launch tracker, learns calibration |
-| `/product-legal:is-this-a-problem` | is-this-a-problem | Fast "is this a problem?" answer for quick questions |
-| `/product-legal:launch-review` | launch-review | Full launch review against framework and calibration |
-| `/product-legal:marketing-claims-review` | marketing-claims-review | Review marketing copy for claims that need work |
-| `/product-legal:matter-workspace` | matter-workspace | Manage matter workspaces (practice-level) |
-| — | feature-risk-assessment | Deep-dive risk on a single feature when launch review flags |
-| scheduled | launch-watcher (agent) | Monitors launch tracker for upcoming reviews |
+| `/product-legal:cold-start-interview` | cold-start-interview | Configuración inicial — conecta rastreador de lanzamientos, aprende calibración |
+| `/product-legal:is-this-a-problem` | is-this-a-problem | Respuesta rápida "¿esto es un problema?" para preguntas rápidas |
+| `/product-legal:launch-review` | launch-review | Revisión completa de lanzamiento contra marco y calibración |
+| `/product-legal:marketing-claims-review` | marketing-claims-review | Revisa copia de marketing por claims que necesitan trabajo |
+| `/product-legal:matter-workspace` | matter-workspace | Gestiona espacios de trabajo de asuntos (nivel de práctica) |
+| — | feature-risk-assessment | Análisis profundo de riesgo en una sola funcionalidad cuando la revisión de lanzamiento lo señala |
+| programado | launch-watcher (agente) | Monitorea rastreador de lanzamientos por revisiones próximas |
 
 ### regulatory-legal
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/regulatory-legal:cold-start-interview` | cold-start-interview | Cold-start — watchlist, policy index, materiality |
-| `/regulatory-legal:reg-feed-watcher` | reg-feed-watcher | Check regulatory feeds now and report what's new |
-| `/regulatory-legal:policy-diff` | policy-diff | Diff a regulatory change against the policy library |
-| `/regulatory-legal:gaps` | gap-surfacer | Open gaps tracker — what's flagged and not closed |
-| `/regulatory-legal:policy-redraft` | policy-redraft | Marked-up policy redraft closing a gap — proposal for the policy owner's review |
-| `/regulatory-legal:comments` | (tracker) | Review open NPRM comment periods and deadlines |
-| `/regulatory-legal:matter-workspace` | matter-workspace | Manage matter workspaces (practice-level) |
-| scheduled | reg-change-monitor (agent) | Scheduled regulatory feed sweep with materiality filter |
+| `/regulatory-legal:cold-start-interview` | cold-start-interview | Configuración inicial — lista de vigilados, índice de políticas, materialidad |
+| `/regulatory-legal:reg-feed-watcher` | reg-feed-watcher | Consulta feeds regulatorios ahora y reporta novedades |
+| `/regulatory-legal:policy-diff` | policy-diff | Coteja un cambio regulatorio contra la biblioteca de políticas |
+| `/regulatory-legal:gaps` | gap-surfacer | Rastreador de brechas abiertas — qué está señalado y no cerrado |
+| `/regulatory-legal:policy-redraft` | policy-redraft | Borrador de política cerrando una brecha — propuesta para revisión del dueño de política |
+| `/regulatory-legal:comments` | (rastreador) | Revisa períodos abiertos de comentarios NPRM y plazos |
+| `/regulatory-legal:matter-workspace` | matter-workspace | Gestiona espacios de trabajo de asuntos (nivel de práctica) |
+| programado | reg-change-monitor (agente) | Barrido programado de feeds regulatorios con filtro de materialidad |
 
 ### law-student
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/law-student:cold-start-interview` | cold-start-interview | About-you interview — classes, bar, learning style |
-| `/law-student:socratic-drill` | socratic-drill | Socratic drill — it asks, you answer, it pushes back |
-| `/law-student:case-brief` | case-brief | Brief a case in your preferred format |
-| `/law-student:outline-builder` | outline-builder | Build or extend an outline in your format |
-| `/law-student:irac-practice` | irac-practice | Grade IRAC essay — structure, issues, rules, analysis |
-| `/law-student:legal-writing` | legal-writing | Structural feedback on your writing — never rewrites |
-| `/law-student:cold-call-prep` | cold-call-prep | Predict professor's questions and drill them |
-| `/law-student:bar-prep-questions` | bar-prep-questions | MBE or essay questions targeted at weak subjects |
-| `/law-student:flashcards` | flashcards | Generate or drill flashcards — Leitner-style |
-| `/law-student:exam-forecast` | exam-forecast | Analyze past exams to forecast likely emphases |
-| `/law-student:study-plan` | study-plan | Build or update a long-term study plan |
-| `/law-student:session` | study-plan | Run a focused N-question session; update the plan |
+| `/law-student:cold-start-interview` | cold-start-interview | Entrevista sobre ti — clases, examen de barra, estilo de aprendizaje |
+| `/law-student:socratic-drill` | socratic-drill | Taladro socrático — él pregunta, tú respondes, él contraargumenta |
+| `/law-student:case-brief` | case-brief | Resume un caso en tu formato preferido |
+| `/law-student:outline-builder` | outline-builder | Construye o extiende un esquema en tu formato |
+| `/law-student:irac-practice` | irac-practice | Califica ensayo IRAC — estructura, problemas, reglas, análisis |
+| `/law-student:legal-writing` | legal-writing | Retroalimentación estructural sobre tu escritura — nunca reescribe |
+| `/law-student:cold-call-prep` | cold-call-prep | Predice las preguntas del profesor y las practica |
+| `/law-student:bar-prep-questions` | bar-prep-questions | Preguntas de MBE o ensayo dirigidas a materias débiles |
+| `/law-student:flashcards` | flashcards | Genera o practica tarjetas — cubetas estilo Leitner |
+| `/law-student:exam-forecast` | exam-forecast | Analiza exámenes pasados para pronosticar énfasis probables |
+| `/law-student:study-plan` | study-plan | Construye o actualiza un plan de estudio a largo plazo |
+| `/law-student:session` | study-plan | Ejecuta una sesión enfocada de N preguntas; actualiza el plan |
 
 ### conectores-legal-mexico
 
-| Comando | Skill | Que hace |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/conectores-legal-mexico:setup-completo` | setup-completo | Configura los 4 plugins en secuencia — conectores → corporativo → litigacion → PI. Pregunta empresa/industria/jurisdiccion una sola vez. Flags: `--redo`, `--from <plugin>`, `--check-integrations` |
-| `/conectores-legal-mexico:cold-start-interview` | cold-start-interview | Configura solo los conectores MCP — verifica conectividad con llamada real, guia configuracion de LegalDataHunter y CJJ |
-| `/conectores-legal-mexico:customize` | customize | Ajusta un conector especifico (canal Slack, API key, estado) sin re-entrevista completa |
+| `/conectores-legal-mexico:setup-completo` | setup-completo | Configura los plugins en secuencia — conectores → corporativo → litigacion → PI. Pregunta empresa/industria/jurisdicción una sola vez. Flags: `--redo`, `--from <plugin>`, `--check-integrations` |
+| `/conectores-legal-mexico:cold-start-interview` | cold-start-interview | Configura solo los conectores MCP — verifica conectividad con llamada real, guía configuración de LegalDataHunter y CJJ |
+| `/conectores-legal-mexico:customize` | customize | Ajusta un conector específico (canal Slack, clave API, estado) sin re-entrevista completa |
 
 ### corporativo-legal-mexico
 
-| Comando | Skill | Que hace |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/corporativo-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuracion — perfil de practica corporativa |
-| `/corporativo-legal-mexico:tabular-review` | tabular-review | Revision tabular de data room — una fila por documento, cada celda citada |
-| `/corporativo-legal-mexico:diligence-issue-extraction` | diligence-issue-extraction | Extrae hallazgos de VDR segun categorias y umbrales de materialidad |
+| `/corporativo-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuración — perfil de práctica corporativa |
+| `/corporativo-legal-mexico:tabular-review` | tabular-review | Revisión tabular de data room — una fila por documento, cada celda citada |
+| `/corporativo-legal-mexico:diligence-issue-extraction` | diligence-issue-extraction | Extrae hallazgos de VDR según categorías y umbrales de materialidad |
 | `/corporativo-legal-mexico:material-contract-schedule` | material-contract-schedule | Construye calendario de contratos materiales para disclosure schedule |
 | `/corporativo-legal-mexico:closing-checklist` | closing-checklist | Condiciones, consentimientos, documentos y filings pendientes para cierre |
 | `/corporativo-legal-mexico:written-consent` | written-consent | Redacta consentimiento escrito de Consejo o Asamblea en formato casa |
-| `/corporativo-legal-mexico:board-minutes` | board-minutes | Redacta Acta de Sesion del Consejo de Administracion |
-| `/corporativo-legal-mexico:entity-compliance` | entity-compliance | Seguimiento de obligaciones corporativas por entidad y jurisdiccion |
-| `/corporativo-legal-mexico:integration-management` | integration-management | Plan de integracion post-cierre con seguimiento de consentimientos |
+| `/corporativo-legal-mexico:board-minutes` | board-minutes | Redacta Acta de Sesión del Consejo de Administración |
+| `/corporativo-legal-mexico:entity-compliance` | entity-compliance | Seguimiento de obligaciones corporativas por entidad y jurisdicción |
+| `/corporativo-legal-mexico:integration-management` | integration-management | Plan de integración post-cierre con seguimiento de consentimientos |
 | `/corporativo-legal-mexico:deal-team-summary` | deal-team-summary | Agrega hallazgos de debida diligencia en briefing ejecutivo |
-| `/corporativo-legal-mexico:ai-tool-handoff` | ai-tool-handoff | Detecta salida de herramienta de revision masiva y ejecuta QA |
+| `/corporativo-legal-mexico:ai-tool-handoff` | ai-tool-handoff | Detecta salida de herramienta de revisión masiva y ejecuta QA |
 | `/corporativo-legal-mexico:matter-workspace` | matter-workspace | Administra espacios de trabajo por asunto |
-| `/corporativo-legal-mexico:customize` | customize | Personaliza el perfil de practica sin re-entrevista completa |
+| `/corporativo-legal-mexico:customize` | customize | Personaliza el perfil de práctica sin re-entrevista completa |
 
 ### litigacion-legal-mexico
 
-| Comando | Skill | Que hace |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/litigacion-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuracion — riesgo, panorama, estilo casa |
+| `/litigacion-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuración — riesgo, panorama, estilo casa |
 | `/litigacion-legal-mexico:matter-intake` | matter-intake | Intake de asunto nuevo — escribe matter.md, history.md, log |
 | `/litigacion-legal-mexico:matter-briefing` | matter-briefing | Briefing profundo de un asunto para llamada con DJ u OC |
 | `/litigacion-legal-mexico:matter-update` | matter-update | Agrega evento fechado al historial del asunto |
 | `/litigacion-legal-mexico:portfolio-status` | portfolio-status | Resumen del portafolio — riesgo, plazos, asuntos sin movimiento |
 | `/litigacion-legal-mexico:matter-close` | matter-close | Cierra asunto — archiva, conserva registro |
 | `/litigacion-legal-mexico:matter-workspace` | matter-workspace | Administra espacios de trabajo por asunto |
-| `/litigacion-legal-mexico:demand-intake` | demand-intake | Pre-redaccion — partes, hechos, fundamentos, palanca, privilegio |
-| `/litigacion-legal-mexico:demand-draft` | demand-draft | Redacta carta de requerimiento con compuerta pre-envio y salida .docx |
+| `/litigacion-legal-mexico:demand-intake` | demand-intake | Pre-redacción — partes, hechos, fundamentos, palanca, privilegio |
+| `/litigacion-legal-mexico:demand-draft` | demand-draft | Redacta carta de requerimiento con compuerta pre-envío y salida .docx |
 | `/litigacion-legal-mexico:demand-received` | demand-received | Triaje de requerimiento recibido — opciones, portafolio, entrega |
-| `/litigacion-legal-mexico:requerimiento-triage` | requerimiento-triage | Triaje rapido de requerimiento externo recibido |
+| `/litigacion-legal-mexico:requerimiento-triage` | requerimiento-triage | Triaje rápido de requerimiento externo recibido |
 | `/litigacion-legal-mexico:legal-hold` | legal-hold | Emite, refresca, libera o reporta sobre retenciones documentales |
 | `/litigacion-legal-mexico:oc-status` | oc-status | Genera borradores de solicitud de estatus semanal a abogados externos |
-| `/litigacion-legal-mexico:claim-chart` | claim-chart | Cuadro de elementos — patente o causa de accion civil/mercantil |
-| `/litigacion-legal-mexico:chronology` | chronology | Construye o actualiza cronologia desde fuentes y cargas |
+| `/litigacion-legal-mexico:claim-chart` | claim-chart | Cuadro de elementos — patente o causa de acción civil/mercantil |
+| `/litigacion-legal-mexico:chronology` | chronology | Construye o actualiza cronología desde fuentes y cargas |
 | `/litigacion-legal-mexico:plantillas-demanda` | plantillas-demanda | Plantillas de demanda para 7 tipos de juicio: ordinario mercantil, ejecutivo mercantil, oral mercantil, ordinario civil, hipotecario, requerimiento de pago, arrendamiento/renta |
 | `/litigacion-legal-mexico:redaccion-escritos` | redaccion-escritos | Redacta escritos judiciales en formato procesal mexicano |
-| `/litigacion-legal-mexico:preparacion-pruebas` | preparacion-pruebas | Organiza y prepara pruebas para audiencia o periodo probatorio |
-| `/litigacion-legal-mexico:revision-confidencialidad` | revision-confidencialidad | Revision de registros de confidencialidad y secreto profesional |
+| `/litigacion-legal-mexico:preparacion-pruebas` | preparacion-pruebas | Organiza y prepara pruebas para audiencia o período probatorio |
+| `/litigacion-legal-mexico:revision-confidencialidad` | revision-confidencialidad | Revisión de registros de confidencialidad y secreto profesional |
 | `/litigacion-legal-mexico:revision-expedientes-jalisco` | revision-expedientes-jalisco | Consulta expedientes en el sistema Nilo del CJJ (Jalisco) |
-| `/litigacion-legal-mexico:boletin-monitor` | boletin-monitor | Monitorea el boletin diario del CJJ por nombre de parte |
-| `/litigacion-legal-mexico:customize` | customize | Personaliza el perfil de practica sin re-entrevista |
-| — | verificador-juridico (agente) | QA juridica de skills y documentos — verifica plazos, articulos, vigencia contra fuentes primarias |
-| scheduled | vigilante-expedientes (agente) | Vigila expedientes judiciales; calcula plazos; publica reporte de estado |
+| `/litigacion-legal-mexico:boletin-monitor` | boletin-monitor | Monitorea el boletín diario del CJJ por nombre de parte |
+| `/litigacion-legal-mexico:customize` | customize | Personaliza el perfil de práctica sin re-entrevista |
+| — | verificador-juridico (agente) | QA jurídica de skills y documentos — verifica plazos, artículos, vigencia contra fuentes primarias |
+| programado | vigilante-expedientes (agente) | Vigila expedientes judiciales; calcula plazos; publica reporte de estado |
 
 ### propiedad-intelectual-legal-mexico
 
-| Comando | Skill | Que hace |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/propiedad-intelectual-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuracion — IMPI, INDAUTOR, postura de enforcement |
+| `/propiedad-intelectual-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuración — IMPI, INDAUTOR, postura de enforcement |
 | `/propiedad-intelectual-legal-mexico:portafolio` | portafolio | Seguimiento de marcas, patentes y derechos de autor ante IMPI e INDAUTOR |
-| `/propiedad-intelectual-legal-mexico:clearance` | clearance | Busqueda de disponibilidad de marca — knockout + marcas similares |
+| `/propiedad-intelectual-legal-mexico:clearance` | clearance | Búsqueda de disponibilidad de marca — knockout + marcas similares |
 | `/propiedad-intelectual-legal-mexico:fto-triage` | fto-triage | Triaje FTO — primera mirada a patentes potencialmente bloqueantes |
-| `/propiedad-intelectual-legal-mexico:invention-intake` | invention-intake | Primera revision de divulgacion de invencion — novedad, actividad inventiva |
-| `/propiedad-intelectual-legal-mexico:triaje-infraccion` | triaje-infraccion | Triaje de infraccion en los cuatro derechos de PI |
-| `/propiedad-intelectual-legal-mexico:carta-requerimiento` | carta-requerimiento | Redacta o triaje carta de requerimiento / cesacion |
-| `/propiedad-intelectual-legal-mexico:notificacion-infraccion` | notificacion-infraccion | Notificacion de infraccion ante IMPI (procedimiento administrativo) |
-| `/propiedad-intelectual-legal-mexico:revision-clausulas-pi` | revision-clausulas-pi | Revisa clausulas de PI — cesion, licencia, garantias, indemnidades |
+| `/propiedad-intelectual-legal-mexico:invention-intake` | invention-intake | Primera revisión de divulgación de invención — novedad, actividad inventiva |
+| `/propiedad-intelectual-legal-mexico:triaje-infraccion` | triaje-infraccion | Triaje de infracción en los cuatro derechos de PI |
+| `/propiedad-intelectual-legal-mexico:carta-requerimiento` | carta-requerimiento | Redacta o triaje carta de requerimiento / cesación |
+| `/propiedad-intelectual-legal-mexico:notificacion-infraccion` | notificacion-infraccion | Notificación de infracción ante IMPI (procedimiento administrativo) |
+| `/propiedad-intelectual-legal-mexico:revision-clausulas-pi` | revision-clausulas-pi | Revisa cláusulas de PI — cesión, licencia, garantías, indemnidades |
 | `/propiedad-intelectual-legal-mexico:reservas-derechos` | reservas-derechos | Registro y seguimiento de reservas de derechos ante INDAUTOR (LFDA Art. 173) |
-| `/propiedad-intelectual-legal-mexico:oss-review` | oss-review | Revision de cumplimiento de licencias de codigo abierto |
+| `/propiedad-intelectual-legal-mexico:oss-review` | oss-review | Revisión de cumplimiento de licencias de código abierto |
 | `/propiedad-intelectual-legal-mexico:matter-workspace` | matter-workspace | Administra espacios de trabajo por asunto |
-| `/propiedad-intelectual-legal-mexico:customize` | customize | Personaliza el perfil de practica sin re-entrevista |
-| scheduled | vigilante-renovaciones (agente) | Reporte semanal de vencimientos de PI — marcas, patentes, reservas |
+| `/propiedad-intelectual-legal-mexico:customize` | customize | Personaliza el perfil de práctica sin re-entrevista |
+| programado | vigilante-renovaciones (agente) | Reporte semanal de vencimientos de PI — marcas, patentes, reservas |
+
+### laboral-legal-mexico
+
+| Comando | Skill | Qué hace |
+|---|---|---|
+| `/laboral-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuración — perfil de práctica laboral |
+| `/laboral-legal-mexico:termination-risk` | termination-risk | Análisis de riesgo de terminación con banderas LFT por escenario |
+| `/laboral-legal-mexico:liquidacion-calculator` | liquidacion-calculator | Calcula liquidación constitucional (3 meses + 20 días/año) + proporcionales |
+| `/laboral-legal-mexico:matter-intake` | matter-intake | Intake de asunto laboral — hechos, fundamento, exposición económica |
+| `/laboral-legal-mexico:imss-infonavit-review` | imss-infonavit-review | Revisión de cumplimiento IMSS/INFONAVIT — cuotas, avisos, SUA |
+| `/laboral-legal-mexico:nom-compliance` | nom-compliance | Evaluación de cumplimiento NOM-035/037-STPS — factores de riesgo psicosocial |
+| `/laboral-legal-mexico:plataformas-digitales` | plataformas-digitales | Clasificación y cumplimiento para trabajadores de plataformas digitales |
+| `/laboral-legal-mexico:plazo-calendar` | plazo-calendar | Calendario de plazos fatales procesales en materia laboral |
+| `/laboral-legal-mexico:escrito-laboral` | escrito-laboral | Redacta escritos laborales en formato procesal mexicano |
+| `/laboral-legal-mexico:cjfca-conciliacion` | cjfca-conciliacion | Preparación y seguimiento de conciliación ante el CJFCA |
+| `/laboral-legal-mexico:customize` | customize | Personaliza el perfil de práctica sin re-entrevista |
+| programado | vigilante-plazos-laborales (agente) | Monitor semanal de plazos fatales laborales del portafolio |
+
+### privacidad-legal-mexico
+
+| Comando | Skill | Qué hace |
+|---|---|---|
+| `/privacidad-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuración — perfil de práctica de privacidad |
+| `/privacidad-legal-mexico:aviso-privacidad` | aviso-privacidad | Redacta y revisa avisos de privacidad bajo la LGPDPPSP y LFPDPPP |
+| `/privacidad-legal-mexico:arco-response` | arco-response | Gestiona solicitudes ARCO con cómputo de plazos hábiles |
+| `/privacidad-legal-mexico:contrato-datos` | contrato-datos | Revisa y redacta contratos con encargados de tratamiento |
+| `/privacidad-legal-mexico:eipd` | eipd | Evaluación de Impacto en la Protección de Datos (EIPD) |
+| `/privacidad-legal-mexico:gap-analysis` | gap-analysis | Análisis de brecha de cumplimiento contra la LGPDPPSP/LFPDPPP |
+| `/privacidad-legal-mexico:inai-procedimiento` | inai-procedimiento | Preparación de procedimientos ante el INAI |
+| `/privacidad-legal-mexico:transferencias-internacionales` | transferencias-internacionales | Análisis y documentación de transferencias internacionales de datos |
+| `/privacidad-legal-mexico:vulneracion-notificacion` | vulneracion-notificacion | Notificación de vulneraciones de seguridad en 72 horas |
+| `/privacidad-legal-mexico:customize` | customize | Personaliza el perfil de práctica sin re-entrevista |
+
+### regulatorio-legal-mexico
+
+| Comando | Skill | Qué hace |
+|---|---|---|
+| `/regulatorio-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuración — reguladores vigilados, umbral de materialidad |
+| `/regulatorio-legal-mexico:cofece-triage` | cofece-triage | Triaje de asuntos de competencia económica bajo la LFCE |
+| `/regulatorio-legal-mexico:cofepris-tramite` | cofepris-tramite | Preparación de trámites sanitarios ante la COFEPRIS |
+| `/regulatorio-legal-mexico:dof-digest` | dof-digest | Resumen y análisis de publicaciones relevantes del DOF |
+| `/regulatorio-legal-mexico:comentarios-regulatorios` | comentarios-regulatorios | Redacta comentarios públicos a proyectos normativos |
+| `/regulatorio-legal-mexico:respuesta-regulador` | respuesta-regulador | Redacta respuesta a requerimiento de cualquier regulador federal |
+| `/regulatorio-legal-mexico:customize` | customize | Personaliza el perfil de práctica sin re-entrevista |
+| programado | monitor-dof (agente) | Vigilancia semanal del DOF — normas, decretos y resoluciones relevantes |
+
+### fiscal-legal-mexico
+
+| Comando | Skill | Qué hace |
+|---|---|---|
+| `/fiscal-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuración — perfil de práctica fiscal |
+| `/fiscal-legal-mexico:cfdi-review` | cfdi-review | Revisión de CFDI 4.0 — estructura, requisitos, complementos |
+| `/fiscal-legal-mexico:sat-discrepancy` | sat-discrepancy | Análisis de discrepancias y requerimientos del SAT |
+| `/fiscal-legal-mexico:auditoria-sat` | auditoria-sat | Preparación para auditorías SAT — visita domiciliaria, revisión de gabinete |
+| `/fiscal-legal-mexico:tfja-litigacion` | tfja-litigacion | Litigación contencioso-administrativa ante el TFJA |
+| `/fiscal-legal-mexico:prodecon-tramite` | prodecon-tramite | Gestión de procedimientos PRODECON — acuerdo conclusivo, queja |
+| `/fiscal-legal-mexico:planeacion-fiscal` | planeacion-fiscal | Análisis de opciones de planeación fiscal lícita — tratados de doble imposición |
+| `/fiscal-legal-mexico:customize` | customize | Personaliza el perfil de práctica sin re-entrevista |
+
+### ia-governanza-legal-mexico
+
+| Comando | Skill | Qué hace |
+|---|---|---|
+| `/ia-governanza-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuración — perfil de práctica de gobernanza de IA |
+| `/ia-governanza-legal-mexico:use-case-triage` | use-case-triage | Clasifica casos de uso de IA — registro, riesgo EU AI Act, nexo europeo |
+| `/ia-governanza-legal-mexico:impact-assessment` | impact-assessment | Evaluación de impacto de IA en los regímenes en alcance |
+| `/ia-governanza-legal-mexico:vendor-contract-review` | vendor-contract-review | Revisa contratos con proveedores de IA — titularidad, entrenamiento, responsabilidad |
+| `/ia-governanza-legal-mexico:eu-ai-act-exposure` | eu-ai-act-exposure | Análisis de exposición al EU AI Act para operaciones con nexo UE |
+| `/ia-governanza-legal-mexico:ai-policy-draft` | ai-policy-draft | Redacta políticas internas de uso de IA |
+| `/ia-governanza-legal-mexico:customize` | customize | Personaliza el perfil de práctica sin re-entrevista |
+
+### seguros-legal-mexico
+
+| Comando | Skill | Qué hace |
+|---|---|---|
+| `/seguros-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuración — perfil de práctica de seguros y fianzas |
+| `/seguros-legal-mexico:poliza-review` | poliza-review | Revisión de pólizas de seguros y fianzas — cobertura, exclusiones, condiciones |
+| `/seguros-legal-mexico:siniestro-intake` | siniestro-intake | Intake y análisis inicial de siniestro — hechos, cobertura, plazo de reclamación |
+| `/seguros-legal-mexico:cobertura-analysis` | cobertura-analysis | Análisis de cobertura para disputas — aplicabilidad, exclusiones, sublímites |
+| `/seguros-legal-mexico:cnsf-compliance` | cnsf-compliance | Cumplimiento regulatorio ante la CNSF — circulares, obligaciones periódicas |
+| `/seguros-legal-mexico:producto-filing` | producto-filing | Registro y actualización de productos ante la CNSF |
+| `/seguros-legal-mexico:reaseguro-review` | reaseguro-review | Revisión de contratos de reaseguro y retrocesión |
+| `/seguros-legal-mexico:solvencia-rcs` | solvencia-rcs | Análisis de requerimiento de capital de solvencia (RCS) |
+| `/seguros-legal-mexico:recurso-condusef` | recurso-condusef | Preparación de recursos de revisión y respuesta ante la CONDUSEF |
+| `/seguros-legal-mexico:customize` | customize | Personaliza el perfil de práctica sin re-entrevista |
 
 ### cocounsel-legal (Thomson Reuters)
 
-| Command | Skill | What it does |
+| Comando | Skill | Qué hace |
 |---|---|---|
-| `/cocounsel-legal:deep-research` | deep-research | Run Westlaw Deep Research — start, poll, and present a fully cited report |
+| `/cocounsel-legal:deep-research` | deep-research | Ejecuta Westlaw Deep Research — inicia, consulta y presenta un reporte completamente citado |
 
-## Contributing
+## Contribuciones
 
-Everything here is markdown and JSON. Fork, edit, PR.
+Todo aquí es markdown y JSON. Bifurca, edita, PR.
 
-- **New skill** → add it under `<plugin>/skills/<skill-name>/SKILL.md` with the frontmatter the existing skills use (`name`, `description`, `argument-hint`). Keep the description under 1024 characters — it's the trigger signal. The skill is invokable as `/<plugin>:<skill-name>`. Mark pure-reference skills `user-invocable: false`.
-- **New agent** → add `<plugin>/agents/<name>.md` with scheduling frontmatter and the system prompt. Add a matching `managed-agent-cookbooks/<name>/` if you want headless deployment.
-- **Community skills** → use `/legal-builder-hub:skill-installer` to test a community skill in your environment. The hub runs `/legal-builder-hub:skills-qa` against every skill before installing — it scores the skill against the Legal Skill Design Framework (nine design parameters, three legal failure modes, a trust-surface check) and rejects anything that fails.
-- **Validate cookbooks before pushing** → `bash scripts/test-cookbooks.sh` dry-runs every managed-agent cookbook and lints orchestrator tool scope.
+- **Nuevo skill** → agrégalo bajo `<plugin>/skills/<nombre-del-skill>/SKILL.md` con el frontmatter que usan los skills existentes (`name`, `description`, `argument-hint`). Mantén la descripción bajo 1024 caracteres — es la señal de activación. El skill es invocable como `/<plugin>:<nombre-del-skill>`. Marca los skills de pura referencia como `user-invocable: false`.
+- **Nuevo agente** → agrega `<plugin>/agents/<nombre>.md` con frontmatter de programación y el system prompt. Agrega un `managed-agent-cookbooks/<nombre>/` correspondiente si quieres despliegue sin cabeza.
+- **Skills de comunidad** → usa `/legal-builder-hub:skill-installer` para probar un skill de comunidad en tu entorno. El hub ejecuta `/legal-builder-hub:skills-qa` contra cada skill antes de instalar — puntúa el skill contra el Marco de Diseño de Skills Legales (nueve parámetros de diseño, tres modos de falla legal, una verificación de superficie de confianza) y rechaza cualquiera que falle.
+- **Valida cookbooks antes de hacer push** → `bash scripts/test-cookbooks.sh` ejecuta en seco cada cookbook de agente gestionado y revisa el alcance de herramientas del orquestador.
 
-## License
+## Licencia
 
-Licensed under the [Apache License, Version 2.0](LICENSE).
+Licenciado bajo la [Licencia Apache, Versión 2.0](LICENSE).
 
 Copyright 2026 Anthropic PBC.

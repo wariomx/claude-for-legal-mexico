@@ -106,6 +106,15 @@
       }
     },
     {
+      "name": "seguros-legal-mexico",
+      "displayName": "Seguros y Fianzas Legal México",
+      "source": "./seguros-legal-mexico",
+      "description": "Práctica de seguros y fianzas bajo la LGSF — revisión de pólizas de seguros y afianzadoras, trámites ante la CNSF, análisis de cobertura para disputas de siniestros, recursos de revisión ante la CONDUSEF, supervisión de capital de solvencia (RCS), revisión de contratos de reaseguro y retrocesión, y registro de productos ante la CNSF.",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
+      }
+    },
+    {
       "name": "ai-governance-legal",
       "displayName": "AI Governance Legal",
       "source": "./ai-governance-legal",

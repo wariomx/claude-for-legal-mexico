@@ -1,0 +1,11 @@
+{
+  "name": "seguros-legal-mexico",
+  "version": "1.0.0",
+  "description": "Práctica de seguros y fianzas en México — revisión de pólizas conforme a la LCS, gestión de siniestros con control de plazos fatales, análisis de coberturas y exclusiones, cumplimiento regulatorio ante la CNSF (LISF), análisis de solvencia (RCS/Solvencia II mexicano), revisión de contratos de reaseguro, defensa del asegurado ante CONDUSEF, y registro de productos ante la CNSF.",
+  "author": {
+    "name": "Softlaw S.A. de C.V."
+  },
+  "dependencies": [
+    "conectores-legal-mexico@claude-for-legal-mexico"
+  ]
+}
