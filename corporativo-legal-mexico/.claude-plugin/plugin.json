@@ -1,0 +1,11 @@
+{
+  "name": "corporativo-legal-mexico",
+  "version": "1.0.0",
+  "description": "Ejecuta debida diligencia de F&A a escala con revisión tabular citada, construye anexos de revelaciones y listas de verificación de cierre, redacta consentimientos y actas del Consejo de Administración en formato interno, y da seguimiento a plazos de cumplimiento de entidades en múltiples jurisdicciones.",
+  "author": {
+    "name": "Softlaw S.A. de C.V."
+  },
+  "dependencies": [
+    "conectores-legal-mexico@claude-for-legal-mexico"
+  ]
+}

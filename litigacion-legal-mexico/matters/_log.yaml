@@ -1,0 +1,64 @@
+# Libro del Portafolio — litigacion-legal-mexico
+#
+# Una entrada por asunto bajo `matters:`. Fuente de verdad para resúmenes de /portfolio-status.
+# Los asuntos cerrados permanecen en este archivo (historial consultable) pero se filtran
+# de los resúmenes activos por defecto. Editar vía /litigacion-legal-mexico:matter-intake,
+# /matter-update, y /matter-close — las ediciones directas están bien pero refleja el cambio
+# en el history.md del asunto.
+#
+# ──────────────────────────────────────────────────────────────────────────
+# Esquema
+# ──────────────────────────────────────────────────────────────────────────
+# - id:                string — slug, estable; coincide con carpeta matters/[slug]/
+#   name:              string — nombre para mostrar
+#   type:              mercantil | laboral | pi | regulatorio | investigacion | administrativo | amparo | otro
+#   role:              actor | demandado | reclamante | enjuiciado | investigado | tercero-interesado | quejoso
+#   counterparty:      string — contraparte
+#   jurisdiction:      string — juzgado, tribunal o autoridad regulatoria
+#   status:            amenazado | activo | instruccion | juicio | amparo | apelacion | cerrado
+#                      (el tipo de resolución se captura por separado vía `outcome` al cierre;
+#                       `/matter-close` escribe `outcome: convenio` para asuntos resueltos por acuerdo)
+#   stage:             string — subetapa en texto libre (ej., "demanda presentada", "etapa probatoria", "alegatos")
+#   source:            carta-requerimiento | demanda-notificada | requerimiento-judicial | consulta-regulatoria | reporte-interno | amenaza-previa
+#   outside_counsel:
+#     firm:            string | null — despacho externo
+#     lead:            string | null — abogado responsable
+#     email:           string | null     # usado por /oc-status para redactar correos
+#     engagement:      signed | pending | none — estado del encargo
+#   conflicts:
+#     status:          cleared | pending | not-run | waived — estado de verificación de conflictos
+#     method:          juridico-corporativo | despacho-externo | sistema | informal | otro
+#     cleared_by:      string | null
+#     cleared_date:    YYYY-MM-DD | null
+#     override:
+#       by:              string | null        # quién autorizó la excepción
+#       date:            YYYY-MM-DD | null
+#       rationale:       string | null        # registro permanente; no expira
+#   risk:              critical | high | medium | low   (según matriz de riesgo en CLAUDE.md)
+#   materiality:       provisionado | revelado | monitoreado | ninguno
+#   exposure_range:    string — ej., "$2M–$5M MXN" o "<$500K MXN"
+#   internal_owners:
+#     business_lead:   string | null — líder de negocio
+#     hr_partner:      string | null — contacto de RRHH
+#     comms_contact:   string | null — contacto de comunicación
+#   legal_hold:
+#     issued:          bool — emitida
+#     issued_date:     YYYY-MM-DD | null
+#     scope:           string | null — alcance
+#     custodians:      [string]            # custodios de información
+#     last_refresh:    YYYY-MM-DD | null   # última actualización
+#     next_refresh:    YYYY-MM-DD | null   # próxima actualización
+#     released:        YYYY-MM-DD | null   # liberada
+#   related_matters:   [string] | null     # lista de slugs de asuntos relacionados
+#   opened:            YYYY-MM-DD
+#   next_deadline:     YYYY-MM-DD | null — próximo plazo
+#   last_updated:      YYYY-MM-DD
+#   path:              string — "matters/[slug]/"
+#
+# Los asuntos cerrados adicionalmente incluyen:
+#   closed:            YYYY-MM-DD
+#   outcome:           convenio | desistimiento | sentencia-favorable | sentencia-desfavorable | sobreseimiento | acumulado | otro
+#   final_cost:        string | number — costo final
+# ──────────────────────────────────────────────────────────────────────────
+
+matters: []

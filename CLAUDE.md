@@ -1,9 +1,12 @@
 # CLAUDE.md
 
-Guidance for working on this repo. `claude-for-legal` is a Claude Code plugin
-marketplace — twelve first-party legal plugins, one vendor plugin, and five
-managed-agent cookbooks. Most work here is editing prompt content (skills,
-agents, hooks), plugin metadata, or cookbook config — not application code.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+`claude-for-legal` is a Claude Code plugin marketplace — twelve first-party
+legal plugins, one vendor plugin, and five managed-agent cookbooks. Most work
+here is editing prompt content (skills, agents, hooks), plugin metadata, or
+cookbook config — not application code. Everything is markdown and JSON; no build
+step.
 
 ## Layout
 
@@ -27,8 +30,7 @@ references/                       # shared templates (company-profile, dashboard
 
 ## Validation — run before opening a PR
 
-This repo follows the same conventions `anthropics/claude-plugins-official`
-enforces in CI. Run the equivalent checks locally:
+There is no automated CI validation (only a CLA check). Run these locally:
 
 ```bash
 # 1. Marketplace + per-plugin schema validation (source of truth)
@@ -41,7 +43,14 @@ python3 scripts/lint-tool-scope.py
 
 # 3. JSON/YAML sanity
 python3 -c "import json,glob; [json.load(open(f)) for f in glob.glob('**/*.json', recursive=True)]"
+
+# 4. Cookbook dry-run (runs deploy-managed-agent.sh in dry-run mode per cookbook)
+bash scripts/test-cookbooks.sh
 ```
+
+Note: `scripts/validate.py` is *not* for plugin validation — it validates CMA
+subagent structured output against JSON schemas during deployment. Use
+`claude plugin validate` for plugin structure.
 
 ### Marketplace invariants (I1–I11)
 
@@ -67,7 +76,21 @@ Every `agents/*.md` needs `name` and `description`. Every
 `description`. Multi-line descriptions use `>` block scalars and that's fine —
 `claude plugin validate` parses them correctly.
 
+## Design principle
+
+**SKILL.md encodes the right behavior; CLAUDE.md guardrails are the net.** If a
+skill's correct output depends on a guardrail in the plugin's `CLAUDE.md`
+catching a mistake the `SKILL.md` would have made, add the behavior to the
+`SKILL.md` directly. The guardrail stays (belt and suspenders), but the skill
+should carry the knowledge it needs on its own. See `CONTRIBUTING.md` for
+worked examples.
+
 ## Conventions
+
+### Version bumps
+
+Bump the plugin version in `.claude-plugin/plugin.json` on material changes:
+patch for behavior additions, minor for new skills or new required inputs.
 
 ### Keep `marketplace.json` in sync with `plugin.json`
 
@@ -118,6 +141,12 @@ rules that `scripts/lint-tool-scope.py` enforces:
    `agent_toolset`); MCP and write tools belong to specific subagent leaves.
 2. The README's security table and the `agent.yaml` comments must match what
    the YAML actually grants. Don't claim a tool a subagent doesn't have.
+
+## First-time contributors
+
+Sign the CLA. The CLA Assistant bot comments on your first PR with a link; reply
+with `I have read the CLA Document and I hereby sign the CLA` and the check
+passes. One-time only.
 
 ## Things to leave alone
 

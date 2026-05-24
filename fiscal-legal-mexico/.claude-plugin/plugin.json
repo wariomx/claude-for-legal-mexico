@@ -1,0 +1,11 @@
+{
+  "name": "fiscal-legal-mexico",
+  "version": "1.0.0",
+  "description": "Asistencia fiscal mexicana — revisión de CFDI 4.0, análisis de discrepancias y requerimientos SAT, preparación para auditorías de gabinete y visitas domiciliarias, litigación contencioso-administrativa ante el TFJA (demanda de nulidad y amparo fiscal), gestión de procedimientos PRODECON, y análisis de opciones de planeación fiscal lícita con atención a tratados vigentes.",
+  "author": {
+    "name": "Softlaw S.A. de C.V."
+  },
+  "dependencies": [
+    "conectores-legal-mexico@claude-for-legal-mexico"
+  ]
+}

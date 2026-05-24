@@ -3,5 +3,9 @@
 /logs/
 /outputs/
 /.claude/
+CLAUDE.local.md
 __pycache__/
 *.pyc
+.env
+.env.local
+.env.production

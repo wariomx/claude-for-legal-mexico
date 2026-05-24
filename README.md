@@ -18,6 +18,14 @@ https://github.com/user-attachments/assets/51394f0a-5277-4fe2-b81c-5c5e9ac876b5
 >
 > **These plugins do not represent Anthropic's legal positions.** They are tools that help lawyers analyze issues. Where a skill includes a checklist item, a suggested framework, a risk flag, or a characterization of case law or regulatory guidance, that is an aid to the reviewing attorney's own analysis, not a statement of Anthropic's view of the law. The law in many of these areas is unsettled and evolving. The attorney using the plugin — not the plugin, and not Anthropic — is responsible for the legal positions taken in their work product.
 
+## Licensing
+
+The plugins in this repository are licensed under two different terms:
+
+- **Upstream plugins** (commercial-legal, privacy-legal, product-legal, corporate-legal, employment-legal, regulatory-legal, ai-governance-legal, litigation-legal, law-student, legal-clinic, legal-builder-hub, ip-legal, cocounsel-legal) — **Apache 2.0**. See the root `LICENSE` file and `NOTICE`.
+
+- **Mexico plugins** (conectores-legal-mexico, corporativo-legal-mexico, litigacion-legal-mexico, propiedad-intelectual-legal-mexico, laboral-legal-mexico, privacidad-legal-mexico, regulatorio-legal-mexico, fiscal-legal-mexico, ia-governanza-legal-mexico) — **AGPLv3+**. Free to use, modify, and distribute under the GNU Affero General Public License v3.0 or later — including for commercial use, provided modifications are shared under the same terms. A commercial license (without AGPLv3's share-alike requirement) is available — contact **wario@soft.law**. See `LICENSE` and `LICENSE-EXCEPTIONS.md` in each plugin directory.
+
 What's in the repo:
 
 - **Practice-area plugins** covering in-house, firm, and academic legal work — each one built around a cold-start interview that learns your playbook and a `CLAUDE.md` practice profile that every skill reads from.
@@ -86,6 +94,9 @@ Each agent is named for the workflow it runs. They're the most common surface �
 | **IP Renewal Watcher** | Scheduled deadline report from the IP portfolio register | `ip-legal` | scheduled agent |
 | **Claim Chart Builder** | Element-by-element claim chart, patent or civil cause of action | `litigation-legal` | `/litigation-legal:claim-chart` |
 | **Docket Watcher** | Monitors court dockets for filings and deadlines | `litigation-legal` | scheduled agent |
+| **Vigilante de Expedientes** | Vigila expedientes judiciales en el Poder Judicial Federal y CJJ; calcula plazos procesales y publica reporte de estado | `litigacion-legal-mexico` | scheduled agent |
+| **Verificador Jurídico** | Auditoría QA de skills y documentos: verifica plazos, artículos, conceptos doctrinarios y vigencia contra fuentes primarias mexicanas | `litigacion-legal-mexico` | `/litigacion-legal-mexico:verificador-juridico` |
+| **Vigilante de Renovaciones PI** | Reporte priorizado de vencimientos de marcas, patentes, derechos de autor y reservas ante IMPI e INDAUTOR | `propiedad-intelectual-legal-mexico` | scheduled agent |
 | **Demand Letter Drafter** | Drafts a demand with FRE 408 awareness and a send gate | `litigation-legal` | `/litigation-legal:demand-draft` |
 | **Demand Intake** | Pre-drafting context gathering — parties, facts, basis, leverage, privilege | `litigation-legal` | `/litigation-legal:demand-intake` |
 | **Demand Received Triage** | Triages an inbound demand — options, portfolio cross-check, handoff | `litigation-legal` | `/litigation-legal:demand-received` |
@@ -127,6 +138,67 @@ Each agent is named for the workflow it runs. They're the most common surface �
 
 For Managed Agent deployment — `agent.yaml`, leaf-worker subagents, steering-event examples, and per-agent security notes — see **[managed-agent-cookbooks/](./managed-agent-cookbooks)**.
 
+## Plugins para Mexico
+
+Este repositorio incluye tres plugins adaptados al sistema juridico mexicano. Cada plugin contextualiza su equivalente estadounidense al derecho civil codificado de Mexico, la jurisprudencia de la SCJN, y los procedimientos ante las autoridades mexicanas.
+
+| Plugin | Que hace | Skills | Agentes |
+|---|---|---|---|
+| **[conectores-legal-mexico](./conectores-legal-mexico/)** | Conectores MCP compartidos — LegalDataHunter, Solve Intelligence, CJJ (Jalisco), MXLegal (STJJ), Slack, Google Drive, Box, iManage. Dependencia automática de los otros tres plugins. Incluye `/setup-completo` para configurar los 4 plugins en un solo comando | 3 | — |
+| **[corporativo-legal-mexico](./corporativo-legal-mexico/)** | F&A, debida diligencia, Consejo de Administración, gestión de entidades bajo LGSM — SA de CV, S de RL de CV, SAS | 13 | — |
+| **[litigacion-legal-mexico](./litigacion-legal-mexico/)** | Portafolio de litigios, plazos procesales, cuadros de elementos, cronologías, plantillas de demanda (7 tipos), redacción de escritos, preparación de pruebas, monitoreo de boletín judicial CJJ | 22 | 2 |
+| **[propiedad-intelectual-legal-mexico](./propiedad-intelectual-legal-mexico/)** | Portafolio de PI ante IMPI e INDAUTOR, FTO, clearance de marca, cartas de requerimiento, derechos morales (LFDA Art. 19), reservas de derechos | 13 | 1 |
+
+### Instalacion rapida
+
+```bash
+# 1. Registrar el repo como marketplace local
+claude plugin marketplace add .
+
+# 2. Instalar los plugins — conectores-legal-mexico se instala automaticamente como dependencia
+claude plugin install corporativo-legal-mexico@claude-for-legal-mexico
+claude plugin install litigacion-legal-mexico@claude-for-legal-mexico
+claude plugin install propiedad-intelectual-legal-mexico@claude-for-legal-mexico
+
+# 3. Configurar la clave API de LegalDataHunter (se guarda en el llavero del sistema, no en variables de entorno)
+claude plugin configure conectores-legal-mexico@claude-for-legal-mexico
+# Ingresar la clave cuando se solicite: legaldatahunter_api_key → sk-...
+
+# 4. Exportar credenciales del Portal Ciudadano CJJ al perfil del shell (solo si usas litigacion en Jalisco)
+echo 'export CJJ_NILO_EMAIL="usuario@ejemplo.com"' >> ~/.zshrc
+echo 'export CJJ_NILO_PASSWORD="tu-contrasena"' >> ~/.zshrc
+echo 'export CJJ_NILO_PUBLIC_TOKEN="YWxwaGEx"' >> ~/.zshrc
+source ~/.zshrc
+
+# 5. Configurar todos los plugins en un solo comando (~5 min rapido, ~20 min completo)
+/conectores-legal-mexico:setup-completo
+# Configura conectores → corporativo → litigacion → PI en secuencia.
+# Pregunta empresa/industria/jurisdiccion una sola vez; los plugins 3 y 4 lo reusan.
+# Para retomar si se interrumpe: /conectores-legal-mexico:setup-completo --from litigacion
+```
+
+> **Credenciales seguras:** La clave de LegalDataHunter se almacena en el llavero del sistema a traves de `plugin configure` — no se escribe en variables de entorno ni en archivos. Las credenciales CJJ usan variables de entorno porque el plugin no tiene soporte `userConfig` todavia.
+
+### Variables de entorno
+
+| Variable | Plugin | Descripcion |
+|---|---|---|
+| `CJJ_NILO_EMAIL` | litigacion | Correo del Portal Ciudadano CJJ (Jalisco) — para API Nilo autenticada |
+| `CJJ_NILO_PASSWORD` | litigacion | Contrasena del Portal Ciudadano CJJ |
+| `CJJ_NILO_PUBLIC_TOKEN` | litigacion | Token publico del API Nilo |
+
+La clave de LegalDataHunter ya no va aqui — se configura con `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico` y se guarda en el llavero del sistema. **Nunca commitear credenciales al repositorio.**
+
+### Diferencias clave con los plugins estadounidenses
+
+- **Sistema juridico civil codificado** — leyes federales y estatales son la fuente primaria; la jurisprudencia (SCJN) vincula solo cuando se cumple el umbral (5 resoluciones consecutivas)
+- **Secreto profesional** — reemplaza attorney-client privilege y work product; mas estrecho que el equivalente estadounidense
+- **No existe patent agent privilege** — solo abogados titulados con cedula profesional gozan de secreto profesional
+- **Derechos morales (LFDA Art. 19)** — perpetuos, inalienables, irrenunciables para todas las obras
+- **Marco institucional dual de PI** — IMPI (propiedad industrial) + INDAUTOR (derechos de autor)
+- **Enforcement** — IMPI administrativo + civil (danos y perjuicios) + penal (UEIDDAPI)
+- **Monitoreo judicial** — boletin CJJ (Jalisco) via API publica + Portal Ciudadano autenticado
+
 ## Repository Layout
 
 ```
@@ -139,6 +211,9 @@ regulatory-legal/         # reg feed watcher, policy diff, gap tracker, NPRM com
 ai-governance-legal/      # AI use-case triage, AIAs, vendor AI review, AI reg gap-check
 ip-legal/                 # trademark clearance, FTO, C&D, DMCA, OSS, IP clauses, portfolio
 litigation-legal/         # portfolio, matters, holds, demands, depo prep, claim charts
+corporativo-legal-mexico/ # F&A, debida diligencia, Consejo, entidades — derecho mexicano
+litigacion-legal-mexico/  # portafolio de litigios, plazos, escritos, boletin CJJ — derecho mexicano
+propiedad-intelectual-legal-mexico/ # PI ante IMPI/INDAUTOR, FTO, marcas, derechos morales — derecho mexicano
 legal-clinic/             # clinic setup, student ramp, intake, deadlines, memos, handoffs
 law-student/              # Socratic drilling, outlining, IRAC, bar prep, flashcards
 legal-builder-hub/        # community skill discovery and install with a trust gate
@@ -153,6 +228,7 @@ managed-agent-cookbooks/  # Claude Managed Agent cookbooks — one dir per sched
 scripts/                  # deploy-managed-agent.sh · validate.py · orchestrate.py · lint-tool-scope.py · test-cookbooks.sh
 .claude-plugin/
   marketplace.json        # plugin registry
+.env                      # variables de entorno locales (NO commitear) — ver seccion "Variables de entorno"
 ```
 
 Each plugin directory has the same shape:
@@ -186,9 +262,9 @@ After install, skills fire automatically when relevant, slash commands are avail
 /plugin marketplace add <path-to-this-repo>
 
 # Install a plugin — pick the ones that match your practice
-/plugin install commercial-legal@claude-for-legal
-/plugin install privacy-legal@claude-for-legal
-/plugin install corporate-legal@claude-for-legal
+/plugin install commercial-legal@claude-for-legal-mexico
+/plugin install privacy-legal@claude-for-legal-mexico
+/plugin install corporate-legal@claude-for-legal-mexico
 
 # Restart Claude Code, then run setup for each plugin you installed.
 # This writes your practice profile to ~/.claude/plugins/config/claude-for-legal/<plugin>/CLAUDE.md
@@ -311,6 +387,8 @@ These plugins ship connectors for the systems legal teams live in. A connector g
 | **DocuSign / DocuSign CLM** | Envelope status, executed contracts, CLM metadata | `commercial-legal` | Customer subscription |
 | **iManage** | Read from the DMS — matter workspaces, document versions | `commercial-legal`, `corporate-legal` | Customer subscription |
 | **Everlaw** | E-discovery productions, tagged sets, chronologies | `litigation-legal` | Customer subscription |
+| **LegalDataHunter** | 16M+ documentos jurídicos mexicanos — SCJN IUS, Semanario Judicial, DOF, IMPI, INDAUTOR, OrdenJuridico, SAT, jurisprudencia y legislacion federal y estatal | `conectores-legal-mexico` (dependencia compartida) | API key — via `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico` |
+| **Portal CJJ / API Nilo** | Boletín judicial y expedientes del Consejo de la Judicatura de Jalisco — juzgados mercantiles ZMG | `litigacion-legal-mexico` | Publica para boletin; credenciales Nilo para expedientes autenticados |
 | **CourtListener** | Federal dockets and opinions | `legal-clinic`, `ip-legal`, `litigation-legal`, `law-student` | Public; optional API key |
 | **Trellis** | State court dockets and motions | `litigation-legal` | Customer subscription |
 | **Aurora** | Clinic-style matter management and calendaring | `litigation-legal` | Customer subscription |
@@ -324,7 +402,7 @@ These plugins ship connectors for the systems legal teams live in. A connector g
 | **Atlassian (Jira)** | Launch tracker, issue tracking | `product-legal` | Customer workspace |
 | **Asana** | Launch tracker, project tracking | `product-legal` | Customer workspace |
 
-> Connectors marked "customer subscription" need the customer's own account and API key. Configure them in each plugin's `.mcp.json` or via `claude mcp` in your Claude Code setup.
+> Connectors marked "customer subscription" need the customer's own account and API key. For API-key connectors in the Mexican plugins, configure via `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico`. For OAuth connectors (Box, Slack, Drive, iManage), authorize through Claude Cowork → Settings → Connectors, or use `claude mcp auth` in Claude Code.
 
 > **Building a connector?** See [CONNECTORS.md](./CONNECTORS.md) for what a good legal MCP server looks like and how to submit yours for inclusion.
 
@@ -554,6 +632,80 @@ The full map across all plugins. The cold-start interview is the first thing to 
 | `/law-student:exam-forecast` | exam-forecast | Analyze past exams to forecast likely emphases |
 | `/law-student:study-plan` | study-plan | Build or update a long-term study plan |
 | `/law-student:session` | study-plan | Run a focused N-question session; update the plan |
+
+### conectores-legal-mexico
+
+| Comando | Skill | Que hace |
+|---|---|---|
+| `/conectores-legal-mexico:setup-completo` | setup-completo | Configura los 4 plugins en secuencia — conectores → corporativo → litigacion → PI. Pregunta empresa/industria/jurisdiccion una sola vez. Flags: `--redo`, `--from <plugin>`, `--check-integrations` |
+| `/conectores-legal-mexico:cold-start-interview` | cold-start-interview | Configura solo los conectores MCP — verifica conectividad con llamada real, guia configuracion de LegalDataHunter y CJJ |
+| `/conectores-legal-mexico:customize` | customize | Ajusta un conector especifico (canal Slack, API key, estado) sin re-entrevista completa |
+
+### corporativo-legal-mexico
+
+| Comando | Skill | Que hace |
+|---|---|---|
+| `/corporativo-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuracion — perfil de practica corporativa |
+| `/corporativo-legal-mexico:tabular-review` | tabular-review | Revision tabular de data room — una fila por documento, cada celda citada |
+| `/corporativo-legal-mexico:diligence-issue-extraction` | diligence-issue-extraction | Extrae hallazgos de VDR segun categorias y umbrales de materialidad |
+| `/corporativo-legal-mexico:material-contract-schedule` | material-contract-schedule | Construye calendario de contratos materiales para disclosure schedule |
+| `/corporativo-legal-mexico:closing-checklist` | closing-checklist | Condiciones, consentimientos, documentos y filings pendientes para cierre |
+| `/corporativo-legal-mexico:written-consent` | written-consent | Redacta consentimiento escrito de Consejo o Asamblea en formato casa |
+| `/corporativo-legal-mexico:board-minutes` | board-minutes | Redacta Acta de Sesion del Consejo de Administracion |
+| `/corporativo-legal-mexico:entity-compliance` | entity-compliance | Seguimiento de obligaciones corporativas por entidad y jurisdiccion |
+| `/corporativo-legal-mexico:integration-management` | integration-management | Plan de integracion post-cierre con seguimiento de consentimientos |
+| `/corporativo-legal-mexico:deal-team-summary` | deal-team-summary | Agrega hallazgos de debida diligencia en briefing ejecutivo |
+| `/corporativo-legal-mexico:ai-tool-handoff` | ai-tool-handoff | Detecta salida de herramienta de revision masiva y ejecuta QA |
+| `/corporativo-legal-mexico:matter-workspace` | matter-workspace | Administra espacios de trabajo por asunto |
+| `/corporativo-legal-mexico:customize` | customize | Personaliza el perfil de practica sin re-entrevista completa |
+
+### litigacion-legal-mexico
+
+| Comando | Skill | Que hace |
+|---|---|---|
+| `/litigacion-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuracion — riesgo, panorama, estilo casa |
+| `/litigacion-legal-mexico:matter-intake` | matter-intake | Intake de asunto nuevo — escribe matter.md, history.md, log |
+| `/litigacion-legal-mexico:matter-briefing` | matter-briefing | Briefing profundo de un asunto para llamada con DJ u OC |
+| `/litigacion-legal-mexico:matter-update` | matter-update | Agrega evento fechado al historial del asunto |
+| `/litigacion-legal-mexico:portfolio-status` | portfolio-status | Resumen del portafolio — riesgo, plazos, asuntos sin movimiento |
+| `/litigacion-legal-mexico:matter-close` | matter-close | Cierra asunto — archiva, conserva registro |
+| `/litigacion-legal-mexico:matter-workspace` | matter-workspace | Administra espacios de trabajo por asunto |
+| `/litigacion-legal-mexico:demand-intake` | demand-intake | Pre-redaccion — partes, hechos, fundamentos, palanca, privilegio |
+| `/litigacion-legal-mexico:demand-draft` | demand-draft | Redacta carta de requerimiento con compuerta pre-envio y salida .docx |
+| `/litigacion-legal-mexico:demand-received` | demand-received | Triaje de requerimiento recibido — opciones, portafolio, entrega |
+| `/litigacion-legal-mexico:requerimiento-triage` | requerimiento-triage | Triaje rapido de requerimiento externo recibido |
+| `/litigacion-legal-mexico:legal-hold` | legal-hold | Emite, refresca, libera o reporta sobre retenciones documentales |
+| `/litigacion-legal-mexico:oc-status` | oc-status | Genera borradores de solicitud de estatus semanal a abogados externos |
+| `/litigacion-legal-mexico:claim-chart` | claim-chart | Cuadro de elementos — patente o causa de accion civil/mercantil |
+| `/litigacion-legal-mexico:chronology` | chronology | Construye o actualiza cronologia desde fuentes y cargas |
+| `/litigacion-legal-mexico:plantillas-demanda` | plantillas-demanda | Plantillas de demanda para 7 tipos de juicio: ordinario mercantil, ejecutivo mercantil, oral mercantil, ordinario civil, hipotecario, requerimiento de pago, arrendamiento/renta |
+| `/litigacion-legal-mexico:redaccion-escritos` | redaccion-escritos | Redacta escritos judiciales en formato procesal mexicano |
+| `/litigacion-legal-mexico:preparacion-pruebas` | preparacion-pruebas | Organiza y prepara pruebas para audiencia o periodo probatorio |
+| `/litigacion-legal-mexico:revision-confidencialidad` | revision-confidencialidad | Revision de registros de confidencialidad y secreto profesional |
+| `/litigacion-legal-mexico:revision-expedientes-jalisco` | revision-expedientes-jalisco | Consulta expedientes en el sistema Nilo del CJJ (Jalisco) |
+| `/litigacion-legal-mexico:boletin-monitor` | boletin-monitor | Monitorea el boletin diario del CJJ por nombre de parte |
+| `/litigacion-legal-mexico:customize` | customize | Personaliza el perfil de practica sin re-entrevista |
+| — | verificador-juridico (agente) | QA juridica de skills y documentos — verifica plazos, articulos, vigencia contra fuentes primarias |
+| scheduled | vigilante-expedientes (agente) | Vigila expedientes judiciales; calcula plazos; publica reporte de estado |
+
+### propiedad-intelectual-legal-mexico
+
+| Comando | Skill | Que hace |
+|---|---|---|
+| `/propiedad-intelectual-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuracion — IMPI, INDAUTOR, postura de enforcement |
+| `/propiedad-intelectual-legal-mexico:portafolio` | portafolio | Seguimiento de marcas, patentes y derechos de autor ante IMPI e INDAUTOR |
+| `/propiedad-intelectual-legal-mexico:clearance` | clearance | Busqueda de disponibilidad de marca — knockout + marcas similares |
+| `/propiedad-intelectual-legal-mexico:fto-triage` | fto-triage | Triaje FTO — primera mirada a patentes potencialmente bloqueantes |
+| `/propiedad-intelectual-legal-mexico:invention-intake` | invention-intake | Primera revision de divulgacion de invencion — novedad, actividad inventiva |
+| `/propiedad-intelectual-legal-mexico:triaje-infraccion` | triaje-infraccion | Triaje de infraccion en los cuatro derechos de PI |
+| `/propiedad-intelectual-legal-mexico:carta-requerimiento` | carta-requerimiento | Redacta o triaje carta de requerimiento / cesacion |
+| `/propiedad-intelectual-legal-mexico:notificacion-infraccion` | notificacion-infraccion | Notificacion de infraccion ante IMPI (procedimiento administrativo) |
+| `/propiedad-intelectual-legal-mexico:revision-clausulas-pi` | revision-clausulas-pi | Revisa clausulas de PI — cesion, licencia, garantias, indemnidades |
+| `/propiedad-intelectual-legal-mexico:reservas-derechos` | reservas-derechos | Registro y seguimiento de reservas de derechos ante INDAUTOR (LFDA Art. 173) |
+| `/propiedad-intelectual-legal-mexico:oss-review` | oss-review | Revision de cumplimiento de licencias de codigo abierto |
+| `/propiedad-intelectual-legal-mexico:matter-workspace` | matter-workspace | Administra espacios de trabajo por asunto |
+| `/propiedad-intelectual-legal-mexico:customize` | customize | Personaliza el perfil de practica sin re-entrevista |
+| scheduled | vigilante-renovaciones (agente) | Reporte semanal de vencimientos de PI — marcas, patentes, reservas |
 
 ### cocounsel-legal (Thomson Reuters)
 

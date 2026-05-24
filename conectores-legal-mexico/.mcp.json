@@ -1,0 +1,74 @@
+{
+  "mcpServers": {
+    "Slack": {
+      "type": "http",
+      "url": "https://mcp.slack.com/mcp",
+      "title": "Slack",
+      "description": "Buscar mensajes, leer canales y encontrar conversaciones en tu espacio de trabajo."
+    },
+    "Google Drive": {
+      "type": "http",
+      "url": "https://drivemcp.googleapis.com/mcp/v1",
+      "title": "Google Drive",
+      "description": "Buscar, leer y obtener documentos de Google Drive."
+    },
+    "Box": {
+      "type": "http",
+      "url": "https://mcp.box.com/mcp",
+      "title": "Box",
+      "description": "Gestión documental y almacenamiento de expedientes."
+    },
+    "iManage": {
+      "type": "http",
+      "url": "https://cloudimanage.com/mcp/work",
+      "title": "iManage",
+      "description": "Contenido gobernado de iManage conectado a Claude — los documentos permanecen en iManage, el acceso está sujeto a permisos y es auditable."
+    },
+    "TopCounsel": {
+      "type": "http",
+      "url": "https://api.techgc.co/api/mcp/topcounsel",
+      "title": "TopCounsel",
+      "description": "Recomendaciones de abogados externos de The L Suite — sentimiento de comunidad de más de 5,000 abogados internos, rankings y evidencia de especialización."
+    },
+    "Definely": {
+      "type": "http",
+      "url": "https://mcp.uk.definely.com/api/proxy/core-mcp",
+      "title": "Definely",
+      "description": "Acceso en vivo y determinista a la estructura contractual — resolver definiciones, validar referencias cruzadas, mapear dependencias, ejecutar comparativos estructurales."
+    },
+    "LegalDataHunter": {
+      "type": "http",
+      "url": "https://api.legaldatahunter.com/mcp/v1",
+      "headers": {
+        "Authorization": "Bearer ${user_config.legaldatahunter_api_key}"
+      },
+      "title": "LegalDataHunter",
+      "description": "Búsqueda agregada de documentos jurídicos mexicanos — 16M+ documentos de SCJN, DOF, OrdenJuridicoEstatal, SAT, IMPI, INDAUTOR y más. Jurisprudencia, tesis aisladas, legislación federal y estatal, resoluciones administrativas."
+    },
+    "Solve Intelligence": {
+      "type": "http",
+      "url": "https://api.solveintelligence.com/mcp/",
+      "title": "Solve Intelligence",
+      "description": "Flujos de trabajo de patentes — buscar literatura patentaria y no patentaria, textos legales, estándares técnicos SEP, estado del arte, análisis de reivindicaciones."
+    },
+    "CJJ": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/servers/cjj/index.js"],
+      "env": {
+        "CJJ_EMAIL": "${user_config.cjj_email}",
+        "CJJ_PASSWORD": "${user_config.cjj_password}",
+        "CJJ_PUBLIC_TOKEN": "${user_config.cjj_public_token}"
+      },
+      "title": "CJJ — Poder Judicial de Jalisco",
+      "description": "Acceso al boletín judicial público y al Portal Ciudadano del Consejo de la Judicatura de Jalisco. Boletín público (sin auth): todos los juzgados mercantiles ZMG. Portal Ciudadano (con JWT): expedientes completos, actuaciones, acuerdos, catálogos."
+    },
+    "MXLegal": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/servers/mx-legal/index.js"],
+      "title": "MXLegal — Fuentes jurídicas públicas de México",
+      "description": "Sentencias públicas del Supremo Tribunal de Justicia de Jalisco (STJJ). 82 572 decisiones, sin auth, REST JSON. Herramientas: search_stjj (listado paginado), get_stjj_summary (texto del resumen IA — usar para leer contenido), get_stjj_download_url (URL de descarga PDF — no lee el archivo)."
+    }
+  }
+}

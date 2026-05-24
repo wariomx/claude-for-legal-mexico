@@ -19,7 +19,7 @@ https://github.com/user-attachments/assets/51394f0a-5277-4fe2-b81c-5c5e9ac876b5
 
 3. **Install your plugin.** Pick the one that matches your work from the table below, then:
    ```
-   /plugin install privacy-legal@claude-for-legal
+   /plugin install privacy-legal@claude-for-legal-mexico
    ```
 
 4. **⚠️ Restart Claude Code.** Close and reopen. This step is not optional — the plugin isn't live until you restart.
@@ -37,7 +37,7 @@ When you run `/plugin install`, you may be asked whether to install for this pro
 
 It's counterintuitive: project scope feels safer. But project scope blocks the plugin from reading files outside the project folder — your outlines in Downloads, your contract in Documents, your client file in Dropbox. Most skills need to read your files. User scope doesn't give the plugin any extra access to your files — the plugin can only read files you explicitly point it at or that are in the current directory. It just means the plugin works from any folder instead of one.
 
-If you already installed project-scoped and want to switch: `/plugin uninstall <plugin>`, then `/plugin install <plugin>@claude-for-legal` from your home directory.
+If you already installed project-scoped and want to switch: `/plugin uninstall <plugin>`, then `/plugin install <plugin>@claude-for-legal-mexico` from your home directory.
 
 ## Which plugin is for me?
 

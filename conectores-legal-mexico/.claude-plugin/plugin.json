@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "conectores-legal-mexico",
+  "displayName": "Conectores Legal México",
+  "version": "1.0.0",
+  "description": "Conectores MCP compartidos para los plugins de derecho mexicano — LegalDataHunter, Solve Intelligence, Slack, Google Drive, Box, iManage, TopCounsel, Definely y CJJ (Poder Judicial de Jalisco).",
+  "author": {
+    "name": "Softlaw S.A. de C.V."
+  },
+  "userConfig": {
+    "legaldatahunter_api_key": {
+      "type": "string",
+      "title": "LegalDataHunter API key",
+      "description": "Clave API para búsqueda de documentos jurídicos mexicanos (SCJN, DOF, IMPI, etc.). Obtén la tuya en https://legaldatahunter.com",
+      "sensitive": true,
+      "required": false
+    },
+    "cjj_email": {
+      "type": "string",
+      "title": "CJJ Portal Ciudadano — correo",
+      "description": "Correo electrónico de tu cuenta en el Portal Ciudadano del Consejo de la Judicatura de Jalisco (nilo.cjj.gob.mx). Requerido para acceso autenticado a expedientes.",
+      "sensitive": false,
+      "required": false
+    },
+    "cjj_password": {
+      "type": "string",
+      "title": "CJJ Portal Ciudadano — contraseña",
+      "description": "Contraseña de tu cuenta en el Portal Ciudadano del CJJ. Se almacena en el keychain del sistema.",
+      "sensitive": true,
+      "required": false
+    },
+    "cjj_public_token": {
+      "type": "string",
+      "title": "CJJ API — token público",
+      "description": "Token público de la API Nilo del CJJ, proporcionado al registrarse en el portal. Se almacena en el keychain del sistema.",
+      "sensitive": true,
+      "required": false
+    }
+  }
+}

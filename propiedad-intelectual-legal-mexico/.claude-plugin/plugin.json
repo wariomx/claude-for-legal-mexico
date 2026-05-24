@@ -1,0 +1,11 @@
+{
+  "name": "propiedad-intelectual-legal-mexico",
+  "version": "1.0.0",
+  "description": "Gestiona el portafolio de propiedad intelectual ante IMPI e INDAUTOR, ejecuta triaje de libertad de operación y evaluación de invenciones, búsqueda de disponibilidad de marca, revisión de cláusulas de PI con atención a derechos morales inalienables (LFDA Art. 19), redacción de cartas de requerimiento y notificaciones de infracción, revisión de cumplimiento de código abierto, gestión de reservas de derechos, y seguimiento de plazos de renovación.",
+  "author": {
+    "name": "Softlaw S.A. de C.V."
+  },
+  "dependencies": [
+    "conectores-legal-mexico@claude-for-legal-mexico"
+  ]
+}

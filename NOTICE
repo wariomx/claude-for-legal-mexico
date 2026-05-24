@@ -1,0 +1,32 @@
+Claude for Legal — Mexico Plugins
+Copyright 2026 Softlaw S.A. de C.V.
+
+This repository is a derivative work of:
+
+  Claude for Legal
+  Copyright 2024-2026 Anthropic, PBC
+  Licensed under the Apache License, Version 2.0
+  https://github.com/anthropics/claude-for-legal
+
+The upstream plugins (commercial-legal, privacy-legal, product-legal,
+corporate-legal, employment-legal, regulatory-legal, ai-governance-legal,
+litigation-legal, law-student, legal-clinic, legal-builder-hub, ip-legal)
+and shared files (scripts/, references/, managed-agent-cookbooks/) retain
+their original Apache 2.0 license and copyright.
+
+The Mexico plugins are original works by Softlaw S.A. de C.V. licensed
+under the GNU Affero General Public License v3.0 or later (AGPLv3+).
+A commercial license (without AGPLv3's share-alike requirement) is available
+at wario@soft.law. See LICENSE and LICENSE-EXCEPTIONS.md in each plugin
+directory for details.
+
+Mexico plugins covered by AGPLv3+:
+  conectores-legal-mexico
+  corporativo-legal-mexico
+  litigacion-legal-mexico
+  propiedad-intelectual-legal-mexico
+  laboral-legal-mexico
+  privacidad-legal-mexico
+  regulatorio-legal-mexico
+  fiscal-legal-mexico
+  ia-governanza-legal-mexico

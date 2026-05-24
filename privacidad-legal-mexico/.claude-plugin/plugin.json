@@ -1,0 +1,11 @@
+{
+  "name": "privacidad-legal-mexico",
+  "version": "1.0.0",
+  "description": "Gestiona cumplimiento de protección de datos personales bajo la LGPDPPSP y LFPDPPP ante el INAI — redacción y revisión de avisos de privacidad, gestión de solicitudes ARCO con cómputo de plazos hábiles, transferencias internacionales, evaluaciones de impacto (EIPD), notificación de vulneraciones de seguridad en 72 horas, revisión de contratos de encargados, y preparación de procedimientos ante el INAI.",
+  "author": {
+    "name": "Softlaw S.A. de C.V."
+  },
+  "dependencies": [
+    "conectores-legal-mexico@claude-for-legal-mexico"
+  ]
+}

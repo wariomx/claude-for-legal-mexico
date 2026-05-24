@@ -1,0 +1,11 @@
+{
+  "name": "laboral-legal-mexico",
+  "version": "1.0.0",
+  "description": "Calcula liquidaciones constitucionales e indemnizaciones bajo la LFT, evalúa el riesgo de despido con y sin causa, prepara escritos de contestación y excepciones para el Tribunal Laboral, y da seguimiento a plazos de conciliación ante el CJFCA y de cumplimiento de NOM-035/037-STPS e IMSS/INFONAVIT.",
+  "author": {
+    "name": "Softlaw S.A. de C.V."
+  },
+  "dependencies": [
+    "conectores-legal-mexico@claude-for-legal-mexico"
+  ]
+}

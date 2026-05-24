@@ -1,0 +1,11 @@
+{
+  "name": "ia-governanza-legal-mexico",
+  "version": "1.0.0",
+  "description": "Gobernanza legal de inteligencia artificial para organizaciones en México — triaje de casos de uso IA contra registro interno de riesgos, evaluaciones de impacto por capa (datos, modelo, output, deployment), revisión de contratos con proveedores IA con atención a training-on-data y propiedad de outputs, análisis de exposición al EU AI Act para operaciones con nexo europeo, y redacción de política interna de uso responsable de IA.",
+  "author": {
+    "name": "Softlaw S.A. de C.V."
+  },
+  "dependencies": [
+    "conectores-legal-mexico@claude-for-legal-mexico"
+  ]
+}

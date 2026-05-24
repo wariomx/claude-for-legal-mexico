@@ -1,9 +1,9 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "claude-for-legal",
+  "name": "claude-for-legal-mexico",
   "description": "Reference agents, skills, and data connectors for the legal workflows we see most — in-house commercial, privacy, product, corporate, employment, litigation, regulatory, AI governance, IP, and the learning side of the practice (law school clinics and students).",
   "owner": {
-    "name": "Anthropic"
+    "name": "Softlaw S.A. de C.V."
   },
   "plugins": [
     {
@@ -43,12 +43,39 @@
       }
     },
     {
+      "name": "conectores-legal-mexico",
+      "displayName": "Conectores Legal México",
+      "source": "./conectores-legal-mexico",
+      "description": "Conectores MCP compartidos para los plugins de derecho mexicano — LegalDataHunter, Solve Intelligence, Slack, Google Drive, Box, iManage, TopCounsel, Definely y CJJ (Poder Judicial de Jalisco).",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
+      }
+    },
+    {
+      "name": "corporativo-legal-mexico",
+      "displayName": "Corporativo Legal México",
+      "source": "./corporativo-legal-mexico",
+      "description": "Ejecuta debida diligencia de F&A a escala con revisión tabular citada, construye anexos de revelaciones y listas de verificación de cierre, redacta consentimientos y actas del Consejo de Administración en formato interno, y da seguimiento a plazos de cumplimiento de entidades en múltiples jurisdicciones.",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
+      }
+    },
+    {
       "name": "employment-legal",
       "displayName": "Employment Legal",
       "source": "./employment-legal",
       "description": "Reviews hires and terminations for jurisdiction-specific risk flags, classifies workers against the controlling state test, tracks leave deadlines before they're missed, runs internal investigations, and drafts policies with state supplements where the law differs.",
       "author": {
         "name": "Anthropic"
+      }
+    },
+    {
+      "name": "laboral-legal-mexico",
+      "displayName": "Laboral Legal México",
+      "source": "./laboral-legal-mexico",
+      "description": "Práctica laboral mexicana bajo la Ley Federal del Trabajo — análisis de riesgo de terminación, cálculo de liquidación constitucional (3 meses + 20 días/año + proporcionales), conciliación ante el CJFCA, cumplimiento NOM-035/037-STPS, revisión IMSS/INFONAVIT, clasificación de trabajadores de plataformas digitales, redacción de escritos laborales, y calendario de plazos fatales. Incluye agente vigilante-plazos-laborales para monitoreo de vencimientos.",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
       }
     },
     {
@@ -61,6 +88,24 @@
       }
     },
     {
+      "name": "regulatorio-legal-mexico",
+      "displayName": "Regulatorio Legal México",
+      "source": "./regulatorio-legal-mexico",
+      "description": "Práctica regulatoria federal mexicana — triage COFECE (LFCE), cumplimiento CNBV por sub-sector (banca, valores, fintech, seguros), trámites COFEPRIS (salud, medicamentos, dispositivos), análisis de impacto regulatorio CONAMER, respuesta a requerimientos de cualquier regulador federal, redacción de comentarios públicos a proyectos normativos. Incluye agente monitor-dof para vigilancia semanal del DOF.",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
+      }
+    },
+    {
+      "name": "fiscal-legal-mexico",
+      "displayName": "Fiscal Legal México",
+      "source": "./fiscal-legal-mexico",
+      "description": "Práctica fiscal mexicana — revisión de CFDI 4.0, análisis de discrepancias y requerimientos SAT, preparación para auditorías (visita domiciliaria, revisión de gabinete, revisión electrónica), litigación contencioso-administrativa ante el TFJA (demanda de nulidad y amparo fiscal), gestión de procedimientos PRODECON (acuerdo conclusivo, queja), y análisis de opciones de planeación fiscal lícita con atención a tratados de doble imposición vigentes.",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
+      }
+    },
+    {
       "name": "ai-governance-legal",
       "displayName": "AI Governance Legal",
       "source": "./ai-governance-legal",
@@ -70,12 +115,30 @@
       }
     },
     {
+      "name": "ia-governanza-legal-mexico",
+      "displayName": "IA y Gobernanza Legal México",
+      "source": "./ia-governanza-legal-mexico",
+      "description": "Gobernanza legal de inteligencia artificial — clasificación de riesgo bajo el EU AI Act (prohibido, alto, limitado, mínimo) con análisis de nexo europeo, evaluaciones de impacto IA, revisión de contratos con proveedores de IA (titularidad de outputs, entrenamiento sobre datos, limitaciones de responsabilidad), análisis de exposición al EU AI Act para operaciones con nexo UE, y redacción de políticas internas de uso de IA. Marco mexicano referenciado donde existe regulación aplicable.",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
+      }
+    },
+    {
       "name": "litigation-legal",
       "displayName": "Litigation Legal",
       "source": "./litigation-legal",
       "description": "Manages the litigation portfolio — matters, deadlines, holds, demands, outside counsel — and does the work: claim charts (patent and civil), chronologies, depo prep, privilege logs, brief drafting. Adapts to how you work litigation: in-house, firm, or solo.",
       "author": {
         "name": "Anthropic"
+      }
+    },
+    {
+      "name": "litigacion-legal-mexico",
+      "displayName": "Litigación Legal México",
+      "source": "./litigacion-legal-mexico",
+      "description": "Gestiona el portafolio de litigios — asuntos, plazos, retenciones documentales, requerimientos, abogados externos — y ejecuta el trabajo: cuadros de elementos (mercantil y civil), cronologías, preparación de pruebas, revisión de confidencialidad, redacción de escritos. Se adapta a tu práctica: jurídico interno, despacho o práctica independiente.",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
       }
     },
     {
@@ -112,6 +175,24 @@
       "description": "Runs first-pass trademark clearance and freedom-to-operate triage, screens invention disclosures for initial patentability, drafts and triages cease-and-desist letters and DMCA takedowns (send and respond), checks open source compliance, reviews IP clauses, and tracks registrations and renewal deadlines.",
       "author": {
         "name": "Anthropic"
+      }
+    },
+    {
+      "name": "propiedad-intelectual-legal-mexico",
+      "displayName": "Propiedad Intelectual Legal México",
+      "source": "./propiedad-intelectual-legal-mexico",
+      "description": "Gestiona el portafolio de propiedad intelectual ante IMPI e INDAUTOR, ejecuta triaje de libertad de operación y evaluación de invenciones, búsqueda de disponibilidad de marca, revisión de cláusulas de PI con atención a derechos morales inalienables (LFDA Art. 19), redacción de cartas de requerimiento y notificaciones de infracción, revisión de cumplimiento de código abierto, gestión de reservas de derechos, y seguimiento de plazos de renovación.",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
+      }
+    },
+    {
+      "name": "privacidad-legal-mexico",
+      "displayName": "Privacidad Legal México",
+      "source": "./privacidad-legal-mexico",
+      "description": "Gestiona cumplimiento de protección de datos personales bajo la LGPDPPSP y LFPDPPP ante el INAI — redacción y revisión de avisos de privacidad, gestión de solicitudes ARCO con cómputo de plazos hábiles, transferencias internacionales, evaluaciones de impacto (EIPD), notificación de vulneraciones de seguridad en 72 horas, revisión de contratos de encargados, y preparación de procedimientos ante el INAI.",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
       }
     },
     {
