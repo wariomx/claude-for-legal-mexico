@@ -2,6 +2,7 @@
 *.skill
 /logs/
 /outputs/
+/docs/
 /.claude/
 CLAUDE.local.md
 __pycache__/
