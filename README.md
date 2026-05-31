@@ -1,4 +1,4 @@
-# Claude para Legal
+# Claude para la Industria Legal
 
 Agentes de referencia, skills y conectores de datos para los flujos de trabajo legales más comunes — jurídico comercial, privacidad, producto, corporativo, laboral, litigación, regulatorio, gobernanza de IA, propiedad intelectual, seguros, y la formación jurídica (clínicas jurídicas y estudiantes de derecho).
 

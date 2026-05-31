@@ -41,6 +41,7 @@ Antes de mostrar cualquier cosa:
 | Privacidad | privacidad-legal-mexico | `~/.claude/plugins/config/claude-for-legal/privacidad-legal-mexico/CLAUDE.md` |
 | Regulatorio | regulatorio-legal-mexico | `~/.claude/plugins/config/claude-for-legal/regulatorio-legal-mexico/CLAUDE.md` |
 | Fiscal | fiscal-legal-mexico | `~/.claude/plugins/config/claude-for-legal/fiscal-legal-mexico/CLAUDE.md` |
+| Seguros y Fianzas | seguros-legal-mexico | `~/.claude/plugins/config/claude-for-legal/seguros-legal-mexico/CLAUDE.md` |
 | IA y Gobernanza | ia-governanza-legal-mexico | `~/.claude/plugins/config/claude-for-legal/ia-governanza-legal-mexico/CLAUDE.md` |
 
 Para cada CLAUDE.md encontrado, determinar estado:
@@ -129,6 +130,7 @@ Mostrar menú de selección. Marcar `(no instalado)` los plugins que no están p
 > [ ] **Privacidad** — LGPDPPSP/LFPDPPP, avisos, ARCO, INAI, EIPDs
 > [ ] **Regulatorio** — COFECE, CNBV, COFEPRIS, IFT, DOF, CONAMER
 > [ ] **Fiscal** — SAT, CFDI 4.0, auditorías, TFJA, PRODECON
+> [ ] **Seguros y Fianzas** — LCS, LISF, CNSF, siniestros, reaseguro, CONDUSEF
 > [ ] **IA y Gobernanza** — EU AI Act, riesgo IA, políticas, contratos IA
 >
 > (Los plugins marcados `(no instalado)` requieren instalación previa — puedes configurarlos ahora, pero los skills no estarán disponibles hasta instalarlos.)
@@ -152,7 +154,7 @@ Ejecutar la entrevista completa de `/conectores-legal-mexico:cold-start-intervie
 
 ## Paso 6 — Configuración por área de práctica
 
-Para cada plugin seleccionado en el Paso 4, en este orden: corporativo → litigacion → propiedad-intelectual → laboral → privacidad → regulatorio → fiscal → ia-governanza:
+Para cada plugin seleccionado en el Paso 4, en este orden: corporativo → litigacion → propiedad-intelectual → laboral → privacidad → regulatorio → fiscal → seguros → ia-governanza:
 
 Si ya está `configurado` y no `--redo`:
 > ✓ **[Plugin] ya configurado.** Saltando.
@@ -179,14 +181,14 @@ Cuando se invoca con `--check-integrations`:
 
 > **Estado de integraciones — todos los plugins**
 >
-> | Integración | Conectores | Corp. | Lit. | PI | Laboral | Privacidad | Regulatorio | Fiscal | IA |
-> |---|---|---|---|---|---|---|---|---|---|
-> | LegalDataHunter | [✓/✗/⚪] | ... | | | | | | | |
-> | CJJ Boletín | [✓/✗/⚪] | — | [✓/✗/⚪] | — | — | — | — | — | — |
-> | MXLegal (STJJ) | [✓/✗/⚪] | — | [✓/✗/⚪] | — | — | — | — | — | — |
-> | Solve Intelligence | [✓/✗/⚪] | — | — | [✓/✗/⚪] | — | — | — | — | — |
-> | Slack | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] |
-> | Google Drive / Box | [✓/✗/⚪] | ... | | | | | | | |
+> | Integración | Conectores | Corp. | Lit. | PI | Laboral | Privacidad | Regulatorio | Fiscal | Seguros | IA |
+> |---|---|---|---|---|---|---|---|---|---|---|
+> | LegalDataHunter | [✓/✗/⚪] | ... | | | | | | | | |
+> | CJJ Boletín | [✓/✗/⚪] | — | [✓/✗/⚪] | — | — | — | — | — | — | — |
+> | MXLegal (STJJ) | [✓/✗/⚪] | — | [✓/✗/⚪] | — | — | — | — | — | — | — |
+> | Solve Intelligence | [✓/✗/⚪] | — | — | [✓/✗/⚪] | — | — | — | — | — | — |
+> | Slack | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] |
+> | Google Drive / Box | [✓/✗/⚪] | ... | | | | | | | | |
 
 ---
 
@@ -243,6 +245,7 @@ Sin `--new-client`: preguntar opcionalemente: "¿Quieres crear un directorio ais
 > - `/privacidad-legal-mexico:aviso-privacidad` — redactar aviso de privacidad
 > - `/regulatorio-legal-mexico:dof-digest` — novedades DOF
 > - `/fiscal-legal-mexico:cfdi-review` — revisar un CFDI
+> - `/seguros-legal-mexico:poliza-review` — revisar una póliza de seguros
 > - `/ia-governanza-legal-mexico:use-case-triage` — clasificar un caso de uso de IA
 >
 > **Para reconfigurar:**

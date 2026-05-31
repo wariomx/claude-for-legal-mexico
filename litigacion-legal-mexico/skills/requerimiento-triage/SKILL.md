@@ -19,7 +19,7 @@ argument-hint: "[ruta-al-requerimiento] [--slug=slug-personalizado]"
 5. Seguir el flujo de trabajo y referencia abajo.
 6. Extraer campos clave, analizar alcance/carga/confidencialidad, producir marco de objeciones + plan de cumplimiento + calendario de plazos.
 7. Escribir `~/.claude/plugins/config/claude-for-legal/litigacion-legal-mexico/inbound/[slug]/triage.md`. Copiar o vincular el requerimiento a `~/.claude/plugins/config/claude-for-legal/litigacion-legal-mexico/inbound/[slug]/incoming.[ext]`.
-8. Derivar: `/legal-hold --issue` si no hay retención en vigor; `/matter-intake` si la materialidad lo justifica; `/matter-briefing [slug]` si es requerimiento de parte en asunto existente.
+8. Derivar: `/litigacion-legal-mexico:legal-hold --issue` si no hay retención en vigor; `/litigacion-legal-mexico:matter-intake` si la materialidad lo justifica; `/litigacion-legal-mexico:matter-briefing [slug]` si es requerimiento de parte en asunto existente.
 
 ---
 
@@ -273,7 +273,7 @@ Producto: `~/.claude/plugins/config/claude-for-legal/litigacion-legal-mexico/inb
 
 ## Acciones inmediatas
 
-- [ ] Retención legal emitida — [sí/no] — si no, ejecutar `/legal-hold [slug] --issue` con alcance del requerimiento
+- [ ] Retención legal emitida — [sí/no] — si no, ejecutar `/litigacion-legal-mexico:legal-hold [slug] --issue` con alcance del requerimiento
 - [ ] Abogado externo contratado — [sí/quién/pendiente]
 - [ ] Solicitud de prórroga presentada — [sí/no/pendiente]
 - [ ] Asunto creado en el registro — [sí/no/pendiente — generalmente sí para cualquier requerimiento que no sea menor]
@@ -308,7 +308,7 @@ No proceder más allá de esta puerta sin un sí explícito. El triaje, la clasi
 - Si clasificado como **orden penal** → parar, señalar para escalamiento según `~/.claude/plugins/config/claude-for-legal/litigacion-legal-mexico/CLAUDE.md`, no proceder con triaje estándar.
 - Si clasificado como **requerimiento regulatorio**: señalar que aplican normas específicas del regulador; recomendar abogado externo especializado en la materia regulatoria.
 - De otro modo: ofrecer crear un asunto (generalmente sí — los requerimientos casi siempre son suficientemente materiales para rastrear).
-- Si no se ha emitido retención legal con alcance del requerimiento, derivar a `/legal-hold --issue` inmediatamente.
+- Si no se ha emitido retención legal con alcance del requerimiento, derivar a `/litigacion-legal-mexico:legal-hold --issue` inmediatamente.
 
 ## Cerrar con el árbol de decisión de siguientes pasos
 

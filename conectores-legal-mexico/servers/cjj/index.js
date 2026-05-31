@@ -78,7 +78,7 @@ async function login() {
   if (!CJJ_EMAIL || !CJJ_PASSWORD || !CJJ_PUBLIC_TOKEN) {
     throw new Error(
       'Credenciales CJJ no configuradas. ' +
-      'Ejecutar: claude plugin configure conectores-legal-mexico@claude-for-legal'
+      'Ejecutar: claude plugin configure conectores-legal-mexico@claude-for-legal-mexico'
     );
   }
   log('Autenticando en CJJ Portal Ciudadano...');
@@ -166,7 +166,7 @@ const TOOLS = [
     async call() {
       if (!CJJ_PUBLIC_TOKEN) throw new Error('CJJ_PUBLIC_TOKEN no configurado.');
       const res = await httpRequest(`${NILO_BASE}/matters/get_all_matters`, {
-        headers: { Authorization: `Bearer ${CJJ_PUBLIC_TOKEN}` },
+        headers: { Authorization: CJJ_PUBLIC_TOKEN },
       });
       return res.data;
     },

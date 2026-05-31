@@ -1,6 +1,6 @@
 {
   "name": "litigacion-legal-mexico",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Gestiona el portafolio de litigios — asuntos, plazos, retenciones documentales, requerimientos, abogados externos — y ejecuta el trabajo: cuadros de elementos (mercantil y civil), cronologías, preparación de pruebas, revisión de confidencialidad, redacción de escritos. Se adapta a tu práctica: jurídico interno, despacho o práctica independiente.",
   "author": {
     "name": "Softlaw S.A. de C.V."

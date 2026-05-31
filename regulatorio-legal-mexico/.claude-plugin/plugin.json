@@ -1,7 +1,7 @@
 {
   "name": "regulatorio-legal-mexico",
-  "version": "1.0.0",
-  "description": "Monitorea el entorno regulatorio federal mexicano — COFECE, CNBV, COFEPRIS, IFT, CRE y CONAMER — extrae cambios del DOF relevantes para tu sector, triaja nuevas reglas contra la política interna, redacta comentarios a consultas públicas y respuestas a requerimientos de reguladores, y da seguimiento a brechas de cumplimiento y plazos de respuesta.",
+  "version": "1.0.1",
+  "description": "Monitorea el entorno regulatorio federal mexicano — COFECE, CNBV, COFEPRIS, IFT, CRE y CONAMER — extrae cambios del DOF relevantes para tu sector, triaja nuevas reglas contra la política interna, redacta comentarios a consultas públicas y respuestas a requerimientos de reguladores, y da seguimiento a brechas de cumplimiento y plazos de respuesta. Incluye agente monitor-dof para vigilancia semanal del DOF.",
   "author": {
     "name": "Softlaw S.A. de C.V."
   },

@@ -491,7 +491,7 @@ Si sí, mostrar esta lista personalizada (no una plantilla genérica — estas s
 > - **Emitir o renovar una retención documental** — p. ej., "Redactar el aviso de retención, actualizar la bitácora, programar renovación." Prueba: `/litigacion-legal-mexico:legal-hold`
 > - **Consolidación del portafolio** — p. ej., "Distribución de riesgo, plazos próximos, asuntos sin movimiento a lo largo del portafolio activo." Prueba: `/litigacion-legal-mexico:portfolio-status`
 >
-> **Mi sugerencia para la primera:** Ejecuta `/portfolio-status` — te muestra de un vistazo dónde está el portafolio, y es sin datos de entrada para probar. O dime qué tienes pendiente y yo elijo.
+> **Mi sugerencia para la primera:** Ejecuta `/litigacion-legal-mexico:portfolio-status` — te muestra de un vistazo dónde está el portafolio, y es sin datos de entrada para probar. O dime qué tienes pendiente y yo elijo.
 
 Esto resuelve el problema de arranque en frío (el usuario no sabe qué hacer primero) y el problema de propuesta de valor (no sabe qué puede hacer el plugin) en una sola oferta. Hacer la lista específica. Omitir este paso si el usuario ya nombró una primera tarea concreta durante la entrevista.
 

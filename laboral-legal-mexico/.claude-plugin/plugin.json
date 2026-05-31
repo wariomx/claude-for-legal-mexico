@@ -1,7 +1,7 @@
 {
   "name": "laboral-legal-mexico",
-  "version": "1.0.0",
-  "description": "Calcula liquidaciones constitucionales e indemnizaciones bajo la LFT, evalúa el riesgo de despido con y sin causa, prepara escritos de contestación y excepciones para el Tribunal Laboral, y da seguimiento a plazos de conciliación ante el CJFCA y de cumplimiento de NOM-035/037-STPS e IMSS/INFONAVIT.",
+  "version": "1.0.1",
+  "description": "Práctica laboral mexicana bajo la Ley Federal del Trabajo — análisis de riesgo de terminación, cálculo de liquidación constitucional (3 meses + 20 días/año + proporcionales), conciliación ante el CJFCA, cumplimiento NOM-035/037-STPS, revisión IMSS/INFONAVIT, clasificación de trabajadores de plataformas digitales, redacción de escritos laborales, y calendario de plazos fatales. Incluye agente vigilante-plazos-laborales para monitoreo de vencimientos.",
   "author": {
     "name": "Softlaw S.A. de C.V."
   },

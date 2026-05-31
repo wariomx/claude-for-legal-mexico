@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "claude-for-legal-mexico",
-  "description": "Reference agents, skills, and data connectors for the legal workflows we see most — in-house commercial, privacy, product, corporate, employment, litigation, regulatory, AI governance, IP, and the learning side of the practice (law school clinics and students).",
+  "description": "Marketplace de plugins jurídicos para el derecho mexicano — agentes, skills y conectores de datos para práctica corporativa, litigación, laboral, fiscal, regulatorio, seguros, propiedad intelectual, privacidad y gobernanza de IA bajo el sistema jurídico mexicano. Incluye plugins base en inglés de la suite Claude for Legal para uso jurisdiccional-neutral.",
   "owner": {
     "name": "Softlaw S.A. de C.V."
   },
@@ -91,7 +91,7 @@
       "name": "regulatorio-legal-mexico",
       "displayName": "Regulatorio Legal México",
       "source": "./regulatorio-legal-mexico",
-      "description": "Práctica regulatoria federal mexicana — triage COFECE (LFCE), cumplimiento CNBV por sub-sector (banca, valores, fintech, seguros), trámites COFEPRIS (salud, medicamentos, dispositivos), análisis de impacto regulatorio CONAMER, respuesta a requerimientos de cualquier regulador federal, redacción de comentarios públicos a proyectos normativos. Incluye agente monitor-dof para vigilancia semanal del DOF.",
+      "description": "Monitorea el entorno regulatorio federal mexicano — COFECE, CNBV, COFEPRIS, IFT, CRE y CONAMER — extrae cambios del DOF relevantes para tu sector, triaja nuevas reglas contra la política interna, redacta comentarios a consultas públicas y respuestas a requerimientos de reguladores, y da seguimiento a brechas de cumplimiento y plazos de respuesta. Incluye agente monitor-dof para vigilancia semanal del DOF.",
       "author": {
         "name": "Softlaw S.A. de C.V."
       }
@@ -109,7 +109,7 @@
       "name": "seguros-legal-mexico",
       "displayName": "Seguros y Fianzas Legal México",
       "source": "./seguros-legal-mexico",
-      "description": "Práctica de seguros y fianzas bajo la LGSF — revisión de pólizas de seguros y afianzadoras, trámites ante la CNSF, análisis de cobertura para disputas de siniestros, recursos de revisión ante la CONDUSEF, supervisión de capital de solvencia (RCS), revisión de contratos de reaseguro y retrocesión, y registro de productos ante la CNSF.",
+      "description": "Práctica de seguros y fianzas en México — revisión de pólizas conforme a la LCS, gestión de siniestros con control de plazos fatales, análisis de coberturas y exclusiones, cumplimiento regulatorio ante la CNSF (LISF), análisis de solvencia (RCS/Solvencia II mexicano), revisión de contratos de reaseguro, defensa del asegurado ante CONDUSEF, y registro de productos ante la CNSF.",
       "author": {
         "name": "Softlaw S.A. de C.V."
       }
@@ -127,7 +127,7 @@
       "name": "ia-governanza-legal-mexico",
       "displayName": "IA y Gobernanza Legal México",
       "source": "./ia-governanza-legal-mexico",
-      "description": "Gobernanza legal de inteligencia artificial — clasificación de riesgo bajo el EU AI Act (prohibido, alto, limitado, mínimo) con análisis de nexo europeo, evaluaciones de impacto IA, revisión de contratos con proveedores de IA (titularidad de outputs, entrenamiento sobre datos, limitaciones de responsabilidad), análisis de exposición al EU AI Act para operaciones con nexo UE, y redacción de políticas internas de uso de IA. Marco mexicano referenciado donde existe regulación aplicable.",
+      "description": "Gobernanza legal de inteligencia artificial para organizaciones en México — triaje de casos de uso IA contra registro interno de riesgos, evaluaciones de impacto por capa (datos, modelo, output, deployment), revisión de contratos con proveedores IA con atención a training-on-data y propiedad de outputs, análisis de exposición al EU AI Act para operaciones con nexo europeo, y redacción de política interna de uso responsable de IA.",
       "author": {
         "name": "Softlaw S.A. de C.V."
       }
