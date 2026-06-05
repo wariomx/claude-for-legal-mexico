@@ -65,27 +65,9 @@ Si el usuario proporciona la key durante esta conversación, intentar la llamada
 
 ## Paso 2: CJJ (Poder Judicial de Jalisco)
 
-El CJJ tiene dos capas:
+Ejecutar `/conectores-legal-mexico:setup-cjj` (con `--local` si aplica) y seguir todas sus instrucciones. setup-cjj verifica el boletín, el token público y el Portal Ciudadano, guía la configuración de credenciales cuando faltan, y actualiza las filas de CJJ en el CLAUDE.md.
 
-### Boletín público (sin auth)
-
-Intentar `mcp__CJJ__get_boletin` o la herramienta equivalente del servidor CJJ. Si responde con datos de expedientes → ✓. Si falla → ✗ con el error (puede ser problema de conectividad de red o del servidor del CJJ).
-
-### Portal Ciudadano (requiere credenciales)
-
-**Verificar si las credenciales están configuradas:**
-- `cjj_email`, `cjj_password`, `cjj_public_token` en userConfig.
-
-**Si no están configuradas:**
-
-> **El Portal Ciudadano del CJJ da acceso a expedientes completos, actuaciones y acuerdos.** Para configurarlo:
-> 1. Regístrate en: **nilo.cjj.gob.mx** (si no tienes cuenta)
-> 2. En Claude Code: `/plugin settings` → `conectores-legal-mexico` → llena `CJJ Portal Ciudadano — correo`, `contraseña` y `token público`
-> 3. El token público se obtiene en el portal después de activar tu cuenta.
->
-> ¿Ya tienes cuenta? Di "tengo credenciales" y te guío para ingresarlas.
-
-**Si están configuradas:** intentar `mcp__CJJ__login` con las credenciales. Si regresa JWT → ✓ Portal Ciudadano activo. Si falla → ✗ con el error (credenciales incorrectas, cuenta inactiva, o el servidor del CJJ no responde).
+Al terminar setup-cjj, continuar con el Paso 3.
 
 ---
 

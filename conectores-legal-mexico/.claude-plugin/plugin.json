@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "conectores-legal-mexico",
   "displayName": "Conectores Legal México",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Conectores MCP compartidos para los plugins de derecho mexicano — LegalDataHunter, Solve Intelligence, Slack, Google Drive, Box, iManage, TopCounsel, Definely y CJJ (Poder Judicial de Jalisco).",
   "author": {
     "name": "Softlaw S.A. de C.V."
