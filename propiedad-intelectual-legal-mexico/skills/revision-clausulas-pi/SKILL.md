@@ -13,7 +13,7 @@ argument-hint: "[ruta del archivo | texto pegado]"
 
 Revisa las cláusulas de propiedad intelectual de un contrato contra el perfil de
 práctica en
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.
+`PROFILE`, resuelto por `matter_workspace.py status`.
 Señala lagunas de cesión, ambigüedad en titularidad, problemas de alcance de
 licencia, y deficiencias en garantías/indemnizaciones de PI. Produce un
 memorándum con hallazgos por cláusula, priorizados por riesgo, con lenguaje de
@@ -22,7 +22,7 @@ marcado de cambios sugerido donde corresponda.
 ## Instrucciones
 
 1. **Cargar
-   `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.**
+   `PROFILE` resuelto por `matter_workspace.py status`.**
    Si contiene marcadores `[PLACEHOLDER]`, detenerse y decir: "Ejecuta
    `/propiedad-intelectual-legal-mexico:cold-start-interview` primero — necesito
    conocer tu perfil de práctica antes de revisar cláusulas de PI contra él."
@@ -34,9 +34,10 @@ marcado de cambios sugerido donde corresponda.
    - Establecer el tipo de contrato y de qué lado está la empresa para efectos
      de PI (otorgante / receptora / ambas). La pregunta del lado es por
      documento, no una respuesta de configuración única.
-   - Ejecutar la verificación de derechos morales PRIMERO — cualquier cláusula
-     que pretenda ceder, renunciar, limitar o transferir derechos morales es
-     NULA de pleno derecho.
+   - Ejecutar la verificación de derechos morales PRIMERO — señalar cualquier
+     cláusula que pretenda ceder o renunciar derechos morales porque no puede
+     producir ese efecto en contra de los arts. 18-21 LFDA. El abogado determina
+     nulidad parcial, severabilidad y remedio.
    - Ejecutar la verificación de cesión/transmisión después.
    - Producir hallazgos por cláusula priorizados por riesgo.
    - Verificar consistencia entre cláusulas, no solo cláusula por cláusula.
@@ -64,16 +65,15 @@ marcado de cambios sugerido donde corresponda.
 
 ---
 
-## DERECHOS MORALES — LFDA ART. 19: PERPETUOS, INALIENABLES, IRRENUNCIABLES
+## Derechos morales — LFDA arts. 18-21
 
 **La salvaguarda más fuerte de este skill. Verificar ANTES de cualquier otro
 análisis. No omitir. No suavizar.**
 
-> **Los derechos morales en México son PERPETUOS, INALIENABLES e
-> IRRENUNCIABLES para TODAS las obras** (LFDA Art. 19)
-> `[model knowledge — verify]`. No existe excepción para obra por encargo, ni
-> para contratos laborales, ni para cesiones de derechos patrimoniales. Los
-> derechos morales incluyen (LFDA Art. 21) `[model knowledge — verify]`:
+> Aplicar **MX-LFDA-MORAL-RIGHTS-001**. La persona autora es titular originaria
+> y única de los derechos morales (art. 18); el derecho moral se considera
+> inalienable, imprescriptible, irrenunciable e inembargable (art. 19). Las
+> facultades del art. 21 incluyen:
 >
 > 1. **Divulgación** — decidir si la obra se da a conocer y en qué forma
 > 2. **Paternidad** — ser reconocido como autor
@@ -81,12 +81,14 @@ análisis. No omitir. No suavizar.**
 > 4. **Retracto** — retirar la obra del comercio
 > 5. **Respeto** — exigir respeto a la obra
 >
-> **Cualquier cláusula que pretenda ceder, renunciar, limitar, transferir o
-> condicionar el ejercicio de derechos morales es NULA DE PLENO DERECHO.**
-> No es negociable. No es un riesgo que se gestiona — es una nulidad que se
-> elimina del contrato.
+> **Una cláusula no puede lograr la cesión o renuncia de derechos morales en
+> contra de esos artículos.** Señalar el lenguaje exacto y proponer una
+> reformulación patrimonial. No declarar automáticamente nulo todo el contrato
+> ni toda la cláusula: nulidad parcial, severabilidad, ley aplicable y efecto
+> requieren revisión jurídica.
 >
-> **Calificación automática: 🔴 Bloqueante + `[review]`** — SIN EXCEPCIONES.
+> **Calificación inicial: 🔴 Bloqueante + `[review]`** cuando la cláusula exige
+> una cesión/renuncia; el abogado puede recalibrar después de analizar el texto.
 
 Aplicar esta verificación a CADA cláusula del contrato. Las formas comunes en
 que aparecen intentos de cesión/renuncia de derechos morales:
@@ -104,11 +106,11 @@ que aparecen intentos de cesión/renuncia de derechos morales:
 
 **Marcado de cambios propuesto para cada hallazgo 🔴 de derechos morales:**
 
-> "ELIMINAR esta cláusula. Los derechos morales son perpetuos, inalienables e
-> irrenunciables conforme al artículo 19 de la LFDA. Cualquier pacto en
-> contrario es nulo de pleno derecho. Si la intención es obtener control sobre
-> la explotación de la obra, reformular como transmisión de derechos
-> patrimoniales específicos conforme a los artículos 30 a 33 de la LFDA."
+> "REVISAR esta cláusula. Separar derechos patrimoniales de derechos morales;
+> limitar la transmisión/licencia a facultades patrimoniales expresas y
+> reconocer que los derechos morales se rigen por los artículos 18 a 21 de la
+> LFDA. Confirmar por separado forma escrita, temporalidad, remuneración y
+> severabilidad conforme a los artículos 30 a 33."
 
 ---
 
@@ -122,10 +124,9 @@ asunto activo, preguntar: "¿Para qué asunto es esto? Ejecuta
 `/propiedad-intelectual-legal-mexico:matter-workspace switch <slug>` o di
 `nivel-de-práctica`." Cargar el `matter.md` del asunto activo para contexto y
 anulaciones específicas del asunto. Escribir resultados en la carpeta del asunto
-en
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<asunto-slug>/`.
-Nunca leer archivos de otro asunto a menos que `Contexto cruzado entre asuntos`
-esté `on`.
+en `DATA_ROOT/`.
+Nunca leer archivos de otro asunto. El campo legado `Contexto entre asuntos`
+no anula el hook; cambiar de asunto solo mediante el controlador.
 
 ---
 
@@ -148,7 +149,7 @@ señalarlo al inicio del memorándum — no enterrarlo como un punto más.
 ## Precondición: cargar el perfil de práctica
 
 **Antes de leer el contrato, leer
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.**
+`PROFILE`.**
 Si falta o contiene marcadores, detenerse y ejecutar
 `/propiedad-intelectual-legal-mexico:cold-start-interview`. El perfil de
 práctica indica:
@@ -198,14 +199,15 @@ cualquier cláusula que:
 Si CUALQUIERA de las anteriores está presente:
 
 ```markdown
-## 🔴 NULIDAD — DERECHOS MORALES
+## 🔴 INCOMPATIBILIDAD — DERECHOS MORALES
 
 **Cláusula [X]** pretende [ceder/renunciar/limitar] derechos morales del autor.
 
-**Fundamento:** Los derechos morales son perpetuos, inalienables e
-irrenunciables conforme al artículo 19 de la LFDA
-`[model knowledge — verify]`. No admiten pacto en contrario. Cualquier
-cláusula que pretenda lo contrario es NULA DE PLENO DERECHO.
+**Fundamento:** La persona autora es titular originaria y única (art. 18) y el
+derecho moral es inalienable, imprescriptible, irrenunciable e inembargable
+(art. 19; MX-LFDA-MORAL-RIGHTS-001). La cláusula no puede efectuar la
+cesión/renuncia pretendida. `[review]` para efecto, nulidad parcial y
+severabilidad; no extender la conclusión automáticamente al contrato completo.
 
 **Riesgo:** La cláusula es inoponible. La empresa que confía en ella
 descubrirá que no tiene el control que pensaba cuando el autor ejerza sus
@@ -214,7 +216,7 @@ Esto se manifiesta en disputas sobre crédito autoral, en oposiciones a
 modificaciones de la obra, y en retracto.
 
 **Marcado de cambios propuesto:**
-> "ELIMINAR [cláusula]. Sustituir con: 'La transmisión de derechos
+> "REVISAR [cláusula]. Sustituir con: 'La transmisión de derechos
 > patrimoniales sobre la obra se regirá por los artículos 30 a 33 de la
 > LFDA. Se reconoce que los derechos morales del autor son perpetuos,
 > inalienables e irrenunciables conforme al artículo 19 de la misma ley.'"
@@ -229,36 +231,39 @@ Si el contrato es un contrato de obra por encargo, de prestación de servicios,
 laboral, o cualquier otro donde la empresa debería recibir derechos
 patrimoniales — verificar el lenguaje de transmisión.
 
-**Marco legal para transmisión (LFDA Arts. 30-33):**
-La transmisión de derechos patrimoniales requiere `[model knowledge — verify]`:
+**Marco legal para transmisión (LFDA arts. 30-33):**
 
-1. **Forma escrita** — debe constar por escrito (verbal no surte efectos)
-2. **Derechos específicos transmitidos** — enlistar cuáles (reproducción,
-   comunicación pública, distribución, etc.)
-3. **Modalidades de explotación específicas** — cómo se explotará
-4. **Plazo determinado** — la transmisión no puede ser indefinida; si no
-   se establece plazo, se entenderá por 5 años
-5. **Territorio específico** — si no se menciona, se entenderá el país donde
-   se realizó la transmisión
+La regla verificada es que la transmisión patrimonial y la licencia exclusiva
+deben constar por escrito o son nulas de pleno derecho
+(`MX-LFDA-PATRIMONIAL-TRANSFER-FORM-001`). Revisar el texto vigente de los arts.
+30-33 para onerosidad/remuneración, temporalidad y excepciones antes de proponer
+duración. Como precisión contractual, describir derechos, modalidades,
+territorio, plazo y contraprestación; no presentar esa lista como requisitos de
+validez idénticos ni inventar un territorio supletorio sin fuente.
 
-**Obra por encargo (LFDA Arts. 83-84):**
-`[model knowledge — verify]`
-- La persona que encarga la obra es titular de los derechos patrimoniales
-  sobre ella, salvo pacto en contrario
-- El autor conserva SIEMPRE los derechos morales
-- El contrato debe especificar la contraprestación
-- Si no hay contrato escrito, la ley establece reglas supletorias sobre
-  titularidad patrimonial
+**Clasificar antes de aplicar una regla:**
+
+- **Obra por encargo (art. 83; MX-LFDA-COMMISSIONED-WORK-001):** salvo pacto en
+  contrario, quien comisiona goza de los derechos patrimoniales y facultades
+  enumeradas; la persona participante conserva el derecho de mención y el
+  contrato debe ser claro y preciso.
+- **Obra laboral (art. 84; MX-LFDA-EMPLOYMENT-WORK-001):** con contrato
+  individual escrito y sin pacto contrario, los patrimoniales se dividen por
+  partes iguales; sin contrato escrito corresponden al empleado.
+- En ambos, separar el análisis de facultades patrimoniales del régimen de
+  derechos morales de los arts. 18-21.
 
 **Invenciones laborales (LFT Art. 163):**
-`[model knowledge — verify]`
-- Las invenciones realizadas por trabajadores en el ejercicio de sus
-  funciones laborales pertenecen al patrón
-- El trabajador tiene derecho a que su nombre figure como inventor
-- Si la invención tiene relación con la actividad del patrón pero no fue
-  realizada en ejercicio de funciones, se estará a lo convenido entre las
-  partes
-- El trabajador conserva derechos morales como inventor
+(**MX-LFT-EMPLOYEE-INVENTIONS-001**)
+- La persona inventora tiene derecho a que su nombre figure como autora.
+- Si se dedica, por cuenta del patrón, a investigación o perfeccionamiento de
+  procedimientos, la propiedad y explotación de la patente corresponden al
+  patrón; revisar posible compensación complementaria por desproporción.
+- En cualquier otro caso, la propiedad corresponde a quien realizó la
+  invención y el patrón tiene, en igualdad de circunstancias, derecho preferente
+  al uso exclusivo o adquisición.
+- No convertir uso de equipo/recursos en una tercera categoría ni asumir que
+  “en ejercicio de funciones” basta sin analizar el supuesto completo.
 
 Buscar:
 
@@ -268,8 +273,8 @@ Buscar:
 - **Modalidades de explotación** — ¿están definidas?
 - **Plazo** — ¿está definido? Si falta, la ley suple 5 años.
 - **Territorio** — ¿está definido? Si falta, se entiende México.
-- **Obra por encargo** — si el contrato es de obra por encargo, ¿cumple con
-  los requisitos de Arts. 83-84?
+- **Comisión u obra laboral** — ¿los hechos activan el art. 83 o el 84 y cumple
+  el documento con la regla correspondiente?
 - **Cláusula de invenciones laborales** — si es contrato laboral, ¿se ajusta
   al Art. 163 LFT?
 - **PI preexistente excluida** — ¿qué excluye la contraparte de la transmisión?
@@ -297,7 +302,7 @@ la obra que la empresa pensaba que le pertenecían.
 > "[lenguaje de reemplazo específico]"
 
 **Escalamiento:** Per
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`,
+`PROFILE`,
 las deficiencias de transmisión escalan a [aprobador].
 ```
 
@@ -307,7 +312,7 @@ Para cada cláusula relevante de PI, producir un bloque. Las cláusulas a buscar
 
 - **Cesión/transmisión de derechos patrimoniales** — quién es titular de los
   derechos patrimoniales sobre lo creado bajo el contrato
-- **Obra por encargo** — ¿cumple requisitos de LFDA Arts. 83-84?
+- **Comisión / obra laboral** — clasificar y revisar art. 83 o 84 por separado
 - **Titularidad de entregables** — distinta de la transmisión; suele declarar
   el producto del encargo
 - **Mejoras y obras derivadas** — quién es titular de mejoras a PI
@@ -332,8 +337,8 @@ Para cada cláusula relevante de PI, producir un bloque. Las cláusulas a buscar
   marcas de la otra parte; lineamientos de marca
 - **Secreto industrial** — tratamiento de información confidencial como secreto
   industrial, medidas razonables de protección, devolución o destrucción,
-  obligaciones post-terminación (LFPPI Arts. 211-212)
-  `[model knowledge — verify]`
+  obligaciones post-terminación (LFPPI arts. 163-169;
+  MX-LFPPI-TRADE-SECRETS-001)
 - **Cláusula de invenciones laborales** — si es contrato laboral, conformidad
   con Art. 163 LFT
 
@@ -365,7 +370,7 @@ asignación.] `[review]`
 
 | Nivel | Significado |
 |---|---|
-| 🔴 Bloqueante | No firmar sin corregir. Cualquier intento de ceder/renunciar derechos morales. Deficiencia en transmisión de derechos patrimoniales en documento que debería tenerla. Licencia ilimitada donde se pretendía una limitada. Concesión exclusiva donde se pretendía no exclusiva. Obra por encargo sin cumplir requisitos de LFDA Arts. 83-84. |
+| 🔴 Bloqueante | No firmar sin corregir. Cualquier intento de ceder/renunciar derechos morales. Deficiencia en transmisión de derechos patrimoniales en documento que debería tenerla. Licencia ilimitada donde se pretendía una limitada. Concesión exclusiva donde se pretendía no exclusiva. Comisión u obra laboral que contradice la regla aplicable del art. 83 o 84. |
 | 🟠 Alto | Insistir fuertemente; escalar si no ceden. Alcance ambiguo de transmisión. Transmisión que no cumple con todos los requisitos de Arts. 30-33 LFDA (faltan derechos específicos, modalidades, plazo o territorio). Indemnización estrecha. Invención laboral no conforme a Art. 163 LFT. |
 | 🟡 Medio | Pedir en primera ronda; aceptar si es el último punto abierto. Lenguaje impreciso pero cosmético, periodos de vigencia más cortos que el estándar. |
 | 🟢 Bajo | Anotarlo, no gastar capital. Una desviación estilística que no cambia la asignación. |
@@ -397,26 +402,35 @@ Las reglas de PI son jurisdiccionalmente específicas en formas que cambian el
 resultado. Señalar si el contrato implica alguno de estos:
 
 - **Derechos morales** — en México son perpetuos, inalienables e
-  irrenunciables (LFDA Art. 19). Si el contrato aplica ley extranjera pero
+  sujetos a los arts. 18-21 LFDA. Si el contrato aplica ley extranjera pero
   involucra autores mexicanos o se ejecuta en México, los derechos morales
   bajo ley mexicana pueden ser un piso que la ley extranjera no desplaza.
   `[review]`
-- **Obra por encargo** — la doctrina mexicana (LFDA Arts. 83-84) difiere
+- **Obra por encargo** — el art. 83 (comisión) y el art. 84 (relación laboral)
+  son reglas distintas. La doctrina mexicana difiere
   fundamentalmente de la estadounidense (*work made for hire*, 17 U.S.C.
-  § 101). En México, la obra por encargo transfiere derechos PATRIMONIALES
-  al comitente, pero NUNCA derechos morales. En EE.UU., el *work for hire*
+  § 101). Bajo art. 83, salvo pacto en contrario, el comitente goza de los
+  derechos patrimoniales y facultades que la norma enumera; bajo art. 84, un
+  contrato individual laboral escrito divide por defecto los patrimoniales en
+  partes iguales salvo pacto contrario, y sin contrato escrito corresponden al
+  empleado. En EE.UU., el *work for hire*
   convierte al empleador en AUTOR. Un contrato que use lenguaje de *work for
   hire* bajo ley mexicana tiene un problema fundamental de compatibilidad.
-- **Transmisión de derechos patrimoniales** — requiere forma escrita y
-  requisitos específicos (LFDA Arts. 30-33). Una transmisión verbal o
-  implícita no surte efectos en México.
+- **Transmisión de derechos patrimoniales** — la transmisión y la licencia
+  exclusiva requieren forma escrita; de lo contrario son nulas de pleno
+  derecho conforme al art. 30. Recuperar arts. 31-33 para las demás condiciones
+  (`MX-LFDA-PATRIMONIAL-TRANSFER-FORM-001`).
 - **Invenciones laborales** — Art. 163 LFT establece un régimen diferente
-  al de EE.UU. Las invenciones del empleado en ejercicio de funciones
-  pertenecen al patrón, pero el empleado conserva derechos morales como
-  inventor.
-- **Registros y licencias de PI industrial** — LFPPI requiere que las
-  licencias de marca y patente se inscriban ante IMPI para surtir efectos
-  frente a terceros. `[model knowledge — verify]`
+  al de EE.UU. La fr. II atribuye al patrón cuando la persona trabajadora se
+  dedica, **por cuenta del patrón**, a investigación o perfeccionamiento; la fr. III
+  atribuye los demás casos a las personas inventoras y concede al patrón un
+  derecho preferente. Aplicar MX-LFT-EMPLOYEE-INVENTIONS-001.
+- **Registros y licencias de PI industrial** — no usar una regla única. Para
+  transmisión o gravamen de patente, registro o solicitud, el art. 137 exige
+  inscripción para producir efectos en perjuicio de terceros
+  (MX-LFPPI-ASSIGNMENT-REGISTRATION-001). Analizar licencias de patente y marca
+  bajo sus disposiciones específicas y el objetivo de la inscripción; no
+  afirmar automáticamente que toda licencia no inscrita carece de efectos.
 
 Declarar qué ley rige el contrato, y si el perfil de práctica señala esa
 jurisdicción como estándar, escalar, o nunca.
@@ -447,7 +461,7 @@ Ante la duda, más pequeño.
 ### Paso 7: Ensamblar el memorándum
 
 Anteponer el encabezado de confidencialidad de
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`
+`PROFILE`
 → `## Resultados`.
 
 ```markdown
@@ -475,7 +489,7 @@ primero?]
 ## Verificación de derechos morales
 
 [✅ Limpio — ninguna cláusula pretende afectar derechos morales |
-🔴 NULIDAD DETECTADA — ver arriba]
+🔴 INCOMPATIBILIDAD DETECTADA — revisar efecto y severabilidad]
 
 ---
 
@@ -516,12 +530,13 @@ práctica mexicana de PI:
 
 | Tipo de cláusula | Marco legal | Puntos clave de revisión |
 |---|---|---|
-| Cesión de derechos patrimoniales | LFDA Arts. 30-33 | Forma escrita, derechos específicos, modalidades, plazo, territorio |
-| Licencia de uso de marca | LFPPI | Inscripción IMPI, control de calidad, exclusividad, territorio |
-| Licencia de patente | LFPPI | Inscripción IMPI, campo de uso, mejoras, sublicencia |
-| Obra por encargo | LFDA Arts. 83-84 | Contraprestación, derechos patrimoniales al comitente, morales al autor |
-| Invenciones laborales | LFT Art. 163 | Invención en ejercicio de funciones → patrón; derecho de inventor → trabajador |
-| Secreto industrial | LFPPI Arts. 211-212 | Medidas razonables, obligaciones post-terminación, sanciones |
+| Cesión de derechos patrimoniales | LFDA arts. 30-33 | Forma escrita como regla verificada; además delimitar derechos, modalidades, remuneración, plazo y territorio y cotejar condiciones legales |
+| Licencia de uso de marca | LFPPI | Recuperar regla de licencia/inscripción aplicable; además revisar control de calidad, exclusividad y territorio |
+| Licencia de patente | LFPPI | Recuperar regla de licencia/inscripción aplicable; además revisar campo de uso, mejoras y sublicencia |
+| Obra por encargo | LFDA art. 83 | Pacto contrario, claridad/precisión, facultades del comitente y derecho de mención |
+| Obra laboral | LFDA art. 84 | Contrato individual escrito, pacto contrario, división igual por defecto o titularidad del empleado si falta escrito |
+| Invenciones laborales | LFT art. 163 | Reconocimiento de inventor; supuesto preciso de investigación/perfeccionamiento por cuenta del patrón; compensación por desproporción; regla residual y derecho preferente |
+| Secreto industrial | LFPPI arts. 163-169 | Control legal, medidas suficientes, apropiación indebida/exclusiones, confidencialidad; separar infracción y delito específicos |
 | Cláusula de no competencia (PI) | Variable | En México los pactos de no competencia laborales tienen limitaciones; revisar caso por caso `[review]` |
 
 ## Postura de decisión
@@ -541,7 +556,7 @@ es una puerta de dos sentidos.
 - [ ] Derechos morales verificados PRIMERO — todo intento de cesión/renuncia
       marcado 🔴
 - [ ] Transmisión de derechos patrimoniales verificada contra LFDA Arts. 30-33
-- [ ] Obra por encargo verificada contra LFDA Arts. 83-84 (si aplica)
+- [ ] Comisión (art. 83) versus obra laboral (art. 84) clasificada y verificada
 - [ ] Invenciones laborales verificadas contra LFT Art. 163 (si aplica)
 - [ ] Cada hallazgo 🔴 y 🟠 tiene lenguaje de reemplazo específico
 - [ ] Consistencia entre cláusulas verificada, no solo cláusula por cláusula

@@ -1,7 +1,7 @@
 ---
 description: >
   Evaluación de primera pasada de invención — novedad, actividad inventiva,
-  exclusiones de patentabilidad (Art. 4 LFPPI), divulgación pública, plazos
+  materia no considerada invención y exclusiones (LFPPI arts. 47-49), divulgación pública, plazos
   de gracia, detectabilidad, valor estratégico, y clasificación de invención
   de empleado (LFT Art. 163). Usa cuando llega una divulgación de invención y
   necesita triaje sobre si amerita búsqueda de arte previo y revisión por
@@ -20,7 +20,7 @@ paso separado; este skill no la hace.
 
 ## Instrucciones
 
-1. Leer `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`. Si
+1. Ejecutar `matter_workspace.py status` y leer `PROFILE`. Si
    contiene `[PLACEHOLDER]`, detenerse y dirigir a `/propiedad-intelectual-legal-mexico:cold-start-interview`. Si
    el perfil de práctica muestra solo marcas o solo derechos de autor (sin
    práctica de patentes), decirlo y enrutar al usuario — esta es la herramienta
@@ -35,7 +35,7 @@ paso separado; este skill no la hace.
    tiene derecho a solicitar la patente, el resto de las evaluaciones son
    irrelevantes hasta resolver la titularidad.
 5. Ejecutar las seis evaluaciones: señales de novedad, señales de obviedad,
-   exclusiones de patentabilidad (Art. 4 LFPPI), divulgación pública / plazos
+   materia no considerada invención y exclusiones (LFPPI arts. 47-49), divulgación pública / plazos
    de gracia, detectabilidad, valor estratégico. Cada evaluación recibe un
    veredicto ✓ / 🟡 / 🔴 con razonamiento de una línea.
 6. Escribir el memorándum de evaluación de invención en la carpeta del asunto
@@ -52,7 +52,7 @@ paso separado; este skill no la hace.
    secreto industrial / ruta de modelo de utilidad) y la puerta para no
    abogados si el rol es no abogado.
 9. Si la evaluación detecta una divulgación pública dentro del año de gracia
-   (Art. 18 LFPPI `[model knowledge — verify]`) o cualquier divulgación pública
+   (regla MX-LFPPI-DISCLOSURE-GRACE-001; art. 52 LFPPI) o cualquier divulgación pública
    con derechos extranjeros en alcance, señalar al inicio: **urgente**.
 
 Este skill nunca concluye que una invención es patentable. Si hay
@@ -85,7 +85,7 @@ relación laboral.)
 > búsqueda de arte previo, no evalúa qué hay en el estado de la técnica, y no
 > construye reivindicaciones. Evalúa los descalificadores obvios (la invención
 > ya está en el mercado, se divulgó públicamente hace dos años, es claramente
-> materia excluida del Art. 4 LFPPI) y los go-aheads obvios (mecanismo nuevo,
+> materia excluida conforme a los arts. 47-49 LFPPI) y los go-aheads obvios (mecanismo nuevo,
 > avance técnico, concepción reciente, uso secreto). Todo lo intermedio necesita
 > una búsqueda de arte previo y revisión de un practicante registrado. Esta
 > evaluación nunca concluye que algo es "patentable" — concluye que "pasa la
@@ -109,9 +109,9 @@ invisible. Si está habilitado y no hay asunto activo, preguntar: "¿Para qué
 asunto es esto? Ejecuta `/propiedad-intelectual-legal-mexico:matter-workspace switch <slug>` o di `nivel de
 práctica`." Cargar el `matter.md` del asunto activo para contexto y
 sobrescrituras específicas. Escribir resultados en la carpeta del asunto en
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<slug>/`.
-Nunca leer archivos de otro asunto a menos que `Contexto entre asuntos` esté
-activo.
+`DATA_ROOT/`.
+Nunca leer archivos de otro asunto. El campo legado `Contexto entre asuntos`
+no anula el hook; cambiar de asunto solo mediante el controlador.
 
 Las divulgaciones de invención son particularmente candidatas comunes para
 confidencialidad **reforzada** al abrir el asunto. Respetar la marca de
@@ -124,7 +124,7 @@ confidenciales.
 ## Cargar el perfil de práctica primero
 
 **Antes de leer la divulgación, leer
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.** Si no existe o
+`PROFILE`.** Si no existe o
 aún contiene placeholders, detenerse y ejecutar `/propiedad-intelectual-legal-mexico:cold-start-interview`. El
 perfil de práctica indica:
 
@@ -175,9 +175,10 @@ solo lote, no una a la vez:
 > 7. **¿Qué área tecnológica?** (Software, hardware, mecánica, biotecnología,
 >    método de negocio, IA/ML, etc.)
 > 8. **¿Cuál es la relación laboral de los inventores con la empresa?**
->    ¿Fueron contratados específicamente para investigar/inventar? ¿Usaron
->    recursos, datos, instalaciones o materiales de la empresa? ¿O la invención
->    es ajena a la actividad de la empresa y se realizó sin sus recursos?
+>    ¿Se dedicaban, por cuenta del patrón, a investigación o perfeccionamiento
+>    de procedimientos? Comparte contrato, descripción de puesto y funciones
+>    reales. El uso de recursos, datos o instalaciones es evidencia contextual,
+>    pero no crea por sí solo una categoría del art. 163 LFT.
 
 Esperar las respuestas. No proceder con media divulgación — una evaluación de
 "una nueva cosa de machine learning que ayuda a los usuarios" es peor que
@@ -187,70 +188,50 @@ Si la divulgación es un formulario de divulgación de invención (IDF) formal d
 un IPMS o una plantilla, extraer estos campos del formulario y solo preguntar
 lo que falta.
 
-### Paso 2: Clasificación de titularidad — Inventos de empleados (LFT Art. 163)
+### Paso 2: Clasificación de titularidad — invenciones laborales (LFT art. 163)
 
 **Esta clasificación es obligatoria y se ejecuta ANTES de las evaluaciones de
 patentabilidad.** Si la empresa no tiene derecho a solicitar la patente, la
 evaluación de patentabilidad es irrelevante hasta resolver la titularidad.
 
-Clasificar la invención conforme al Art. 163 de la Ley Federal del Trabajo
-`[model knowledge — verify]`:
+Aplicar **MX-LFT-EMPLOYEE-INVENTIONS-001** contra el contrato, puesto y funciones
+reales. El artículo 163 tiene una regla de reconocimiento y dos resultados de
+titularidad relevantes; no tres categorías basadas en recursos:
 
-#### Invento de empresa (Art. 163 Fr. I)
+#### Reconocimiento de la persona inventora (art. 163, fr. I)
 
-**Criterio:** El trabajador fue contratado específicamente para investigar o
-realizar trabajos de invención.
+La persona inventora tiene derecho a que su nombre figure como autora de la
+invención. Esta fracción no atribuye por sí sola la propiedad al patrón.
 
-**Consecuencia:** La propiedad de la invención corresponde al patrón. El
-trabajador tiene derecho a:
-- Ser reconocido como inventor (derecho moral — inalienable)
-- Compensación complementaria si el invento supera las expectativas razonables
-  del contrato de trabajo
+#### Investigación o perfeccionamiento por cuenta del patrón (fr. II)
 
-**Señales:**
-- Contrato laboral expresamente menciona investigación/invención como objeto
-- Descripción de puesto incluye I+D, innovación, desarrollo de producto
-- El trabajador está asignado a un laboratorio, centro de investigación, o
-  equipo de I+D
+**Criterio:** La persona trabajadora se dedica, por cuenta del patrón, a
+trabajos de investigación o de perfeccionamiento de los procedimientos usados
+en la empresa. Revisar funciones reales, no solo título de puesto.
 
-**Veredicto:** ✓ La empresa puede solicitar la patente como titular.
+**Consecuencia:** La propiedad de la invención y el derecho a explotar la
+patente corresponden al patrón. La persona inventora puede tener derecho a
+compensación complementaria cuando la importancia de la invención y beneficios
+para el patrón no guardan proporción con el salario; se fija por convenio o por
+el Tribunal.
 
-#### Invento del trabajador (Art. 163 Fr. II)
+**Veredicto de triaje:** ✓ posible titularidad del patrón bajo fr. II, sujeta a
+verificación laboral y documental; no declarar que la compensación procede sin
+analizar la desproporción.
 
-**Criterio:** La invención se realizó con recursos, datos, instalaciones o
-materiales del patrón, PERO el trabajador no fue contratado específicamente
-para inventar.
+#### Cualquier otro caso (fr. III)
 
-**Consecuencia:** La propiedad es del TRABAJADOR. Sin embargo, el patrón tiene
-**derecho preferente** a explotar la patente/registro, pagando al trabajador
-una compensación.
+**Criterio:** No se acreditó el supuesto preciso de la fr. II.
 
-**Señales:**
-- El trabajador usó equipo de la empresa, pero su puesto no es de I+D
-- La invención surgió como "efecto colateral" de su trabajo regular
-- Se usaron datos o información de la empresa
+**Consecuencia:** La propiedad corresponde a la persona o personas que
+realizaron la invención. El patrón conserva, en igualdad de circunstancias, un
+**derecho preferente** al uso exclusivo o a la adquisición de la invención y
+las patentes correspondientes.
 
-**Veredicto:** 🟡 La empresa NO es titular automático. Tiene derecho
-preferente de explotación, pero debe negociar compensación. Señalar para
-revisión jurídica — ¿existe cláusula de cesión en el contrato laboral? ¿La
-cláusula de cesión es válida bajo LFT? `[review]`
-
-#### Invento libre (Art. 163 Fr. III)
-
-**Criterio:** La invención es ajena a la actividad del patrón y se realizó sin
-recursos, datos, instalaciones o materiales del mismo.
-
-**Consecuencia:** La propiedad es exclusiva del trabajador. El patrón no tiene
-ningún derecho sobre la invención.
-
-**Señales:**
-- La invención no tiene relación con el giro de la empresa
-- Se desarrolló en tiempo personal, con recursos propios
-- No se usó información confidencial de la empresa
-
-**Veredicto:** 🔴 La empresa NO tiene derecho a solicitar esta patente. Si
-se desea adquirir el derecho, se requiere un convenio de cesión separado con
-contraprestación.
+**Veredicto de triaje:** 🟡 la empresa no es titular automática bajo el texto
+del art. 163; documentar el derecho preferente y revisar convenio/cesión antes
+de presentar. No afirmar que el patrón carece de todo derecho solo porque la
+invención sea ajena al giro o se haya creado con recursos personales.
 
 ---
 
@@ -259,26 +240,22 @@ contraprestación.
 ```
 ## Clasificación de titularidad — LFT Art. 163
 
-**Clasificación:** [Invento de empresa / Invento del trabajador / Invento libre]
+**Clasificación:** [Art. 163 fr. II / Art. 163 fr. III / ambigua]
 **Base:** [razonamiento de 2-3 oraciones]
 **Política interna:** [conforme a ## Inventos de empleados del perfil — existe
 cláusula de cesión: sí/no/desconocido]
 
 **Implicación para esta evaluación:**
-- [✓ La empresa puede solicitar como titular / 🟡 Derecho preferente — resolver
-  compensación antes de presentar / 🔴 Sin derecho — requiere cesión separada]
+- [✓ posible titularidad del patrón, pendiente de verificación / 🟡 titularidad
+  de inventores + derecho preferente del patrón; documentar adquisición o uso /
+  🔴 conflicto de titularidad; detener presentación]
 ```
 
-**Si la clasificación es "Invento libre" (🔴):** Detenerse y señalar que la
-evaluación de patentabilidad no procede para la empresa hasta que se negocie y
-formalice un convenio de cesión con el inventor. Ofrecer continuar la evaluación
-técnica si el usuario lo desea (para informar la negociación del convenio), pero
-dejar claro que la empresa no puede presentar sin resolver la titularidad.
-
-**Si la clasificación es "Invento del trabajador" (🟡):** Señalar que se debe
-resolver la cuestión de compensación y derecho preferente antes de presentar.
-Continuar con la evaluación técnica marcando que la titularidad está pendiente
-de resolución. `[review]`
+**Si aplica la fr. III o existe conflicto (🟡/🔴):** Señalar que debe
+documentarse la titularidad, el derecho preferente y, cuando proceda, la cesión o
+autorización antes de presentar. Ofrecer continuar la evaluación técnica para
+informar esa decisión, pero no presentar a la empresa como titular mientras el
+punto siga abierto. `[review]`
 
 **Si la clasificación es ambigua:** Señalar los factores que cortan en ambas
 direcciones y marcar para revisión jurídica laboral. Considerar enrutar a
@@ -320,10 +297,11 @@ resuelve.
 
 #### Evaluación 2: Señales de obviedad (actividad inventiva)
 
-¿Una persona versada en la materia habría llegado a esta combinación basándose
-en lo conocido? Esto es una evaluación, no un análisis de actividad inventiva
-bajo LFPPI Art. 13 `[model knowledge — verify]` — señalar para mayor
-investigación, nunca concluir obviedad o no obviedad.
+¿Una persona técnica en la materia habría llegado a esta combinación basándose
+en lo conocido? Esto es una evaluación, no un análisis formal bajo LFPPI arts.
+45, fr. III, 48, 51 y 115
+(MX-LFPPI-INVENTIVE-ACTIVITY-001): señalar para mayor investigación, nunca
+concluir obviedad o no obviedad.
 
 **Banderas rojas (🔴) para mayor investigación:**
 - Combinar **elementos conocidos de manera predecible** — poner un sensor
@@ -343,13 +321,15 @@ investigación, nunca concluir obviedad o no obviedad.
 - Necesidad largamente sentida — el problema era conocido, y los intentos de
   resolverlo habían fallado
 
-#### Evaluación 3: Exclusiones de patentabilidad (Art. 4 LFPPI)
+#### Evaluación 3: Materia no considerada invención y exclusiones (LFPPI arts. 47-49)
 
-¿La invención cae en la lista de exclusiones del Art. 4 de la LFPPI? En
+¿La materia cae en el artículo 47 o en una exclusión del artículo 49 de la
+LFPPI? Aplicar **MX-LFPPI-PATENTABILITY-001**. En
 México, a diferencia de EE.UU. (donde la prueba Alice/Mayo es una evaluación de
-dos pasos sobre materia "abstracta"), las exclusiones son una **lista cerrada
-de categorías** `[model knowledge — verify]`. La evaluación es más simple en
-forma pero con bordes más afilados.
+dos pasos sobre materia "abstracta"), requiere separar lo que el artículo 47 no
+considera invención de las exclusiones del artículo 49. Aplicar el texto de cada
+fracción; no convertir la lista en una analogía con Alice/Mayo ni asumir que el
+resultado estadounidense controla (`MX-LFPPI-PATENTABILITY-001`).
 
 **Categorías excluidas (🔴 si la invención cae claramente en una):**
 
@@ -382,21 +362,21 @@ forma pero con bordes más afilados.
 - El software es una **herramienta** para lograr un resultado técnico, no el
   resultado en sí
 
-**Cualquier cosa en la frontera recibe un 🟡 con "Art. 4 LFPPI — enrutar a
+**Cualquier cosa en la frontera recibe un 🟡 con "LFPPI arts. 47-49 — enrutar a
 especialista para análisis de exclusión."** Un no especialista no debe decidir
 una cuestión cercana de exclusión.
 
 > **Las exclusiones difieren por jurisdicción.** La OEP (Art. 52 EPC) aplica una
 > prueba de "efecto técnico" materialmente más permisiva para software e IA que
-> la lista del Art. 4 LFPPI. JPO y CNIPA también aplican estándares diferentes.
+> las reglas de los arts. 47-49 LFPPI. JPO y CNIPA también aplican estándares diferentes.
 > EE.UU. aplica la prueba Alice/Mayo de dos pasos. Una invención que evalúa 🔴
-> bajo Art. 4 LFPPI puede ser perfectamente elegible en EPO/JPO/CNIPA/USPTO.
+> bajo los arts. 47-49 LFPPI puede tener tratamiento distinto en EPO/JPO/CNIPA/USPTO.
 >
 > Cuando el perfil de práctica incluye jurisdicciones fuera de México: "Esta
-> evaluación bajo Art. 4 es específica de México. Si presentas internacionalmente,
+> evaluación bajo los arts. 47-49 es específica de México. Si presentas internacionalmente,
 > la postura de elegibilidad puede ser diferente — particularmente para software,
 > IA/ML y métodos de negocio, donde EPO es más permisiva y USPTO aplica Alice.
-> No declinar basándose solo en el Art. 4 LFPPI si tienes planes de presentación
+> No declinar basándose solo en los arts. 47-49 LFPPI si tienes planes de presentación
 > en EP/US/JP/CN."
 
 #### Evaluación 4: Divulgación pública / plazos de gracia
@@ -411,7 +391,8 @@ Categorizar el estatus de divulgación:
 **🔴 Probablemente imposibilitada:**
 - Divulgada públicamente, vendida u ofrecida en venta por el **inventor o su
   causahabiente** hace **más de 12 meses** en México — el periodo de gracia del
-  Art. 18 LFPPI `[model knowledge — verify]` ha corrido
+  artículo 52 LFPPI (MX-LFPPI-DISCLOSURE-GRACE-001) ha corrido; confirmar que
+  la divulgación y la persona divulgante calificaban
 - Divulgada por un **tercero** (no el inventor) antes de la fecha de solicitud
   — la novedad se destruye sin periodo de gracia
 - **Cualquier** divulgación pública, en cualquier lugar, antes de presentar —
@@ -421,7 +402,8 @@ Categorizar el estatus de divulgación:
 
 **🟡 El reloj está corriendo:**
 - Divulgada públicamente por el inventor dentro de los últimos 12 meses — el
-  plazo de gracia mexicano bajo Art. 18 LFPPI está corriendo, derechos
+  posible plazo mexicano bajo art. 52 LFPPI está corriendo; confirmar todas las
+  condiciones de MX-LFPPI-DISCLOSURE-GRACE-001. Los derechos
   extranjeros pueden ya estar perdidos. Urgente. Confirmar la fecha de
   divulgación y enrutar a presentación inmediatamente.
 
@@ -449,9 +431,11 @@ incorpora la invención, no solo ventas completadas. Una respuesta a RFP que
 describe la invención puede detonarla.
 
 **Periodo de gracia en México vs. otros países:**
-- **México:** 12 meses de gracia para divulgación por el inventor o su
-  causahabiente (Art. 18 LFPPI `[model knowledge — verify]`). Solo aplica si
-  fue divulgada por el propio inventor.
+- **México:** el art. 52 contempla ciertas divulgaciones dentro de los 12 meses
+  por la persona inventora, causahabiente o un tercero que obtuvo la información
+  de ellos. Aplicar MX-LFPPI-DISCLOSURE-GRACE-001 y verificar condiciones,
+  excepciones, autoría de la divulgación y Reglamento; no resumirlo como una
+  gracia automática.
 - **EE.UU.:** 12 meses de gracia (35 USC § 102(b))
 - **UE/JP/CN/mayoría:** Sin gracia o gracia muy limitada. Novedad absoluta.
   Cualquier divulgación antes de solicitud destruye novedad.
@@ -480,12 +464,13 @@ quien en el perfil de práctica posee las decisiones de clasificación de secret
 industrial.
 
 **Protección como secreto industrial bajo LFPPI Título Quinto:**
-Los secretos industriales bajo la LFPPI `[model knowledge — verify]` requieren:
-- La información debe ser secreta (no generalmente conocida ni fácilmente
-  accesible)
-- Debe tener valor comercial por ser secreta
-- Se deben haber tomado medidas razonables para mantenerla secreta
-  (acuerdos de confidencialidad, controles de acceso, políticas internas)
+Aplicar la definición y condiciones concretas de los arts. 163-169: información
+de aplicación industrial o comercial guardada confidencialmente, que otorgue o
+represente una ventaja competitiva o económica frente a terceros y respecto de
+la cual se hayan adoptado medios o sistemas suficientes para preservar
+confidencialidad y acceso restringido (`MX-LFPPI-TRADE-SECRETS-001`). Revisar
+también las exclusiones del propio régimen; no importar literalmente el test
+estadounidense de "reasonable measures".
 
 La protección es indefinida (mientras se mantenga secreta) vs. 20 años para
 patente o 15 años para modelo de utilidad. Si la detectabilidad es baja y la
@@ -550,24 +535,24 @@ explícitamente si un **modelo de utilidad** es una ruta apropiada:
 
 **Presentar las rutas como opciones en el veredicto:**
 - **Patente de invención:** 20 años, examen completo, productos y procesos
-- **Modelo de utilidad:** 15 años, examen simplificado, solo objetos/dispositivos
-- **Ambas:** presentar solicitud de patente y, si se rechaza por falta de
-  actividad inventiva plena, convertir a modelo de utilidad (o presentar ambas
-  en paralelo)
+- **Modelo de utilidad:** 15 años; confirmar que la materia cabe en la figura y
+  revisar requisitos y examen aplicables antes de elegirla
+- **Conversión o estrategia paralela:** solo como cuestión para especialista;
+  no prometer que puede esperarse hasta un rechazo ni presentar dos solicitudes
+  sin revisar oportunidad, unidad, doble protección y reglas procesales
 - **Secreto industrial:** protección indefinida, sin registro, requiere medidas
   de protección
-- **Patente provisional (LFPPI 2026):** nuevo mecanismo que establece fecha de
-  prioridad sin examen de fondo inmediato `[model knowledge — verify]` — útil
-  para asegurar fecha mientras se completa la evaluación
+- **Solicitud provisional (LFPPI 2026):** únicamente si se verifican art. 105
+  Bis, vigencia y requisitos reglamentarios; la solicitud correspondiente debe
+  presentarse dentro del plazo improrrogable de 12 meses
+  (`MX-LFPPI-PROVISIONAL-PATENT-001`)
 
 **Estrategia PCT / Convenio de París desde México:**
-Si el perfil de práctica incluye jurisdicciones internacionales, anotar:
-- **Convenio de París:** 12 meses de prioridad desde la solicitud mexicana para
-  presentar en otros países
-- **PCT:** solicitud internacional que designa múltiples jurisdicciones, con
-  fase nacional típicamente a los 30-31 meses
-- **Provisional LFPPI 2026** como base para reclamar prioridad internacional
-  `[model knowledge — verify]`
+Está fuera del motor de reglas mexicano de este plugin. Si se contempla
+protección internacional, registrar países y fecha base y escalar antes de
+calcular o prometer prioridad, plazo PCT o fase nacional. En particular, no
+afirmar que la nueva solicitud provisional sirve como base internacional sin
+revisión del Convenio/PCT, Reglamento vigente y práctica de las oficinas.
 
 ### Paso 5: Ensamblar el memorándum de evaluación de invención
 
@@ -587,8 +572,7 @@ Formato:
 >
 > ### Clasificación de titularidad — LFT Art. 163
 >
-> **Clasificación:** [Invento de empresa / Invento del trabajador / Invento
-> libre]
+> **Clasificación:** [Art. 163 fr. II / Art. 163 fr. III / ambigua]
 > **Base:** [razonamiento]
 > **Implicación:** [la empresa puede/no puede solicitar como titular]
 >
@@ -600,7 +584,7 @@ Formato:
 > |---|---|---|
 > | Novedad | [✓ / 🟡 / 🔴] | [razonamiento de una línea] |
 > | Actividad inventiva | [✓ / 🟡 / 🔴] | [razonamiento de una línea] |
-> | Exclusiones Art. 4 LFPPI | [✓ / 🟡 / 🔴] | [razonamiento de una línea] |
+> | Materia/exclusiones LFPPI arts. 47-49 | [✓ / 🟡 / 🔴] | [razonamiento de una línea] |
 > | Divulgación pública / plazos | [✓ / 🟡 / 🔴] | [razonamiento + fechas] |
 > | Detectabilidad | [✓ / 🟡 / 🔴] | [razonamiento de una línea] |
 > | Valor estratégico | [✓ / 🟡 / 🔴] | [razonamiento, referido al perfil] |
@@ -614,7 +598,7 @@ Formato:
 > | Patente de invención (IMPI) | [✓ / 🟡 / 🔴] | [razonamiento breve] |
 > | Modelo de utilidad (IMPI) | [✓ / 🟡 / N/A] | [razonamiento — N/A si es proceso] |
 > | Secreto industrial (LFPPI) | [✓ / 🟡 / 🔴] | [razonamiento] |
-> | Patente provisional (LFPPI 2026) | [✓ / 🟡 / N/A] | [razonamiento `[model knowledge — verify]`] |
+> | Solicitud provisional (LFPPI 2026) | [✓ / 🟡 / N/A] | [razonamiento y transición; `MX-LFPPI-PROVISIONAL-PATENT-001`] |
 > | PCT / Convenio de París | [✓ / N/A] | [si hay jurisdicciones internacionales en perfil] |
 >
 > ---
@@ -638,7 +622,7 @@ Formato:
 >    referencia conocida.
 > 2. **Volver al inventor por más hechos** — Redactaré las preguntas de
 >    seguimiento sobre [puntos abiertos específicos arriba].
-> 3. **Enrutar a despacho externo para juicio sobre Art. 4 / patente-vs-secreto
+> 3. **Enrutar a despacho externo para juicio sobre arts. 47-49 / patente-vs-secreto
 >    industrial / titularidad** — Redactaré una transmisión resumiendo lo que
 >    encontró la evaluación y qué juicio de especialista se necesita.
 > 4. **Declinar y enviar el agradecimiento estándar** — Redactaré el
@@ -650,9 +634,10 @@ Formato:
 > 6. **Explorar ruta de modelo de utilidad** — Redactaré el análisis
 >    complementario de viabilidad como modelo de utilidad si la patente de
 >    invención no parece viable.
-> 7. **Presentar solicitud provisional (LFPPI 2026)** — Redactaré la
->    descripción técnica para asegurar fecha de prioridad mientras se completa
->    la evaluación. `[model knowledge — verify]`
+> 7. **Evaluar solicitud provisional (LFPPI 2026)** — Prepararé un paquete
+>    técnico para revisión especializada; no se presentará ni se prometerá fecha
+>    hasta verificar requisitos, vigencia reglamentaria y el plazo del art. 105
+>    Bis (`MX-LFPPI-PROVISIONAL-PATENT-001`).
 
 Aplicar el encabezado de confidencialidad conforme al rol. Aplicar la nota del
 revisor. Mantener el entregable limpio de narración interna ("Estoy usando el
@@ -673,9 +658,9 @@ La conclusión es una de cuatro:
   Nombrar el punto abierto específico.
 - **DECLINAR** — una evaluación dio una bandera fatal (imposibilitada por
   divulgación de más de 12 meses sin que importen derechos extranjeros,
-  claramente excluida bajo Art. 4, fuera de las áreas tecnológicas de interés
+  claramente excluida bajo los arts. 47-49, fuera de las áreas tecnológicas de interés
   de la empresa, fundamentalmente indetectable sin ruta de secreto industrial,
-  invento libre sin posibilidad de cesión). Declarar la razón claramente.
+  conflicto de titularidad no resuelto). Declarar la razón claramente.
 - **RUTA ALTERNATIVA** — la invención no es patentable o no conviene patentarla,
   pero el secreto industrial es una protección viable y preferible. Enrutar a
   quien posee la clasificación de secretos industriales.
@@ -700,9 +685,9 @@ rápidamente, decirlo explícitamente ("verificación rápida web — la técnic
 discutida en [X] — esto no es una búsqueda de arte previo, es contexto para la
 evaluación") y marcarlo como `[web — verify]`.
 
-**Deferir en cuestiones de Art. 4 LFPPI.** Para cualquier cosa en la frontera
+**Deferir en cuestiones de los arts. 47-49 LFPPI.** Para cualquier cosa en la frontera
 de las exclusiones, señalar para revisión de especialista. Las exclusiones del
-Art. 4 son donde los practicantes rutinariamente discrepan, especialmente para
+los arts. 47-49 es donde los practicantes rutinariamente discrepan, especialmente para
 software e IA.
 
 **Señalar detectabilidad antes de valor estratégico.** Una invención
@@ -723,10 +708,10 @@ responsable del trámite de patentes. La evaluación alimenta a esa persona; no
 la reemplaza.
 
 **Resolver titularidad antes de patentabilidad.** Si la clasificación de LFT
-Art. 163 indica que la empresa no es titular (invento libre) o tiene solo
-derecho preferente (invento del trabajador), esto debe resolverse ANTES de
-invertir en búsqueda de arte previo y trámite. No recomendar PERSEGUIR sin
-señalar que la titularidad está pendiente.
+art. 163, fr. III, indica titularidad de las personas inventoras y derecho
+preferente del patrón, o si la fr. II es ambigua, documentarlo ANTES de invertir
+en búsqueda y trámite. No recomendar PERSEGUIR sin señalar que la titularidad
+está pendiente.
 
 ## Puerta para no abogados
 

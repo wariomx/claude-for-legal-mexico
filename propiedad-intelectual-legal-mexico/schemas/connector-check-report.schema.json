@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://soft.law/schemas/ip-mx/connector-check-report.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "registry_source", "manifest_source", "runtime_inventory_supplied", "ok", "drift", "connectors", "unsupported_capabilities", "declared_unreviewed_servers", "policy"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "registry_source": {"type": "string"},
+    "manifest_source": {"type": "string"},
+    "runtime_inventory_supplied": {"type": "boolean"},
+    "ok": {"type": "boolean"},
+    "drift": {"type": "array", "items": {"type": "string"}},
+    "connectors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "declared_server", "declared_in_manifest", "status", "capabilities_declared", "capabilities_verified", "capability_checks", "runtime_tools_observed", "write_capabilities_verified", "fallback_required"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string"},
+          "declared_server": {"type": "string"},
+          "declared_in_manifest": {"type": "boolean"},
+          "status": {"enum": ["verified", "partially_verified", "configured_unverified", "unavailable"]},
+          "capabilities_declared": {"type": "array", "items": {"type": "string"}},
+          "capabilities_verified": {"type": "array", "items": {"type": "string"}},
+          "capability_checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["capability", "status", "read_probe"],
+              "additionalProperties": false,
+              "properties": {
+                "capability": {"type": "string"},
+                "status": {"enum": ["verified", "configured_unverified", "unavailable"]},
+                "read_probe": {"type": ["object", "null"]}
+              }
+            }
+          },
+          "runtime_tools_observed": {"type": "array", "items": {"type": "string"}},
+          "write_capabilities_verified": {"const": false},
+          "fallback_required": {"type": "boolean"}
+        }
+      }
+    },
+    "unsupported_capabilities": {"type": "array"},
+    "declared_unreviewed_servers": {"type": "array", "items": {"type": "string"}},
+    "policy": {"type": "string", "minLength": 1}
+  }
+}

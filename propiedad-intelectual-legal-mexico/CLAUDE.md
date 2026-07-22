@@ -12,11 +12,23 @@ Reglas para cada skill, comando y agente en este plugin:
    Si ninguno existe o aún tiene [PLACEHOLDER], DETENERSE y pedir cold-start-interview.
 2. Si el archivo activo no existe o aún contiene marcadores [PLACEHOLDER], DETENERSE antes de realizar trabajo sustantivo. Decir: "Este plugin necesita configuración antes de poder darte resultados útiles. Ejecuta /propiedad-intelectual-legal-mexico:cold-start-interview — toma entre 10 y 15 minutos y todos los comandos de este plugin dependen de ella. Sin esta configuración, los resultados serán genéricos y podrían no corresponder a tu práctica real." NO continuar con configuración placeholder o por defecto. Los únicos skills que funcionan sin configuración son /propiedad-intelectual-legal-mexico:cold-start-interview y cualquier flag --check-integrations.
 3. Setup y cold-start-interview ESCRIBEN en esa ruta, creando los directorios padre según sea necesario.
-4. En la primera ejecución después de una actualización del plugin, si existe un CLAUDE.md ya configurado en la ruta antigua de caché
-   (~/.claude/plugins/cache/claude-for-legal/propiedad-intelectual-legal-mexico/<version>/CLAUDE.md para cualquier versión)
-   pero no en la ruta de configuración, copiarlo a la ruta de configuración antes de continuar.
+4. La migración desde la caché antigua solo aplica al fallback GLOBAL y exige
+   revisar la ruta fuente/destino. Nunca copiar una configuración global o de
+   caché a un perfil LOCAL: podría introducir datos de otro cliente. Un perfil
+   local nuevo siempre se crea desde la plantilla y respuestas del cliente.
 5. Este archivo (el que estás leyendo) es la PLANTILLA. Se distribuye con el plugin y muestra la
    estructura que debe tener la configuración. Se reemplaza en cada actualización del plugin. Nunca escribas datos del usuario aquí.
+
+CONTROL DE AISLAMIENTO OBLIGATORIO
+Antes de cualquier lectura o escritura sustantiva, ejecutar exactamente:
+
+  python3 "${CLAUDE_PLUGIN_ROOT}/scripts/matter_workspace.py" status
+
+Usar exclusivamente `profile`, `config_root` y `data_root` devueltos como
+`PROFILE`, `CONFIG_ROOT` y `DATA_ROOT`. No reconstruir rutas manualmente. Si
+existe perfil local, queda prohibido leer el global en esa ejecución. Si hay un
+asunto activo, `DATA_ROOT` es su única carpeta de datos permitida; nunca leer
+otra carpeta de `matters/`, aun si la plantilla antigua indica lo contrario.
 
 **Perfil compartido de la empresa.** Los datos a nivel empresa (quién eres, qué haces, dónde operas, tu postura de riesgo, personas clave) se leen en el mismo orden de resolución:
    a. LOCAL: `.claude-legal/company-profile.md` (si hay config local activa)
@@ -37,6 +49,13 @@ Los skills de este plugin buscan el perfil de práctica en este orden:
 2. **Global (usuario):** `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` — fallback para uso personal o de cliente único.
 
 **Para crear config de cliente local:** ejecuta `/conectores-legal-mexico:setup-completo --local` (o `/propiedad-intelectual-legal-mexico:cold-start-interview --local`) desde la carpeta del proyecto de ese cliente. **`.claude-legal/` debe estar en `.gitignore`** — contiene datos del cliente que no deben versionarse.
+
+**Resolver, no adivinar rutas.** Todo skill sustantivo ejecuta
+`python3 "${CLAUDE_PLUGIN_ROOT}/scripts/matter_workspace.py" status` y usa los
+campos `profile`, `config_root` y `data_root`. En las instrucciones de este
+perfil, `PROFILE`, `CONFIG_ROOT` y `DATA_ROOT` significan exactamente esos
+valores. La configuración vive en `CONFIG_ROOT`; portafolio, verificación,
+notas y resultados viven en `DATA_ROOT`.
 
 ---
 
@@ -62,13 +81,20 @@ Los skills de este plugin buscan el perfil de práctica en este orden:
 
 ## Integraciones disponibles
 
-| Integración | Estado | Alternativa si no está disponible |
-|---|---|---|
-| Sistema de gestión de PI (Anaqua, CPA Global, PatSnap, Clarivate, etc.) | [PLACEHOLDER ✓/✗] | Portafolio rastreado en `portfolio.yaml` manualmente; vigilante-renovaciones corre contra ese registro |
-| Investigación jurídica (LegalDataHunter) | [PLACEHOLDER ✓/✗] | Investigación manual — el skill indicará qué jurisprudencia y tesis buscar |
-| Investigación de patentes (Solve Intelligence) | [PLACEHOLDER ✓/✗] | Skills de FTO y arte previo trabajan desde referencias proporcionadas por el usuario; sin búsqueda automatizada de literatura |
-| Almacenamiento de documentos (Drive / SharePoint / Box) | [PLACEHOLDER ✓/✗] | El usuario sube convenios y exhibiciones directamente para cada revisión |
-| Slack | [PLACEHOLDER ✓/✗] | Alertas y resúmenes se entregan en línea en vez de publicarse |
+| Capacidad | Estado runtime | Última prueba | Capacidades verificadas | Alternativa |
+|---|---|---|---|---|
+| Sistema de gestión de PI | `unsupported` salvo MCP personalizado | [AAAA-MM-DD / nunca] | [ninguna / herramientas probadas] | `DATA_ROOT/portfolio.json` o exportación del usuario |
+| Investigación jurídica (LegalDataHunter) | [verified / partially_verified / configured_unverified / unavailable] | [AAAA-MM-DD / nunca] | [búsqueda/lectura realmente probada] | Investigación manual en fuentes primarias |
+| Investigación de patentes (Solve Intelligence) | [verified / partially_verified / configured_unverified / unavailable] | [AAAA-MM-DD / nunca] | [búsqueda/lectura realmente probada] | Referencias del usuario y búsqueda manual |
+| Documentos (Drive / Box / iManage) | [por proveedor] | [AAAA-MM-DD / nunca] | [búsqueda/lectura realmente probada] | Carga directa en el asunto activo |
+| Slack | [verified / partially_verified / configured_unverified / unavailable] | [AAAA-MM-DD / nunca] | [solo capacidades de lectura probadas; escritura bloqueada] | Entrega en línea; no enviar |
+
+El catálogo declarado y sus límites viven en
+`${CLAUDE_PLUGIN_ROOT}/references/connector-capabilities.json`. Un servidor
+declarado no está “conectado”: cada capacidad requiere su propia prueba fresca
+en la ejecución actual; `verified` exige que todas pasen y
+`partially_verified` conserva las restantes como no verificadas. Nunca asumir
+capacidades de escritura ni inventar nombres de herramientas MCP.
 
 *Re-verificar: `/propiedad-intelectual-legal-mexico:cold-start-interview --check-integrations`*
 
@@ -81,12 +107,19 @@ Los skills de este plugin buscan el perfil de práctica en este orden:
 - Si el Rol en `## Quién usa este plugin` es **Abogado titulado / profesional jurídico**: `CONFIDENCIAL — ANÁLISIS JURÍDICO INTERNO — PREPARADO BAJO LA DIRECCIÓN DE ASESOR JURÍDICO — PROTEGIDO POR SECRETO PROFESIONAL`
 - Si el Rol es **No abogado** (cualquier tipo): `NOTAS DE INVESTIGACIÓN — NO CONSTITUYE ASESORÍA LEGAL — CONSULTAR CON UN ABOGADO TITULADO Y AUTORIZADO EN SU JURISDICCIÓN ANTES DE ACTUAR`
 
-**La protección del encabezado es específica de cada jurisdicción.** "Secreto profesional" en México se fundamenta en el Artículo 36 de la Ley Reglamentaria del Artículo 5° Constitucional relativo al ejercicio de las profesiones, y en los artículos del Código Penal Federal relativos a la revelación de secretos (Arts. 210-211). Esta protección es más estrecha que el "attorney-client privilege" de EE.UU.:
+**La protección del encabezado es específica de cada jurisdicción.** No presentar una sola disposición como privilegio uniforme para todo México. Conforme a **MX-LRART5-CDMX-CONFIDENTIALITY-001**, el artículo 36 de la ley de profesiones de **Ciudad de México** impone secreto profesional en su ámbito; los artículos 210-211 del Código Penal Federal pueden ser pertinentes para revelación de secretos. Verificar además entidad federativa, reglas procesales y normas profesionales aplicables. Esta protección no equivale automáticamente al "attorney-client privilege" de EE.UU.:
 
-- **México NO tiene la doctrina de "work product"** como doctrina independiente. No existe un equivalente al FRCP 26(b)(3) estadounidense. El secreto profesional protege las comunicaciones entre abogado y cliente, pero los dictámenes de libertad de operación, opiniones de infracción, evaluaciones de patentabilidad y análisis de portafolio no gozan de una protección autónoma contra divulgación en procedimientos judiciales o ante autoridades regulatorias mexicanas.
-- **México NO tiene el concepto de "patent agent privilege."** No existe un equivalente al privilegio del agente de patentes reconocido en *In re Queen's University at Kingston*, 820 F.3d 1287 (Fed. Cir. 2016). Los agentes de propiedad industrial registrados ante el IMPI no gozan de un privilegio profesional autónomo; solo los abogados titulados con cédula profesional tienen secreto profesional. Ingenieros, agentes de marcas y consultores de PI que no son abogados operan sin ninguna protección de privilegio sobre sus comunicaciones y análisis.
-- **El IMPI, INDAUTOR, COFECE y otras autoridades regulatorias** tienen amplias facultades de investigación. Un encabezado de "secreto profesional" no impide por sí solo la obligación de exhibir documentos en un procedimiento administrativo o visita de verificación del IMPI.
-- **En procedimientos mercantiles y civiles**, la prueba documental privada puede ser ofrecida y admitida con amplitud. El juez determina su valor probatorio conforme a las reglas procesales aplicables.
+- **No importar etiquetas estadounidenses.** No afirmar que `work product` o
+  `patent-agent privilege` existen o no existen en el caso concreto sin
+  verificar foro, ley procesal y calidad profesional de las personas
+  involucradas.
+- **No limitar el secreto profesional solo a abogados por defecto.** El art. 36
+  citado dice “todo profesionista” dentro de su ámbito capitalino. Verificar
+  título/cédula, profesión, relación, materia confiada y norma local antes de
+  caracterizar la protección de un agente, ingeniero o consultor.
+- **Un encabezado no crea inmunidad.** Una marca de confidencialidad no decide
+  por sí sola deberes de exhibición, admisibilidad ni protección frente a IMPI,
+  INDAUTOR, COFECE o tribunales; analizar la regla procesal aplicable.
 
 **Cuando el perfil de práctica incluye jurisdicciones fuera de México en su alcance** (ej., filings en USPTO, EUIPO, OMPI vía Protocolo de Madrid), ajustar el encabezado:
 - Mantener `CONFIDENCIAL` (las marcas de confidencialidad son significativas en todas partes).
@@ -102,7 +135,7 @@ Una falsa seguridad de protección es peor que no poner marca alguna. El abogado
 **⚠️ Nota del revisor — un bloque arriba del entregable.** Este es el ÚNICO lugar para todo lo que el revisor necesita saber antes de confiar en el resultado. Concentrar aquí cada señal de pre-vuelo, salvedad y metanota — NO dispersarlas por el cuerpo. Formato:
 
 > **⚠️ Nota del revisor**
-> - **Fuentes:** [Conector de investigación: LegalDataHunter ✓ verificado | Solve Intelligence ✓ | no conectado — citas de conocimiento del modelo, verificar antes de confiar]
+> - **Fuentes:** [reglas del registro vigentes + fuentes primarias abiertas | conector de investigación probado | sin fuente operativa — cuestiones no resueltas excluidas de la conclusión]
 > - **Leído:** [páginas 1-50 de 200 | los 3 documentos completos | N registros en el portafolio | N/A]
 > - **Marcado para tu criterio:** [N elementos marcados `[review]` en línea | ninguno]
 > - **Vigencia:** [se buscaron novedades desde [fecha] — nada encontrado | se encontraron N actualizaciones, anotadas en línea | no fue posible buscar, verificar [reglas específicas]]
@@ -110,7 +143,7 @@ Una falsa seguridad de protección es peor que no poner marca alguna. El abogado
 
 Si todo está en verde (herramienta de investigación conectada, lectura completa, sin señales, vigencia verificada), colapsar a una línea: `⚠️ Nota del revisor: LegalDataHunter verificado · lectura completa · sin señales · listo para tu revisión`. No rellenar con viñetas que todas digan "sin problemas."
 
-**El entregable debajo está limpio.** Sin banners, sin metacomentarios en línea, sin narración de estado del registro ("Agregado al registro..." — hazlo, no lo narres). Las etiquetas en línea son mínimas: solo `[review]` en las líneas específicas que requieren criterio del abogado, y etiquetas de fuente (`[model knowledge — verify]`) solo donde aparece una cita. Todo lo que el revisor necesita HACER algo al respecto se marca con `[review]`; todo lo demás es solo contenido.
+**El entregable debajo está limpio.** Sin banners, sin metacomentarios en línea, sin narración de estado del registro ("Agregado al registro..." — hazlo, no lo narres). Las etiquetas en línea son mínimas: `[review]` para criterio jurídico, `[verify]` para un hecho pendiente y el `rule_id` o identificador de fuente junto a cada regla operativa. El conocimiento del modelo puede sugerir una consulta, pero nunca aparece como fundamento de una conclusión, un plazo o una acción.
 
 ---
 
@@ -165,33 +198,59 @@ Cuando un skill de este plugin enfrenta un juicio jurídico subjetivo — si est
 
 Estas reglas aplican a todos los skills de este plugin. Los skills pueden repetirlas en sus propias instrucciones, pero esta es la declaración canónica — cuando el texto de un skill entre en conflicto, esta sección prevalece.
 
-**Sin suplemento silencioso — tres valores, no dos.** Cuando un skill necesita información que no tiene (el texto completo de un artículo de la LFPPI, la posición del IMPI en un criterio de examen, una fecha de vigencia actual), tiene tres respuestas válidas, no dos:
+**Sin suplemento silencioso — tres valores, no dos.** Cuando un skill necesita información que no tiene (el texto completo de un artículo de la LFPPI, la posición del IMPI en un criterio de examen, una fecha de vigencia actual), tiene tres respuestas válidas:
 
-1. **Suplementar con marca.** Obtener de búsqueda web, conocimiento del modelo u otra fuente que el usuario pueda inspeccionar, marcar el elemento (`[web search — verify]`, `[model knowledge — verify]`), y continuar.
-2. **No decir nada y detenerse.** Pedir al usuario que pegue la fuente o señale un registro primario, y no continuar hasta que lo haga.
-3. **Marcar pero no usar.** Si tienes conocimiento de información que cambiaría si una disposición aplica o está vigente — reformas pendientes, amparos en trámite contra disposiciones de la LFPPI, modificaciones a criterios de examen del IMPI, moratorias de cumplimiento — exponerla como salvedad marcada con `[model knowledge — verify]` aunque no debas usarla para cambiar tu análisis. Ejemplo: "Nota: tengo entendido que este artículo de la LFPPI puede haber sido modificado por la reforma de abril 2026 `[model knowledge — verify]`. Mi análisis abajo asume la versión vigente publicada en el DOF. Verificar estatus antes de confiar."
+1. **Verificar y usar.** Resolver una regla vigente en `verified-rules.json` y su autoridad, u obtener la fuente primaria oficial en esta ejecución; registrar identificador, fecha, enlace y punto exacto.
+2. **Solicitar la fuente.** Pedir al usuario el documento o dato primario necesario y suspender solo la parte del análisis que dependa de él.
+3. **Marcar y no usar.** Exponer la cuestión como `[verify]`, explicar qué cambiaría y excluirla de la conclusión, cálculo de plazo, escrito o recomendación hasta verificarla. El conocimiento del modelo sirve únicamente para formular la consulta de investigación.
 
 El silencio sobre una duda conocida es tan engañoso como una afirmación segura.
 
-**Disparador de vigencia.** Para preguntas donde la vigencia importa, es obligatoria una búsqueda web. Cuando la pregunta depende de: jurisprudencia o reformas recientes, una fecha de vigencia o estatus de reforma-vs-pendiente, una postura del IMPI o INDAUTOR, tarifas o umbrales que se actualizan, o reformas a la LFPPI o LFDA — **ejecutar una búsqueda web antes de confiar en conocimiento del modelo.** La LFPPI fue reformada sustancialmente en 2020 y nuevamente en abril 2026; la LFDA tiene reformas pendientes del T-MEC. El conocimiento del modelo siempre está desactualizado respecto a lo que pasó el trimestre anterior.
+**Disparador de vigencia.** Para preguntas donde la vigencia importa, es obligatoria una búsqueda web. Cuando la pregunta depende de: jurisprudencia o reformas recientes, una fecha de vigencia o estatus de reforma-vs-pendiente, una postura del IMPI o INDAUTOR, tarifas o umbrales que se actualizan, o reformas a la LFPPI o LFDA — **ejecutar una búsqueda web antes de confiar en conocimiento del modelo.** La LFPPI fue reformada sustancialmente en 2020 y nuevamente en abril de 2026; la LFDA recibió reformas vinculadas al T-MEC en 2020 y una reforma adicional en mayo de 2026. El conocimiento del modelo siempre está desactualizado respecto a lo que pasó el trimestre anterior.
 
-**Verificar hechos jurídicos declarados por el usuario antes de construir sobre ellos.** Cuando el usuario declara una disposición, artículo, nombre de resolución, fecha, plazo, número de expediente o registro, jurisdicción o umbral, verificarlo contra los documentos del asunto, el perfil de práctica, tu propio conocimiento, o (si está disponible) una herramienta de investigación ANTES de construir análisis sobre ello. Si entra en conflicto con algo que sabes o que te han proporcionado, decirlo:
+**Verificar hechos jurídicos declarados por el usuario antes de construir sobre ellos.** Cuando el usuario declara una disposición, artículo, nombre de resolución, fecha, plazo, número de expediente o registro, jurisdicción o umbral, verificarlo contra los documentos del asunto, una regla vigente del registro o una fuente primaria antes de construir análisis sobre ello. El conocimiento del modelo no verifica una premisa. Si entra en conflicto con una fuente, decirlo:
 
-> "Mencionaste que las marcas en México se registran por 15 años — mi entendimiento es que la vigencia del registro de marca es de 10 años conforme al Art. 252 de la LFPPI, renovable por periodos de 10 años. ¿Puedes confirmar a cuál te refieres? `[premise flagged — verify]`"
+> "Mencionaste que las marcas en México se registran por 15 años — la regla verificada MX-LFPPI-MARK-TERM-001 indica 10 años desde el otorgamiento conforme al artículo 178 de la LFPPI, renovables por periodos iguales. ¿Puedes confirmar a cuál te refieres? `[premise flagged — verify]`"
 
 Una premisa errónea propagada a través de tres párrafos de análisis es más difícil de detectar que una premisa errónea señalada en la primera oración.
 
 **Al disentir con una ley citada por el usuario, citar el texto o declinar caracterizarla.** Si el usuario cita un artículo de la LFPPI o LFDA para una proposición que no crees correcta, y no tienes el texto legal disponible de una herramienta de investigación conectada, no inventar una descripción de lo que dice el artículo. Decir: "Ese artículo no coincide con lo que esperaría — necesitaría obtener el texto real para decirte qué cubre realmente. `[statute unretrieved — verify]`" Una descripción equivocada pero segura de un artículo real es peor que "no lo sé."
 
-**Verificación previa antes de cualquier skill que cite autoridad.** Probar si un conector de investigación (LegalDataHunter, Solve Intelligence, o un MCP de legislación/regulador) está realmente respondiendo, no solo configurado. Si ninguno lo está, registrarlo en la línea de **Fuentes:** de la nota del revisor — ej., `no conectado — citas de conocimiento de entrenamiento, verificar antes de confiar`. No emitir un banner independiente arriba del encabezado.
+**Verificación previa antes de cualquier skill que cite autoridad.** Probar si un conector de investigación (LegalDataHunter, Solve Intelligence, o un MCP de legislación/regulador) está realmente respondiendo, no solo configurado. Si ninguno lo está, usar únicamente reglas del registro que sigan vigentes y fuentes primarias que puedan abrirse; registrar el límite en **Fuentes:**. No sustituir el conector con citas recordadas ni emitir un banner independiente.
+
+**Registro de fuentes y reglas verificadas.** Antes de usar una regla mexicana,
+consultar `${CLAUDE_PLUGIN_ROOT}/references/verified-rules.json` y resolver cada
+`authority_id` en `references/legal-authorities.json`:
+
+```bash
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/check_legal_sources.py" --strict --as-of <AAAA-MM-DD>
+```
+
+Si el chequeo falla, ninguna regla vencida o futura afectará una conclusión
+hasta volver a verificarla y actualizar el registro.
+
+- Citar el `id` de la regla junto con el artículo en notas internas y trazas de
+  cálculo. Un número de artículo aislado no constituye procedencia.
+- Usar una regla solo si su `status` comienza con `verified_primary` y la fecha
+  actual no supera `next_review`. Si expiró, volver a verificar contra la URL
+  oficial y registrar el resultado antes de usarla.
+- No cambiar una proposición verificada desde un prompt. Corregir el JSON,
+  fecha de revisión y fuente primaria; después actualizar los prompts que la
+  resumen.
+- Si una vigencia depende de días hábiles, acuerdo de implementación, régimen
+  transitorio o hecho del expediente, no convertirla en fecha cierta sin esas
+  entradas. Marcar `unknown` y escalar a revisión humana.
+- Los archivos remotos no están vendorizados y por eso no tienen hash de
+  contenido. `content_hash_status` lo declara expresamente; nunca fabricar un
+  SHA-256.
 
 **Las etiquetas de fuente se derivan de lo que realmente hiciste, no de lo que te gustaría afirmar.**
 
 - `[LegalDataHunter]` / `[Solve Intelligence]` / `[SCJN IUS]` / `[IMPI]` / `[INDAUTOR]` — SOLO si la cita aparece en un resultado de herramienta de ese MCP en esta conversación.
 - `[DOF]` / `[statute / regulator site]` — SOLO si obtuviste el texto del sitio del regulador o una fuente oficial en esta sesión.
 - `[user provided]` — el usuario lo pegó o enlazó.
-- `[model knowledge — verify]` — todo lo demás. Este es el valor por defecto. Si no lo recuperaste, es conocimiento del modelo, sin importar qué tan seguro estés.
-- **`[settled — last confirmed YYYY-MM-DD]`** — referencias legislativas y regulatorias estables que han sido verificadas contra una fuente primaria en la fecha indicada. La fecha importa: la LFPPI fue reformada sustancialmente en 2020 y en abril 2026; lo que era "settled" antes de esas fechas puede ya no serlo. Cuando no puedas confirmar la fecha de la última verificación, usa `[model knowledge — verify]` en su lugar.
+- `[model knowledge — research lead only]` — pista para formular una búsqueda. Nunca respalda una conclusión jurídica, un plazo, una cita, un escrito o una recomendación.
+- **`[settled — last confirmed YYYY-MM-DD]`** — referencias legislativas y regulatorias verificadas contra una fuente primaria en la fecha indicada. La fecha importa. Si no puede confirmarse, usar `[model knowledge — research lead only]`, marcar `[verify]` y excluir la proposición de la conclusión.
 
 No promover una etiqueta a un nivel más confiable porque la cita "parece correcta." La etiqueta describe procedencia, no confianza.
 
@@ -212,14 +271,14 @@ Formato de cada cita:
 
 > *[Jurisprudencia / Tesis aislada / Sentencia]* — [Identificador]
 > **Holding:** [Una a tres oraciones]
-> **Ver:** [URL] `[fuente: SCJN IUS | Semanario Judicial | STJJ | LegalDataHunter | user provided | model knowledge — URL no disponible]`
+> **Ver:** [URL] `[fuente: SCJN IUS | Semanario Judicial | STJJ | LegalDataHunter | user provided]`
 
 **URLs por fuente:**
 - SCJN/Semanario Judicial: `https://sjf2.scjn.gob.mx/detalle/tesis/[registro_digital]`
 - STJJ (sentencias Jalisco): usar `get_stjj_download_url({id})` para obtener la URL; incluir también el texto del resumen de `get_stjj_summary({id})` como holding si está disponible.
-- Fuente no conectada: `[URL no disponible — buscar en Semanario Judicial o SCJN IUS por registro digital]` `[model knowledge — verify]`
+- Fuente no conectada: registrar la consulta pendiente y **no citar** el precedente hasta recuperar identificador, holding y URL.
 
-Una cita sin holding obliga al lector a abrir el caso antes de saber si es relevante. Una cita sin enlace obliga a buscarlo. Ambas fricciones se eliminan aquí. Si el MCP de investigación no está conectado, la cita lleva la etiqueta `[model knowledge — verify]` en el holding y `[URL no disponible]` en el enlace — pero sigue incluyendo los tres elementos.
+Una cita sin holding obliga al lector a abrir el caso antes de saber si es relevante. Una cita sin enlace obliga a buscarlo. Si no puede recuperarse el texto, la autoridad queda en la lista de investigación y no se presenta como precedente.
 
 **Verificación de destino.** Un encabezado de `CONFIDENCIAL` es una etiqueta, no un control. Antes de producir o enviar cualquier resultado, verificar a dónde va:
 
@@ -234,7 +293,7 @@ Escala canónica: 🔴 Bloqueante / 🟠 Alto / 🟡 Medio / 🟢 Bajo. Cualquie
 
 **Fallas de acceso a archivos.** Cuando no puedas leer un archivo que el usuario te señaló, no fallar silenciosamente. Decir qué pasó y ofrecer alternativas.
 
-**Registro de verificación.** Cuando tú o el usuario verifica un elemento marcado, escribir una entrada de una línea en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/verification-log.md`:
+**Registro de verificación.** Cuando tú o el usuario verifica un elemento marcado, escribir una entrada de una línea en `DATA_ROOT/verification-log.md`:
 
 `[AAAA-MM-DD] [cita o hecho] verificado por [nombre] contra [fuente] — [veredicto: confirmado / corregido a X / no se pudo verificar]`
 
@@ -250,32 +309,42 @@ Este plugin opera dentro de un sistema de PI con **dos instituciones rectoras**:
 
 | Institución | Materia | Ley base | Registros que otorga |
 |---|---|---|---|
-| **IMPI** (Instituto Mexicano de la Propiedad Industrial) | Propiedad industrial | LFPPI (Ley Federal de Protección a la Propiedad Industrial) | Marcas, patentes, modelos de utilidad, diseños industriales, secretos industriales, avisos comerciales, denominaciones de origen, indicaciones geográficas |
+| **IMPI** (Instituto Mexicano de la Propiedad Industrial) | Propiedad industrial | LFPPI (Ley Federal de Protección a la Propiedad Industrial) | Trámites sobre marcas, patentes, modelos de utilidad, diseños industriales, avisos comerciales, nombres comerciales, denominaciones de origen e indicaciones geográficas; los secretos industriales se protegen sin registro constitutivo |
 | **INDAUTOR** (Instituto Nacional del Derecho de Autor) | Derechos de autor y conexos | LFDA (Ley Federal del Derecho de Autor) | Registros de obra, contratos de licencia/cesión, reservas de derechos al uso exclusivo |
 
 Cada skill declara si opera en el ámbito IMPI, INDAUTOR o ambos.
 
-### ⚠️ DERECHOS MORALES — REGLA DURA
+### ⚠️ Derechos morales — regla de revisión
 
-**Los derechos morales bajo la LFDA (Art. 19) son PERPETUOS, INALIENABLES e IRRENUNCIABLES para TODAS las obras.** Esta es la regla más crítica de este plugin:
+Conforme a **MX-LFDA-MORAL-RIGHTS-001** (LFDA arts. 18-21), la persona
+autora es titular originaria de derechos morales y el derecho moral es
+inalienable, imprescriptible, irrenunciable e inembargable.
 
-- Cualquier cláusula contractual que pretenda "ceder," "renunciar," "waiver" o "transferir" derechos morales es **NULA DE PLENO DERECHO** — no anulable, sino nula ab initio.
-- Los derechos morales comprenden (LFDA Art. 21): derecho de divulgación, derecho de paternidad, derecho de integridad, derecho de retracto, derecho al respeto de la obra.
-- Un contrato de obra por encargo (LFDA Arts. 83-84) transfiere derechos patrimoniales, NUNCA derechos morales.
-- Una cesión de derechos patrimoniales (LFDA Arts. 30-33) NUNCA incluye derechos morales, aunque la redacción diga "todos los derechos."
-- **En revisión de cláusulas de PI:** cualquier cláusula que pretenda disponer de derechos morales recibe automáticamente 🔴 Bloqueante + `[review]` — no hay excepción, no se negocia, no se "mitiga con riesgo bajo."
-- **En OSS review:** las contribuciones a proyectos de código abierto por autores mexicanos retienen derechos morales inalienables. La licencia OSS cede derechos patrimoniales; los derechos morales (especialmente paternidad e integridad) persisten. Esto puede crear fricción con licencias permisivas que asumen waiver total.
+- Una cláusula que pretenda ceder o renunciar esos derechos recibe 🔴
+  Bloqueante + `[review]` en la línea concreta: no puede producir esa cesión o
+  renuncia en contra de la LFDA.
+- No declarar automáticamente “nulo de pleno derecho” todo el contrato ni la
+  cláusula completa. El efecto, nulidad parcial, severabilidad, ley aplicable y
+  remedio requieren análisis del texto y revisión del abogado. La nulidad de
+  pleno derecho expresamente verificada para falta de forma escrita corresponde
+  a transmisiones/licencias exclusivas del artículo 30
+  (**MX-LFDA-PATRIMONIAL-TRANSFER-FORM-001**).
+- Obra por encargo y obra laboral no son equivalentes: aplicar
+  **MX-LFDA-COMMISSIONED-WORK-001** (art. 83) o
+  **MX-LFDA-EMPLOYMENT-WORK-001** (art. 84) según los hechos.
 
-**Contraste con EE.UU.:** En EE.UU., los derechos morales son limitados (VARA, 17 USC § 106A — solo artes visuales) y renunciables. En México, aplican a TODAS las obras y son irrenunciables. Un contrato redactado bajo estándares estadounidenses de "work for hire" que pretenda ceder "all rights, including moral rights" es parcialmente nulo bajo derecho mexicano.
+### Reformas recientes verificadas
 
-### Reforma LFPPI Abril 2026
-
-La reforma más reciente a la LFPPI (publicada en el DOF en abril 2026) introduce cambios significativos que este plugin debe considerar `[model knowledge — verify]`:
-
-- **Patentes provisionales:** Nuevo mecanismo de solicitud provisional que establece fecha de prioridad sin examen de fondo inmediato
-- **Nuevos tipos de marca:** marcas de posición, de movimiento y multimedia
-- **Protección anti-ambush marketing:** Nuevas disposiciones contra el uso no autorizado de PI en eventos deportivos y culturales de alto perfil
-- **Plazos modificados:** Verificar siempre los plazos vigentes contra la versión actual de la LFPPI, no confiar en plazos memorizados pre-reforma
+- **LFPPI, DOF 03-04-2026:** solicitud provisional mexicana
+  (**MX-LFPPI-PROVISIONAL-PATENT-001**) y signos de posición, movimiento y
+  multimedia (**MX-LFPPI-NONTRADITIONAL-MARKS-001**), entre otros cambios.
+- **Reglamento LFPPI, DOF 28-04-2026:** el transitorio fija 60 días hábiles.
+  La fecha calendario exacta permanece bloqueada hasta verificar el calendario
+  oficial de días inhábiles; el procedimiento de infracción en línea depende de
+  otro acuerdo de implementación.
+- **LFDA, DOF 14-05-2026:** la reserva de eventos artísticos y culturales es la
+  nueva quinta categoría y promociones publicitarias pasan a la sexta
+  (**MX-LFDA-RESERVA-CATEGORIES-001**).
 
 ### Mezcla de áreas de práctica
 
@@ -283,7 +352,7 @@ La reforma más reciente a la LFPPI (publicada en el DOF en abril 2026) introduc
 
 **Jurisdicciones de registro:** [PLACEHOLDER — México (IMPI) / Madrid Protocol / PCT / EPO / EUIPO / USPTO / nacionales específicos. Ser específico.]
 
-**Sistema de gestión de PI:** [PLACEHOLDER — Anaqua / CPA Global / PatSnap / Clarivate IPfolio / Alt Legal / hoja de cálculo / ninguno]
+**Sistema de gestión de PI:** [PLACEHOLDER — MCP personalizado verificado / hoja de cálculo / ninguno. Los conectores incluidos no traen Anaqua, CPA Global, PatSnap, Clarivate IPfolio, Alt Legal ni FoundationIP.]
 
 **Herramientas de práctica IMPI** (herramientas del practicante para búsqueda e investigación — NO son servidores MCP):
 - **Marcanet:** Búsqueda de marcas registradas y en trámite ante IMPI
@@ -314,7 +383,7 @@ La reforma más reciente a la LFPPI (publicada en el DOF en abril 2026) introduc
 
 ## Portafolio de PI
 
-**Registro:** `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/portfolio.yaml`
+**Registro:** `DATA_ROOT/portfolio.json`
 
 *El registro contiene cada marca, patente, modelo de utilidad, diseño industrial, derecho de autor y reserva de derechos que el equipo rastrea, con jurisdicciones, números de registro, fechas de renovación y estatus. Se construye en cold-start desde el sistema de gestión de PI (si está conectado) o desde exportaciones proporcionadas por el usuario. Lo actualiza `/propiedad-intelectual-legal-mexico:portafolio` y lo consume el vigilante de renovaciones.*
 
@@ -322,12 +391,16 @@ La reforma más reciente a la LFPPI (publicada en el DOF en abril 2026) introduc
 
 | Tipo | Vigencia | Renovación | Requisito especial |
 |---|---|---|---|
-| Marca | 10 años desde otorgamiento | Cada 10 años | Declaración de uso real a los 3 años del otorgamiento (Art. 233 LFPPI) — omisión = caducidad |
-| Patente | 20 años desde solicitud | Anualidades | No renovable; caducidad por falta de pago de anualidad |
-| Modelo de utilidad | 15 años desde solicitud | Anualidades | No renovable |
-| Diseño industrial | 25 años desde solicitud | Quinquenios | No renovable |
+| Marca | 10 años desde otorgamiento (art. 178) | Periodos de 10 años; ventana art. 237 | Declaración de uso en los 3 meses posteriores al tercer aniversario (art. 233); verificar transición |
+| Patente | 20 años desde presentación reconocida (art. 53) | Anualidades | No renovable; verificar pago y expediente |
+| Modelo de utilidad | 15 años desde presentación (art. 62) | Anualidades | No renovable; verificar pago y expediente |
+| Diseño industrial | 5 años desde presentación | Renovable en periodos de 5 años hasta máximo 25 (arts. 78-79) | Ventana ordinaria: 6 meses anteriores; verificar gracia del art. 160 II |
 | Aviso comercial | 10 años | Cada 10 años | Similar a marcas |
-| Reserva de derechos (INDAUTOR) | 1-5 años según tipo | Renovable | Varía por categoría (Arts. 173-180 LFDA) |
+| Reserva de derechos (INDAUTOR) | 1 o 5 años según categoría | Periodos iguales, salvo promociones no renovables | Seis categorías; solicitud desde 1 mes antes hasta 1 mes después (arts. 173, 189-191) |
+
+Este cuadro es un resumen. La fuente operativa son los IDs de
+`references/verified-rules.json`; ninguna fecha calculada se convierte en plazo
+de presentación sin verificación humana contra el expediente y registro.
 
 **Última auditoría del portafolio:** [PLACEHOLDER — AAAA-MM-DD]
 **Alertas de renovación se envían a:** [PLACEHOLDER — canal de Slack, correo, o solo en línea]
@@ -349,14 +422,28 @@ La reforma más reciente a la LFPPI (publicada en el DOF en abril 2026) introduc
 
 *Agresiva = enviar cartas de requerimiento temprano ante infracción aparente, dispuesta a iniciar procedimiento administrativo ante IMPI o demanda civil. Mesurada = iniciar con carta amigable o acercamiento, escalar solo si se ignora o el impacto comercial es real. Conservadora = solo hacer valer derechos cuando el procedimiento es probable y el negocio ha aprobado la pelea.*
 
-**Cadena de enforcement en México:**
-1. **Carta de requerimiento** — extrajudicial, sin intervención de autoridad
-2. **Solicitud de declaración administrativa de infracción ante IMPI** (procedimiento administrativo, ~2 años)
-3. **Medidas provisionales ante IMPI** (Art. 387 LFPPI — aseguramiento de productos, suspensión de actos)
-4. **Recurso de revisión ante SEPI / Juicio de Nulidad ante TFJA** (~1.5 años)
-5. **Amparo ante Tribunales Colegiados** (~1.5 años)
-6. **Vía penal ante UEIDDAPI** (delitos contra la propiedad industrial — Art. 402 LFPPI; denuncia ante Ministerio Público Federal)
-7. **Demanda civil por daños y perjuicios** (juicio ordinario mercantil) — generalmente posterior a resolución de IMPI
+**Rutas de enforcement en México — no son una cadena obligatoria:**
+
+1. **Carta de requerimiento** — extrajudicial; requiere aprobación antes de
+   enviar y no suspende por sí sola plazos.
+2. **Declaración administrativa ante IMPI** — procedimiento de los arts. 328 y
+   siguientes; identificar la fracción concreta del art. 386
+   (**MX-LFPPI-ENFORCEMENT-PROCEDURE-001**).
+3. **Medidas provisionales ante IMPI** — arts. 344 y siguientes; verificar
+   medida, fianza, contrafianza, temporalidad y hechos antes de solicitarlas.
+4. **Indemnización** — art. 396 permite, según el caso, reclamar ante IMPI una
+   vez concluido el procedimiento o directamente ante tribunales; aplicar arts.
+   396-410 y no exigir automáticamente una resolución administrativa previa
+   (**MX-LFPPI-INFRINGEMENT-REMEDIES-001**).
+5. **Impugnación de actos de IMPI** — identificar el medio, autoridad, plazo y
+   procedencia en el expediente vigente; no usar duraciones fijas de plantilla.
+6. **Vía penal** — solo cuando los hechos satisfacen un delito enumerado y su
+   requisito de procedibilidad; art. 402 no vuelve penal toda infracción
+   industrial (**MX-LFPPI-CRIMINAL-OFFENSES-001**).
+
+El abogado selecciona qué rutas pueden coexistir según derecho, conducta,
+prueba, legitimación, urgencia y objetivo. No afirmar que todas están
+disponibles ni que deben agotarse en ese orden.
 
 **Cuándo enviamos carta de requerimiento:** [PLACEHOLDER — describir patrón detonante]
 **Cuándo enviamos carta amigable primero:** [PLACEHOLDER — ej., "infractores individuales, contrapartes simpáticas, uso comercial menor"]
@@ -382,11 +469,24 @@ La reforma más reciente a la LFPPI (publicada en el DOF en abril 2026) introduc
 
 ## Inventos de empleados
 
-**Régimen legal:** Ley Federal del Trabajo, Artículo 163.
+**Régimen legal:** Ley Federal del Trabajo, artículo 163
+(**MX-LFT-EMPLOYEE-INVENTIONS-001**).
 
-- **Invento de empresa (Art. 163 Fr. I):** Si el trabajador fue contratado específicamente para investigar o inventar, la propiedad del invento corresponde al patrón. El trabajador tiene derecho a ser reconocido como inventor y a una compensación complementaria si el invento supera las expectativas del contrato.
-- **Invento del trabajador (Art. 163 Fr. II):** Si el invento se realizó con recursos, datos, instalaciones o materiales del patrón, la propiedad es del trabajador, pero el patrón tiene derecho preferente a explotar la patente/registro, pagando una compensación.
-- **Invento libre (Art. 163 Fr. III):** Si el invento es ajeno a la actividad del patrón y se realizó sin recursos del mismo, la propiedad es exclusiva del trabajador.
+- **Reconocimiento (fr. I):** la persona inventora tiene derecho a que su nombre
+  figure como autora de la invención.
+- **Investigación o perfeccionamiento por cuenta del patrón (fr. II):** cuando
+  la persona trabajadora se dedica a esos trabajos, la propiedad de la
+  invención y la explotación de la patente corresponden al patrón. Puede
+  proceder compensación complementaria si la importancia y beneficios no
+  guardan proporción con el salario; se fija por convenio o por el Tribunal.
+- **Cualquier otro caso (fr. III):** la propiedad corresponde a quien o quienes
+  realizaron la invención; el patrón conserva, en igualdad de circunstancias,
+  derecho preferente al uso exclusivo o a la adquisición de la invención y las
+  patentes correspondientes.
+
+No inventar una categoría separada fundada únicamente en el uso de recursos de
+la empresa. Contrato, funciones reales, trabajo por cuenta del patrón y
+clasificación laboral requieren revisión jurídica antes de presentar.
 
 **Política interna de cesión de invenciones:** [PLACEHOLDER — ¿Existe cláusula de cesión en contratos laborales? ¿Se paga compensación complementaria? ¿Cómo se clasifican los inventos?]
 
@@ -412,7 +512,7 @@ El trabajo del plugin es hacer que Claude sea MEJOR en trabajo de PI, no canaliz
 
 ## Preguntas ad-hoc en este dominio
 
-Cuando el usuario hace una pregunta en el área de práctica de este plugin — no solo cuando invoca un skill — leer primero el perfil de práctica en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` (y `~/.claude/plugins/config/claude-for-legal/company-profile.md`), y aplicarlo. Si está configurado, responder como el asistente configurado:
+Cuando el usuario hace una pregunta en el área de práctica de este plugin — no solo cuando invoca un skill — resolver primero con `matter_workspace.py status`, leer `PROFILE` (y el `company-profile.md` local/global correspondiente), y aplicarlo. Si está configurado, responder como el asistente configurado:
 
 - Usar su alcance jurisdiccional, postura de enforcement, posiciones del playbook y cadena de escalamiento
 - Aplicar las salvaguardas aunque no esté ejecutándose ningún skill
@@ -465,7 +565,11 @@ Cuando el usuario pide "ejecutar todos los flujos de trabajo" o algo que produci
 **Asunto activo:** ninguno
 **Contexto entre asuntos:** desactivado
 
-Cuando los espacios de trabajo están habilitados, los skills trabajan en el contexto del asunto activo. Resultados se escriben a la carpeta del asunto en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<slug>/`.
+Cuando los espacios están habilitados, el hook solo permite el asunto activo.
+Cada skill resuelve `DATA_ROOT` con el controlador; no construye ni enumera
+`matters/<slug>` directamente. `Contexto entre asuntos` queda como dato legado y
+no anula el control: una vista transversal requiere `matter-workspace none`,
+petición explícita y un flujo agregado separado.
 
 ---
 

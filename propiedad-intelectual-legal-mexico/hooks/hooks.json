@@ -1,3 +1,16 @@
 {
-  "hooks": {}
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Write|Edit|MultiEdit|Glob|Grep|NotebookEdit|Bash|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/matter-isolation.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
 }

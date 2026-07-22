@@ -24,7 +24,7 @@ manualmente el archivo de configuración.
 ## Qué hacer
 
 1. **Leer la configuración.** Lee
-   `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`
+   `PROFILE` resuelto por `matter_workspace.py status`
    (y `~/.claude/plugins/config/claude-for-legal/company-profile.md` un nivel
    arriba). Si la configuración del plugin no existe o todavía contiene valores
    `[PLACEHOLDER]`, di:

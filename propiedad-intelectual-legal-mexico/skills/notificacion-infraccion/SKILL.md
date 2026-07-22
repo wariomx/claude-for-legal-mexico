@@ -2,7 +2,7 @@
 name: notificacion-infraccion
 description: >
   Notificación de infracción de PI en línea — cuatro vías: notificación a ISP
-  bajo LFDA Art. 231 bis (T-MEC), declaración administrativa ante IMPI,
+  bajo LFDA Art. 114 Octies (T-MEC), declaración administrativa ante IMPI,
   mecanismos de plataforma (Mercado Libre, Amazon, Meta), y denuncia penal
   UEIDDAPI. Usar cuando contenido infractor se encuentre en plataformas
   digitales, cuando se reciba una notificación de infracción, o cuando se
@@ -12,18 +12,17 @@ argument-hint: "<--enviar | --responder | --plataforma | --penal> [contexto o ru
 
 # /notificacion-infraccion
 
-**México NO tiene un régimen DMCA.** No existe equivalente directo al safe
-harbor de 17 U.S.C. § 512 ni un sistema unificado de notice-and-takedown. La
-reforma T-MEC de 2020 introdujo un mecanismo limitado de notificación a ISPs
-(LFDA Art. 231 bis y ss.) `[model knowledge — verify]`, pero difiere
-materialmente del DMCA en alcance, requisitos y consecuencias. Las demás vías
-son procedimientos administrativos, mecanismos privados de plataforma, y la
-vía penal.
+**No aplicar el DMCA estadounidense como derecho mexicano.** México tiene su
+propia limitación condicionada de responsabilidad y mecanismo de aviso/
+contra-aviso en LFDA art. 114 Octies
+(`MX-LFDA-ISP-NOTICE-001`), con alcance, requisitos y consecuencias propios.
+Las demás vías son procedimientos administrativos, mecanismos privados de
+plataforma y, solo para tipos concretos, la vía penal.
 
 Cuatro modos. Elegir uno:
 
 - `/propiedad-intelectual-legal-mexico:notificacion-infraccion --enviar` —
-  preparar una notificación bajo LFDA Art. 231 bis (ISP) o una solicitud de
+  preparar una notificación bajo LFDA Art. 114 Octies (ISP) o una solicitud de
   retiro ante plataforma.
 - `/propiedad-intelectual-legal-mexico:notificacion-infraccion --responder` —
   triar una notificación que recibimos. Opciones: cumplir / contra-notificar /
@@ -38,7 +37,7 @@ Cuatro modos. Elegir uno:
 ## Instrucciones
 
 1. **Leer el perfil de práctica.** Cargar
-   `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.
+   `PROFILE`, resuelto por `matter_workspace.py status`.
    Si contiene marcadores `[PLACEHOLDER]` o no existe, detenerse y decir: "Este
    plugin necesita configuración antes de poder darte resultados útiles. Ejecuta
    `/propiedad-intelectual-legal-mexico:cold-start-interview` — el skill de
@@ -115,36 +114,36 @@ salvaguardas que cada una amerita.
 
 ## Cargar contexto
 
-- `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`
+- `PROFILE`
   → `## Perfil de práctica de PI` (registros de derechos de autor si existen),
   `## Postura de enforcement` → matriz de aprobación, `## Resultados`
   (encabezado de confidencialidad, rol), `## Quién usa este plugin` (rol —
   abogado vs. no-abogado)
 - **Contexto del asunto.** Escribir resultados en la carpeta del asunto activo
   en
-  `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<asunto-slug>/notificacion/<slug>/`
+  `DATA_ROOT/notificacion/<slug>/`
   (o `notificacion/<slug>/` a nivel de práctica). Nunca leer archivos de otro
-  asunto a menos que `Contexto cruzado entre asuntos` esté `on`.
+  asunto; el campo legado `Contexto entre asuntos` no anula el hook.
 
 ---
 
-## VÍA 1: Notificación a ISP — LFDA Art. 231 bis (Reforma T-MEC)
+## VÍA 1: Notificación a ISP — LFDA Art. 114 Octies (Reforma T-MEC)
 
 ### Contexto legal
 
-La reforma a la LFDA de 2020, derivada del T-MEC (Capítulo 20, Arts. 20.88-
-20.89) `[model knowledge — verify]`, introdujo un mecanismo de notificación a
-proveedores de servicios de internet (ISPs) para infracciones de derechos de
-autor en el entorno digital. Este mecanismo:
+La reforma LFDA de 2020 introdujo una limitación condicionada de responsabilidad
+para proveedores y un mecanismo de aviso/contra-aviso en el artículo 114 Octies
+(`MX-LFDA-ISP-NOTICE-001`). No llamarlo simplemente "DMCA mexicano" ni afirmar
+equivalencia con 17 U.S.C. § 512. El mecanismo:
 
-- **NO es un DMCA mexicano** — es materialmente más limitado
-- **NO crea un safe harbor automático** para los ISPs como el § 512 DMCA
-  `[model knowledge — verify]`
-- Establece un procedimiento de notificación y contra-notificación
+- condiciona la limitación de responsabilidad a supuestos distintos según el
+  tipo de proveedor;
+- establece un procedimiento de aviso y contra-aviso;
 - Se limita a **derechos de autor** — no cubre propiedad industrial (marcas,
   patentes, secretos industriales). Para esos, usar la vía IMPI o plataforma.
-- El marco regulatorio secundario puede haber sido emitido o estar pendiente
-  `[model knowledge — verify]`
+- remite a formularios y sistemas conforme al Reglamento; el Reglamento
+  consolidado disponible es anterior a la reforma, así que debe verificarse el
+  canal y formulario vigentes antes de preparar el aviso.
 
 ### Modo enviar (`--enviar`) — Notificación al ISP
 
@@ -155,11 +154,11 @@ autor en el entorno digital. Este mecanismo:
 > - **Título / descripción** — ¿qué es la obra (software, imagen, texto,
 >   video, audio, música)?
 > - **Estatus de registro ante INDAUTOR** — número de registro y fecha (si
->   existe). El registro NO es requisito para actuar en México, pero es
->   prueba útil de titularidad.
+>   existe). Aplicar `MX-LFDA-REGISTRATION-EFFECT-001`: el registro no crea el
+>   derecho, pero la inscripción produce la presunción del art. 168.
 > - **Titularidad** — ¿somos el autor, el titular de derechos patrimoniales
 >   por transmisión (LFDA Arts. 30-33), o el comitente en obra por encargo
->   (LFDA Arts. 83-84)?
+>   (art. 83 para comisión; art. 84 para relación laboral)?
 > - **Licencias previas** — ¿hemos licenciado este uso, o un uso más amplio
 >   que pudiera cubrirlo?
 
@@ -174,14 +173,13 @@ autor en el entorno digital. Este mecanismo:
 >   (copia verbatim, sustancialmente similar, derivado)?
 > - **Capturas de pantalla / evidencia** — preservadas con fecha, hora y
 >   URL visible. Considerar acta de fe de hechos ante notario público
->   `[model knowledge — verify]` para preservar evidencia con valor
->   probatorio reforzado.
+>   solo después de que el abogado confirme necesidad, alcance y valor
+>   probatorio para la vía concreta `[review]`.
 
 #### Paso 3: Análisis de excepciones y limitaciones
 
-A diferencia del fair use de EE.UU. (test de 4 factores abierto), México tiene
-excepciones y limitaciones TAXATIVAS (LFDA Arts. 147-151)
-`[model knowledge — verify]`:
+No trasladar automáticamente el *fair use* estadounidense. Recuperar la
+fracción vigente aplicable de la LFDA y todas sus condiciones antes de enviar:
 
 > Antes de preparar la notificación, revisar si alguna excepción o limitación
 > aplica al uso:
@@ -212,24 +210,20 @@ Confirmar que el notificante:
 
 #### Paso 5: Preparar la notificación
 
-Elementos de la notificación bajo LFDA Art. 231 bis `[model knowledge — verify]`:
+Elementos mínimos del aviso bajo LFDA Art. 114 Octies, fr. III
+(MX-LFDA-ISP-NOTICE-001):
 
-1. **Identificación del notificante** — nombre, domicilio, datos de contacto,
-   carácter con que actúa (titular, representante legal, apoderado)
-2. **Identificación de la obra protegida** — título, descripción, registro
-   INDAUTOR si existe
-3. **Identificación del material infractor** — URLs, descripción de la
-   infracción
-4. **Declaración de titularidad o legitimación** — fundamento de la
-   titularidad sobre los derechos
-5. **Declaración de buena fe** — declaración bajo protesta de decir verdad
-   de que el uso no está autorizado
-6. **Firma** del titular o representante legal
+1. **Nombre** del titular o representante legal y **medio de contacto** para
+   recibir notificaciones.
+2. **Identificación del contenido** de la infracción reclamada.
+3. **Manifestación del interés o derecho** respecto de los derechos de autor.
+4. **Datos de la ubicación electrónica** de la infracción reclamada.
 
-> **⚠️ Bajo protesta de decir verdad.** La declaración de buena fe en la
-> notificación es una declaración bajo protesta de decir verdad. Una
-> declaración falsa puede generar responsabilidad civil y, en su caso,
-> penal (falsa declaración). `[model knowledge — verify]`
+El formulario vigente puede pedir datos adicionales. No atribuir al artículo
+firma, domicilio o declaración bajo protesta como mínimos si solo provienen de
+un formulario o política de plataforma; identificar esa fuente por separado.
+Una falsa declaración que afecte a una parte porque el proveedor se apoyó en
+ella está sancionada por el art. 232 Quinquies, fr. I.
 
 #### Paso 6: Puerta de confirmación antes del envío
 
@@ -238,14 +232,12 @@ Elementos de la notificación bajo LFDA Art. 231 bis `[model knowledge — verif
 │  ANTES DE QUE ESTA NOTIFICACIÓN SE ENVÍE                      │
 ├──────────────────────────────────────────────────────────────┤
 │                                                              │
-│  Una notificación de infracción bajo LFDA Art. 231 bis       │
-│  contiene una declaración bajo protesta de decir verdad.     │
-│  Enviarla no es un trámite administrativo rutinario — es     │
-│  una declaración con consecuencias jurídicas.                │
+│  Un aviso bajo LFDA art. 114 Octies puede provocar retiro    │
+│  de contenido y tiene consecuencias jurídicas. Verifica      │
+│  cada afirmación y el formulario vigente.                    │
 │                                                              │
-│  • Una notificación sobre uso lícito (excepciones de LFDA    │
-│    Arts. 147-151) genera exposición por notificación         │
-│    temeraria y potencial responsabilidad civil.              │
+│  • Una declaración falsa que cause afectación puede          │
+│    encuadrar en LFDA art. 232 Quinquies, fr. I.              │
 │                                                              │
 │  • La declaración de titularidad debe ser verificable.       │
 │    Reclamar derechos sobre una obra ajena es temerario.      │
@@ -272,8 +264,9 @@ Elementos de la notificación bajo LFDA Art. 231 bis `[model knowledge — verif
 
 Si el usuario es no-abogado (per `## Quién usa este plugin`), agregar:
 
-> Una notificación de infracción contiene una declaración bajo protesta de
-> decir verdad. ¿Lo has revisado con un abogado? Si no, aquí hay un breve
+> Una notificación puede retirar contenido y una declaración falsa que cause
+> afectación puede ser sancionada bajo LFDA art. 232 Quinquies, fr. I. ¿Lo has
+> revisado con un abogado? Si no, aquí hay un breve
 > para llevar a la consulta: [generar resumen corto: obra, titularidad, uso
 > acusado, análisis de excepciones, firmante, ISP/plataforma]. Un par de
 > horas de abogado ahora es materialmente más barato que una responsabilidad
@@ -299,20 +292,21 @@ escribir. Iterar antes de comprometer a disco.
 > notificación lista para enviar. Un abogado titulado revisa, edita y asume
 > responsabilidad profesional antes del envío.
 
-### Contra-notificación bajo LFDA Art. 231 bis
+### Contra-aviso bajo LFDA Art. 114 Octies
 
-Si hemos recibido una notificación y nuestro contenido fue retirado, el
-proceso de contra-notificación `[model knowledge — verify]`:
+Si hemos recibido una notificación y nuestro contenido fue retirado, aplicar
+`MX-LFDA-ISP-NOTICE-001`:
 
-- Confirmar que el retiro fue por notificación bajo LFDA Art. 231 bis (no
+- Confirmar que el retiro fue por aviso bajo LFDA Art. 114 Octies (no
   por acción directa de la plataforma por TOS)
-- Creencia de buena fe de que el material fue retirado por error o
-  identificación equivocada
-- Elementos de la contra-notificación: identificación, material retirado,
-  declaración bajo protesta de decir verdad, firma
-- **Consecuencias:** El ISP debe restaurar el contenido dentro del plazo
-  legal, a menos que el notificante original inicie un procedimiento
-  `[model knowledge — verify]`
+- El contra-aviso debe demostrar titularidad o autorización para ese uso
+  específico, o justificar el uso bajo una limitación o excepción.
+- El proveedor informa a quien presentó el aviso y habilita el contenido salvo
+  que esa persona inicie procedimiento judicial o administrativo, denuncia
+  penal o mecanismo alterno dentro de un plazo no mayor a 15 días hábiles desde
+  que fue informada.
+- Verificar requisitos adicionales del formulario; no inventar firma o protesta
+  como contenido legal mínimo.
 
 ---
 
@@ -326,21 +320,24 @@ Para infracción de **propiedad industrial** en plataformas digitales:
 - Imitación de imagen comercial (trade dress)
 - Uso de denominación de origen o indicación geográfica sin autorización
 
-La LFDA Art. 231 bis solo cubre derechos de autor. Para marcas, patentes y
+El régimen de LFDA Art. 114 Octies se refiere a derecho de autor y derechos
+conexos. Para marcas, patentes y
 otros derechos de propiedad industrial, la vía es IMPI.
 
 ### Procedimiento
 
 1. **Solicitud de declaración administrativa de infracción** ante IMPI
-   (LFPPI Arts. 334-348) `[model knowledge — verify]`
+   (LFPPI arts. 328 y siguientes;
+   MX-LFPPI-ENFORCEMENT-PROCEDURE-001)
 2. **Medidas provisionales** — IMPI puede ordenar:
    - Suspensión de la comercialización
    - Retiro de productos del mercado
    - Aseguramiento de mercancía infractora
-   - Bloqueo de acceso a contenido infractor en línea
-     `[model knowledge — verify]`
-3. **Inspección** — IMPI puede realizar visitas de inspección, incluyendo
-   inspección de establecimientos virtuales `[model knowledge — verify]`
+   - La medida digital concreta que permita el texto vigente, solo después de
+     verificar alcance, vigencia reglamentaria y acuerdo de implementación
+   (arts. 344 y siguientes; verificar fianza/contrafianza y procedencia)
+3. **Inspección** — facultades de los arts. 354 y siguientes; verificar la
+   diligencia concreta y sus requisitos
 4. **Resolución** — IMPI declara si existe o no infracción y, en su caso,
    impone sanciones
 
@@ -380,8 +377,8 @@ no son procedimientos legales y sus decisiones no tienen fuerza de cosa juzgada.
   las publicaciones infractoras
 - **Tipos de infracción cubiertos:** Productos falsificados, uso no autorizado
   de marca, violación de derechos de autor
-- **Plazo de respuesta:** Generalmente 48-72 horas para primera revisión
-  `[model knowledge — verify]`
+- **Plazo de respuesta:** no prometer SLA; consultar el portal vigente al
+  momento de presentar.
 - **Proceso de apelación:** El vendedor puede apelar el retiro
 
 #### Amazon México — Brand Registry / Report Infringement
@@ -453,17 +450,16 @@ no son procedimientos legales y sus decisiones no tienen fuerza de cosa juzgada.
 > **La denuncia penal es la opción más severa del sistema.** Este modo solo
 > debe usarse cuando los hechos evidencien:
 >
-> - **Piratería a escala comercial** — reproducción y distribución masiva de
->   obras protegidas con fin de lucro (CPF Art. 424 bis)
->   `[model knowledge — verify]`
-> - **Falsificación sistemática de marcas** — producción y comercialización
->   de productos con marcas falsificadas (LFPPI Art. 402)
->   `[model knowledge — verify]`
-> - **Revelación dolosa de secretos industriales** — con ánimo de causar daño
->   o beneficio propio (LFPPI Art. 402 fracción IV)
->   `[model knowledge — verify]`
-> - **Reincidencia** — el infractor ya fue sancionado administrativamente y
->   continúa la conducta
+> - **Piratería a escala comercial** — mapear hechos a una fracción concreta
+>   de CPF arts. 424-429 (`MX-CPF-COPYRIGHT-OFFENSES-001`).
+> - **Falsificación sistemática de marcas** — mapear hechos y elementos a una
+>   fracción concreta del art. 402 (`MX-LFPPI-CRIMINAL-OFFENSES-001`).
+> - **Conductas dolosas sobre secretos industriales** — distinguir divulgación,
+>   apoderamiento, uso y apropiación de las fracciones III-VI del artículo 402;
+>   verificar sus elementos de beneficio/perjuicio
+>   `[MX-LFPPI-CRIMINAL-OFFENSES-001 — verify on date of use]`
+> - **Continuación después de una sanción** — puede agravar el contexto
+>   probatorio, pero no sustituye los elementos de una fracción penal concreta
 >
 > Para disputas comerciales ordinarias, la vía administrativa (IMPI) o civil
 > es la apropiada. La vía penal es desproporcionada para infractores
@@ -475,34 +471,43 @@ no son procedimientos legales y sus decisiones no tienen fuerza de cosa juzgada.
    - UEIDDAPI: Unidad Especializada en Investigación de Delitos contra los
      Derechos de Autor y la Propiedad Industrial, de la Fiscalía General de
      la República
-   - Para PI industrial: generalmente se requiere resolución administrativa
-     previa de IMPI declarando la infracción `[model knowledge — verify]`
-   - Para derechos de autor: la querella puede presentarse directamente
+   - No exigir como regla general una resolución administrativa previa. Para
+     las fracciones I y II del artículo 402, el artículo 405 exige un dictamen
+     técnico del IMPI para que el Ministerio Público ejercite la acción penal;
+     las demás fracciones tienen reglas distintas de querella/denuncia.
+   - Para derecho de autor, verificar el tipo y la regla de persecución del
+     artículo 429 CPF; no todos los supuestos siguen el mismo canal.
 
 2. **Tipos penales principales:**
-   - **CPF Arts. 424-429** — delitos contra los derechos de autor
-     `[model knowledge — verify]`:
-     - Art. 424: producción, reproducción, almacenamiento, transporte,
-       distribución o venta de obras protegidas sin autorización
-     - Art. 424 bis: reproducción con fin de especulación comercial
-     - Art. 424 ter: fabricación con fin de lucro de dispositivos para
-       descifrar señales encriptadas
-   - **LFPPI Art. 402** — delitos en materia de propiedad industrial
-     `[model knowledge — verify]`:
-     - Falsificación de marcas
-     - Producción o comercialización de productos con marcas falsificadas
-     - Revelación de secretos industriales
-     - Uso de denominación de origen sin autorización
+   - **CPF arts. 424-429** — tipos distintos
+     (`MX-CPF-COPYRIGHT-OFFENSES-001`):
+     - art. 424: libros de texto gratuitos, sobreproducción autorizada y uso
+       doloso con fin de lucro, según la fracción;
+     - art. 424 Bis, fr. I: producir, reproducir, introducir, almacenar,
+       transportar, distribuir, vender o arrendar copias, con dolo,
+       especulación comercial y sin autorización; sus frs. II-III cubren
+       conductas distintas;
+     - art. 424 Ter: venta dolosa a consumidor final en vías o lugares públicos;
+     - art. 426: conductas específicas sobre señales cifradas.
+   - **LFPPI art. 402** — delitos industriales enumerados. No resumir por
+     etiquetas: citar la fracción vigente y mapear conducta, objeto, finalidad,
+     beneficio/perjuicio y procedibilidad según corresponda
+     (`MX-LFPPI-CRIMINAL-OFFENSES-001`).
 
-3. **Sanciones:** Pena privativa de libertad (2-10 años según el tipo penal)
-   + multa + reparación del daño `[model knowledge — verify]`
+3. **Sanciones:** No usar una banda genérica. Para las fracciones I, II, VII y
+   VIII del artículo 402, el artículo 403 prevé de 3 a 10 años; para las
+   fracciones III a VI, de 2 a 6 años, además de las multas correspondientes.
+   Verificar la fracción, procedibilidad y texto vigente antes de citar una
+   pena; analizar la reparación del daño por separado
+   `[MX-LFPPI-CRIMINAL-OFFENSES-001 — verify on date of use]`.
 
 4. **Documentación necesaria:**
    - Registro de los derechos (certificado IMPI o INDAUTOR)
    - Evidencia de la conducta infractora (acta de fe de hechos ante notario,
      compras de control, peritajes)
    - Cuantificación del daño o perjuicio
-   - Resolución administrativa previa de IMPI (si aplica)
+   - Dictamen técnico del IMPI u otro requisito de procedibilidad solo cuando
+     la fracción concreta lo exija
    - Identificación del probable responsable (si se conoce)
 
 ### Puerta de confirmación para modo penal
@@ -516,11 +521,12 @@ no son procedimientos legales y sus decisiones no tienen fuerza de cosa juzgada.
 │  penal con todas sus consecuencias. No es una herramienta    │
 │  de presión comercial — es el sistema de justicia penal.     │
 │                                                              │
-│  • Una denuncia temeraria o infundada puede generar          │
-│    responsabilidad por denuncia calumniosa (CPF Art. 356).   │
+│  • Una denuncia temeraria o falsa puede generar consecuencias│
+│    bajo las normas realmente aplicables. No citar el art. 356│
+│    CPF: está derogado (`MX-CPF-CALUMNY-REPEAL-001`).         │
 │                                                              │
-│  • El procedimiento penal es público y puede afectar la      │
-│    reputación de ambas partes.                               │
+│  • La denuncia puede producir consecuencias procesales y     │
+│    reputacionales para ambas partes.                         │
 │                                                              │
 │  • La denuncia penal no es la vía ordinaria para disputas    │
 │    comerciales — la vía administrativa (IMPI) o civil es     │
@@ -530,8 +536,8 @@ no son procedimientos legales y sus decisiones no tienen fuerza de cosa juzgada.
 │                                                              │
 │    1. Los hechos evidencian dolo o escala comercial           │
 │       significativa — no es una disputa comercial ordinaria.  │
-│    2. Se cuenta con resolución administrativa previa de      │
-│       IMPI (si se requiere para el tipo penal).              │
+│    2. Se verificó el dictamen técnico u otro requisito de     │
+│       procedibilidad que exija el tipo penal concreto.       │
 │    3. La evidencia está preservada con valor probatorio      │
 │       (acta de fe de hechos ante notario, compras de         │
 │       control, peritajes).                                   │
@@ -566,7 +572,7 @@ Tu contenido fue retirado o recibiste una notificación de infracción.
 Extraer:
 
 - **Remitente** — entidad, firmante, domicilio, correo
-- **Vía utilizada** — notificación ISP (LFDA Art. 231 bis), resolución IMPI,
+- **Vía utilizada** — aviso ISP (LFDA Art. 114 Octies), resolución IMPI,
   mecanismo de plataforma, o carta de requerimiento directa
 - **ISP/plataforma** — quién te notificó
 - **Obra/derecho reclamado** — qué dicen que es suyo
@@ -604,7 +610,7 @@ Presentar 4 opciones con ventajas/desventajas:
   licenciado, cae en una excepción, o el notificante no es titular
 - Desventaja: según la vía, el notificante puede iniciar un procedimiento
   formal
-- Siguiente paso: preparar contra-notificación per LFDA Art. 231 bis (si
+- Siguiente paso: preparar contra-aviso conforme a LFDA Art. 114 Octies (si
   la notificación fue por esa vía) o apelación ante la plataforma
 
 **C — Negociar directamente con el notificante**
@@ -651,7 +657,7 @@ Resultado: `<carpeta-asunto>/notificacion/entrante/<slug>/triaje.md`.
 **Obra/derecho reclamado:** [título, descripción, registro si proporcionado]
 **Nuestro contenido acusado:** [URLs / identificadores]
 **Fecha de retiro:** [AAAA-MM-DD]
-**Vía utilizada:** [LFDA Art. 231 bis / IMPI / plataforma / carta directa]
+**Vía utilizada:** [LFDA Art. 114 Octies / IMPI / plataforma / carta directa]
 **Notificación cumple requisitos formales:** [sí / no — listar elementos
 faltantes]
 

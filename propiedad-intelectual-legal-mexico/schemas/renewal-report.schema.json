@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://soft.law/schemas/ip-mx/renewal-report.schema.json",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "as_of", "lookahead_days", "verification_max_age_days", "portfolio_source", "rule_registry_as_of", "summary", "alerts", "unknown", "disclaimer"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "as_of": {"type": "string", "format": "date"},
+    "lookahead_days": {"type": "integer", "minimum": 1},
+    "verification_max_age_days": {"type": "integer", "minimum": 0},
+    "portfolio_source": {"type": "string"},
+    "rule_registry_as_of": {"type": "string", "format": "date"},
+    "summary": {"type": "object"},
+    "alerts": {"type": "array"},
+    "unknown": {"type": "array"},
+    "disclaimer": {"type": "string", "minLength": 1}
+  }
+}

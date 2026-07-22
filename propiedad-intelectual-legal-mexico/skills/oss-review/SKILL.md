@@ -13,7 +13,7 @@ argument-hint: "[ruta al manifiesto / SBOM | nombre de paquete | ruta del repo |
 
 Ejecuta una revisión de cumplimiento de licencias de código abierto contra el
 perfil de práctica en
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.
+`PROFILE`, resuelto por `matter_workspace.py status`.
 Clasifica dependencias por familia de licencia, mapea obligaciones al modelo de
 despliegue, señala paquetes con licencia desconocida y paquetes non-OSI que se
 presentan como OSS, y recomienda acciones — cumplir, reemplazar, remover, enviar
@@ -21,7 +21,7 @@ a revisión jurídica, obtener licencia comercial.
 
 ## Instrucciones
 
-1. **Cargar `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.** Si contiene placeholders, detener y preguntar: "Ejecuta `/propiedad-intelectual-legal-mexico:cold-start-interview` primero — necesito conocer tu perfil de práctica (y tu política de OSS, si la tienes) antes de poder revisar." Si el perfil de práctica apunta a una política de OSS cargada, leerla también — es la fuente de verdad para licencias aceptadas / en revisión / bloqueadas en este equipo.
+1. **Ejecutar `matter_workspace.py status` y cargar `PROFILE`.** Si contiene placeholders, detener y preguntar: "Ejecuta `/propiedad-intelectual-legal-mexico:cold-start-interview` primero — necesito conocer tu perfil de práctica (y tu política de OSS, si la tienes) antes de poder revisar." Si el perfil de práctica apunta a una política de OSS cargada, leerla también — es la fuente de verdad para licencias aceptadas / en revisión / bloqueadas en este equipo.
 
 2. **Establecer el alcance:** una lista de dependencias (package.json, requirements.txt, go.mod, Gemfile, Cargo.toml, pom.xml, SBOM), una biblioteca individual, o código propio que el equipo está preparando para liberar como open-source. Si el usuario proporcionó una ruta, inferir del archivo; de lo contrario, preguntar.
 
@@ -57,7 +57,7 @@ Sin conector, pega el ticket o describe la solicitud y la manejaré una a la vez
 
 ## Contexto de asunto
 
-**Contexto de asunto.** Verificar `## Espacios de trabajo por asunto` en el CLAUDE.md a nivel de práctica. Si `Habilitado` es `✗` (por defecto para usuarios in-house), omitir el resto de este párrafo — los skills usan contexto a nivel de práctica y la maquinaria de asuntos es invisible. Si está habilitado y no hay asunto activo, preguntar: "¿Para qué asunto es esto? Ejecuta `/propiedad-intelectual-legal-mexico:matter-workspace switch <slug>` o di `nivel de práctica`." Cargar el `matter.md` del asunto activo para contexto y anulaciones específicas del asunto. Escribir salidas en la carpeta del asunto en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<matter-slug>/`. Nunca leer archivos de otro asunto a menos que `Contexto cruzado entre asuntos` esté en `on`.
+**Contexto de asunto.** Usar exclusivamente `DATA_ROOT`. Si los asuntos están habilitados y no hay activo, preguntar si debe cambiarse a uno o trabajar a nivel de práctica. Cargar `DATA_ROOT/matter.md` solo con slug activo y escribir salidas en `DATA_ROOT/outputs/`. Nunca leer otra carpeta de `matters/`.
 
 ---
 
@@ -69,7 +69,7 @@ Decir al usuario qué licencias hay en su árbol de dependencias, qué obligacio
 
 ## Precondición: cargar el perfil de práctica
 
-**Antes de escanear dependencias, leer `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.** Si no existe o todavía contiene placeholders, detener y ejecutar `/propiedad-intelectual-legal-mexico:cold-start-interview`. El perfil de práctica indica:
+**Antes de escanear dependencias, leer `PROFILE`.** Si no existe o todavía contiene placeholders, detener y ejecutar `/propiedad-intelectual-legal-mexico:cold-start-interview`. El perfil de práctica indica:
 
 - Quién es responsable de revisión OSS en este equipo (frecuentemente ingeniería con visto bueno jurídico)
 - Enrutamiento de escalamiento para obligaciones copyleft
@@ -200,13 +200,13 @@ Si el usuario está preparando código para liberar como open-source:
 
 ### Paso 7: Ensamblar el memorándum
 
-Anteponer el encabezado de confidencialidad de `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` → `## Resultados` (varía por rol del usuario — ver `## Quién usa este plugin`).
+Anteponer el encabezado de confidencialidad de `PROFILE` → `## Resultados` (varía por rol del usuario — ver `## Quién usa este plugin`).
 
 Este memorándum y cualquier lista de dependencias revisada pueden ser confidenciales o privilegiados, o ambos. El resultado hereda ese estatus de la fuente. Distribuir solo dentro del círculo de confidencialidad; retirar el encabezado de confidencialidad antes de cualquier entrega externa (incluyendo antes de adjuntar el memorándum a un ticket de ingeniería fuera del círculo de confidencialidad).
 
 > **Sin suplemento silencioso.** Si una consulta de investigación a la herramienta de investigación jurídica configurada devuelve pocos o ningún resultado para una regla que el memorándum necesita (ejecutabilidad del activador por red de AGPL en una jurisdicción dada, alcance de la concesión de patentes de GPL-3.0, texto de licencia más reciente de un paquete relicenciado recientemente), reportar lo encontrado y detenerse. NO llenar la laguna con búsqueda web o conocimiento del modelo sin preguntar. Decir: "La búsqueda devolvió [N] resultados de [herramienta]. La cobertura parece escasa para [regla / licencia / jurisdicción]. Opciones: (1) ampliar la consulta de búsqueda, (2) probar otra herramienta de investigación, (3) buscar en la web — los resultados se etiquetarán `[web search — verify]` y deben verificarse contra una fuente primaria antes de confiar, o (4) marcar como no verificado y detener. ¿Cuál prefieres?" Un abogado decide si aceptar fuentes de menor confianza.
 >
-> **Atribución de fuentes.** Donde el memorándum cite un texto de licencia, una decisión judicial interpretando una licencia, u orientación de un administrador (FSF, OSI, SPDX, SFLC), etiquetar la cita: `[OSI]`, `[SPDX]`, `[FSF]`, `[SFC/SFLC]`, `[LegalDataHunter]`, `[Solve Intelligence]`, `[SCJN IUS]`, `[DOF]`, `[IMPI]`, `[INDAUTOR]`, o el nombre de la herramienta MCP para citas recuperadas de un conector; `[web search — verify]` para citas de búsqueda web; `[model knowledge — verify]` para citas recordadas del entrenamiento; `[user provided]` para texto de licencia leído directamente del repo. Las citas etiquetadas `verify` tienen mayor riesgo de fabricación. Nunca quitar ni colapsar las etiquetas.
+> **Atribución de fuentes.** Donde el memorándum cite un texto de licencia, una decisión judicial interpretando una licencia, u orientación de un administrador (FSF, OSI, SPDX, SFLC), etiquetar la cita: `[OSI]`, `[SPDX]`, `[FSF]`, `[SFC/SFLC]`, `[LegalDataHunter]`, `[Solve Intelligence]`, `[SCJN IUS]`, `[DOF]`, `[IMPI]`, `[INDAUTOR]`, o el nombre de la herramienta MCP para citas recuperadas de un conector; `[web search — verify]` para resultados aún no primarios; `[model knowledge — research lead only]` para una pista que no puede sustentar el resultado; `[user provided]` para texto leído directamente del repo. Nunca quitar ni colapsar las etiquetas.
 
 ```markdown
 [ENCABEZADO DE CONFIDENCIALIDAD — según configuración del plugin ## Resultados]
@@ -249,39 +249,68 @@ La ejecutabilidad de licencias OSS varía — el activador por red de AGPL no ha
 
 ### Derechos morales y código abierto en México (LFDA Art. 19)
 
-En México, los **derechos morales son perpetuos, inalienables, irrenunciables, inembargables e imprescriptibles** para TODAS las obras — incluyendo software (LFDA Art. 19) `[model knowledge — verify]`. Esto tiene consecuencias concretas para el código abierto:
+Aplicar MX-LFDA-MORAL-RIGHTS-001: la persona autora es titular originaria y
+única (art. 18), y el derecho moral es inalienable, imprescriptible,
+irrenunciable e inembargable (art. 19). El software está protegido en términos
+de la LFDA, pero cada consecuencia contractual requiere hechos sobre autoría,
+ley aplicable y cadena de titularidad.
 
-**1. Derecho de paternidad (Art. 21, fracc. II LFDA).** Todo autor tiene derecho a que su nombre se asocie a su obra `[model knowledge — verify]`. Para código abierto esto significa:
+**1. Reconocimiento de autoría (art. 21, fr. II LFDA).** Recuperar el texto
+vigente al aplicarlo y leerlo con `MX-LFDA-MORAL-RIGHTS-001`. Para código
+abierto esto exige separar la obligación contractual de atribución, autoría de
+cada contribución, ley aplicable y el derecho moral potencialmente invocado:
 
-- Las cláusulas de atribución en licencias permisivas (MIT, Apache-2.0, BSD) no son solo obligaciones contractuales — están reforzadas por el derecho moral de paternidad bajo ley mexicana.
-- Una omisión en el archivo NOTICES tiene una dimensión contractual (incumplimiento de licencia) Y una dimensión de derechos morales (violación del derecho de paternidad del autor mexicano).
-- Los CLAs (Contributor License Agreements) que pretenden renunciar a TODOS los derechos son **inaplicables en cuanto a derechos morales** para autores mexicanos. La renuncia a derechos morales es nula de pleno derecho.
+- Las cláusulas de atribución en licencias permisivas crean obligaciones
+  contractuales; no afirmar automáticamente una segunda infracción moral sin
+  identificar persona autora, contribución, atribución exigible y ley aplicable.
+- Una omisión en NOTICE puede ser incumplimiento de licencia. Evaluar por
+  separado si también afecta un derecho moral concreto.
+- Un CLA que pretenda una renuncia total no puede efectuar la renuncia de
+  derechos morales prohibida por la LFDA. Marcar el texto exacto; el efecto y
+  severabilidad requieren revisión jurídica.
 
 **2. Derecho de integridad (Art. 21, fracc. III LFDA).** El autor puede oponerse a modificaciones que perjudiquen su honor o reputación. En el contexto OSS:
 
 - En la práctica, las licencias OSS que permiten modificaciones (casi todas) coexisten con el derecho de integridad porque las modificaciones de código rara vez perjudican el honor o la reputación del autor.
 - Sin embargo, el riesgo existe en casos extremos: p. ej., modificar el código de un autor mexicano para que realice funciones maliciosas, ilegales o contrarias a la ética, manteniendo la atribución al autor original, podría activar el derecho de integridad. `[review]`
 
-**3. Dedicaciones al dominio público.** Las licencias como CC0 o WTFPL que pretenden dedicar la obra al dominio público **no alcanzan los derechos morales en México**. Los derechos patrimoniales pueden cederse o renunciarse; los derechos morales no. Para paquetes bajo CC0 de autores mexicanos, la dedicación patrimonial es efectiva pero la atribución moral persiste.
+**3. Dedicaciones al dominio público.** Instrumentos como CC0 no pueden lograr
+una renuncia de derechos morales contraria a la LFDA. No afirmar sin análisis
+que la dedicación patrimonial sea plenamente efectiva en México: revisar forma,
+temporalidad, remuneración, ley aplicable y licencia de respaldo.
 
 **4. Consecuencia práctica para este escaneo:**
 
-- Si algún contribuidor es persona física mexicana, los requisitos de atribución tienen respaldo legal adicional más allá de la licencia OSS.
-- Incluir archivos NOTICE/AUTHORS no es opcional en México de la manera que el texto de la licencia podría sugerir para licencias sin cláusula de atribución.
+- Si una persona contribuidora puede invocar LFDA, abrir una revisión de autoría,
+  ley aplicable y derecho moral; la nacionalidad por sí sola no resuelve el caso.
+- Verificar NOTICE/AUTHORS contra la licencia y la cadena de contribución; no
+  inventar una obligación formal idéntica para todo paquete únicamente a partir
+  del art. 21.
 - Señalar cualquier CLA que pretenda obtener renuncia total de derechos — es inaplicable para la porción de derechos morales con autores mexicanos.
 
-### Obra por encargo — código de empleados (LFDA Arts. 83-84)
+### Obra por encargo y obra laboral — reglas distintas (LFDA arts. 83-84)
 
 Cuando una empresa mexicana libera como open-source código desarrollado por sus empleados o contratistas, la titularidad de derechos patrimoniales depende de la existencia de un contrato escrito:
 
-- **Art. 83 LFDA:** Con contrato escrito de obra por encargo, los derechos patrimoniales corresponden al comitente (empleador/contratante) por ministerio de ley `[model knowledge — verify]`.
-- **Art. 84 LFDA:** A falta de contrato escrito, los derechos patrimoniales permanecen con la persona física autora `[model knowledge — verify]`.
-- **En ambos casos, los derechos morales siempre permanecen con la persona física autora.** El empleador que posee los derechos patrimoniales puede licenciar el código bajo cualquier licencia OSS, pero no puede renunciar a los derechos morales del empleado.
+- **Art. 83 LFDA — comisión:** salvo pacto en contrario, quien comisiona la obra
+  goza de los derechos patrimoniales y facultades enumeradas; la persona que
+  participa conserva el derecho de mención y los términos deben ser claros y
+  precisos (MX-LFDA-COMMISSIONED-WORK-001).
+- **Art. 84 LFDA — relación laboral:** con contrato individual escrito y sin
+  pacto contrario, los derechos patrimoniales se dividen por partes iguales;
+  sin contrato escrito corresponden al empleado
+  (MX-LFDA-EMPLOYMENT-WORK-001).
+- La autorización para publicar bajo una licencia OSS exige revisar quién posee
+  qué facultades patrimoniales; no inferirlas de la etiqueta “empleado” o
+  “contratista”.
 
 **Implicación práctica para revisión outbound:**
 
-- Verificar que la empresa tiene contratos escritos que cumplan con el Art. 83 LFDA para cada desarrollador contribuyente antes de liberar código como open-source.
-- Ausencia de contrato escrito = la empresa NO tiene derechos patrimoniales para licenciar ese código, sin importar la relación laboral.
+- Clasificar primero comisión (art. 83) versus relación laboral (art. 84) y
+  revisar el contrato aplicable de cada contribuyente.
+- En relación laboral sin contrato individual escrito, el art. 84 atribuye los
+  patrimoniales al empleado. Con contrato escrito pero sin pacto contrario, el
+  punto de partida es división por partes iguales, no propiedad total patronal.
 - La atribución en NOTICE/AUTHORS no es cortesía — es el reconocimiento del derecho moral de paternidad que persiste legalmente.
 
 ---

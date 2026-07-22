@@ -14,21 +14,23 @@ description: >
 **Esto no es un dictamen de libertad de operación.** Un dictamen formal de FTO
 requiere una búsqueda exhaustiva, construcción completa de reivindicaciones, y
 análisis elemento por elemento de infracción por un abogado de patentes
-calificado. La infracción de patentes es responsabilidad objetiva; el
-conocimiento previo de la patente puede agravar la cuantificación de daños. Un
-resultado de "no se encontraron patentes bloqueantes obvias" en este triaje
+calificado. La LFPPI exige analizar los actos concretos, la fracción de
+infracción invocada y los remedios disponibles; este skill no presume una
+categoría automática de responsabilidad ni un efecto jurídico por conocimiento
+previo. Un resultado de "no se encontraron patentes bloqueantes obvias" en este triaje
 significa que el triaje no encontró una — no significa que el producto esté
 libre.
 
 ## Instrucciones
 
-1. Leer `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`. Si
+1. Ejecutar `matter_workspace.py status` y leer `PROFILE`. Si
    contiene `[PLACEHOLDER]`, detenerse y dirigir a `/propiedad-intelectual-legal-mexico:cold-start-interview`.
 2. Seguir el flujo de trabajo abajo.
 3. Ejecutar intake (producto/proceso, detalle técnico, jurisdicciones, patentes
    conocidas, timing).
-4. Ejecutar una búsqueda preliminar de patentes si hay un conector disponible
-   (Solve Intelligence Patents, u otro MCP de investigación de patentes). De lo
+4. Ejecutar una búsqueda preliminar solo si una herramienta de investigación de
+   patentes se descubre y supera una prueba mínima de solo lectura en esta
+   ejecución (Solve Intelligence u otro MCP). De lo
    contrario, decirlo en el resultado y proceder con las patentes que el
    usuario haya proporcionado.
 5. Para las 2–5 patentes más plausibles, construir un primer chart de
@@ -41,10 +43,12 @@ libre.
 7. Escribir el memorándum de triaje en la carpeta del asunto o carpeta de
    resultados de la práctica. Aplicar el encabezado de confidencialidad
    conforme al rol.
-8. Cerrar con siguientes pasos recomendados, una nota sobre conocimiento
-   previo de patentes (el conocimiento de patentes específicas es relevante
-   para la cuantificación de daños si la empresa procede sin revisión
-   adicional), y la puerta para no abogados si el rol es no abogado.
+8. Cerrar con siguientes pasos recomendados, una nota de gobernanza sobre las
+   patentes identificadas (preservar el análisis, no ocultar ni destruir
+   información y obtener revisión jurídica antes de decidir), y la puerta para
+   no abogados si el rol es no abogado. No atribuir al conocimiento un efecto
+   automático sobre infracción, sanciones o daños sin fuente y análisis del
+   caso.
 
 Este skill nunca concluye que un producto está libre para lanzar. Si hay
 incertidumbre, señalar — el abogado de patentes decide.
@@ -73,11 +77,11 @@ No omitirla. No suavizarla. No dejar que el lector la pase de largo.**
 > cada patente relevante. Este triaje es una primera lectura estructurada de lo
 > que podría estar afuera. Un resultado de "no se encontraron patentes
 > bloqueantes obvias" significa que el triaje no encontró una — no significa que
-> el producto esté libre. La infracción de patentes es responsabilidad objetiva
-> bajo la LFPPI `[model knowledge — verify]`; el conocimiento previo de la
-> patente puede agravar la cuantificación de daños y perjuicios en una demanda
-> civil y es relevante para determinar dolo en procedimientos administrativos
-> ante IMPI. La decisión de lanzar, fabricar, usar, vender o importar es una
+> el producto esté libre. Evaluar los actos concretos del artículo 55, las
+> limitaciones del artículo 57, la fracción aplicable del artículo 386 y los
+> elementos/remedios de la vía elegida; no resumir el régimen como
+> “responsabilidad objetiva” ni asignar efectos automáticos al conocimiento sin
+> fuente verificada. La decisión de lanzar, fabricar, usar, vender o importar es una
 > decisión de negocio informada por un estudio formal de FTO y el juicio del
 > abogado — no por este triaje. Un abogado de patentes calificado evalúa antes
 > de que alguien se apoye en esto para una decisión de producto.
@@ -90,19 +94,20 @@ Siempre.
 
 ### Una nota sobre conocimiento previo de patentes
 
-Leer este triaje es leer algo sobre patentes. Leer algo sobre patentes puede,
-en ciertas circunstancias, ser relevante para un análisis de dolo en un
-procedimiento ante IMPI o para la cuantificación de daños en juicio civil. Esta
-es una razón por la que el resultado se marca como confidencial cuando un
-abogado lo está usando, y por la que el resultado para no abogados se enmarca
-como investigación para llevar al abogado. No discutir patentes específicas
-expuestas por este triaje fuera de canales confidenciales.
+Leer este triaje revela patentes que deben evaluarse y conservarse dentro del
+flujo jurídico de la organización. No afirmar que ese conocimiento produce por
+sí solo dolo, agrava una multa o aumenta daños: la consecuencia depende de la
+pretensión, sus elementos, la evidencia y las normas aplicables. El resultado se
+marca como confidencial cuando un abogado lo está usando, y el resultado para no
+abogados se enmarca como investigación para llevar al abogado. No discutir las
+patentes específicas fuera de los canales autorizados ni alterar o destruir el
+registro del análisis.
 
 ---
 
 ## Contexto de asunto
 
-**Contexto de asunto.** Verificar `## Espacios de trabajo por asunto` en el CLAUDE.md a nivel de práctica. Si `Habilitado` es `✗` (el valor por defecto para usuarios de jurídico interno), omitir el resto de este párrafo — los skills usan contexto a nivel de práctica y la maquinaria de asuntos es invisible. Si está habilitado y no hay asunto activo, preguntar: "¿Para qué asunto es esto? Ejecuta `/propiedad-intelectual-legal-mexico:matter-workspace switch <slug>` o di `nivel de práctica`." Cargar el `matter.md` del asunto activo para contexto y sobrescrituras específicas. Escribir resultados en la carpeta del asunto en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<slug>/`. Nunca leer archivos de otro asunto a menos que `Contexto entre asuntos` esté activo.
+**Contexto de asunto.** Usar exclusivamente el `DATA_ROOT` devuelto por el resolver. Si los asuntos están habilitados y no hay activo, preguntar si debe cambiarse a uno o trabajar a nivel de práctica. Cargar `DATA_ROOT/matter.md` solo cuando `active` tenga slug. Escribir en `DATA_ROOT/outputs/`; nunca construir ni leer otra ruta de `matters/`.
 
 Los asuntos de FTO de patentes son particularmente candidatos comunes para
 confidencialidad **reforzada** al abrir el asunto. Respetar la marca de
@@ -112,7 +117,7 @@ confidencialidad del asunto en `matter.md`.
 
 ## Cargar el perfil de práctica primero
 
-Antes de ejecutar el triaje, leer `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`. Extraer:
+Antes de ejecutar el triaje, leer `PROFILE`. Extraer:
 
 - **Rol** de `## Quién usa este plugin` (abogado vs. no abogado cambia el
   encabezado de confidencialidad y la puerta para no abogados abajo).
@@ -127,7 +132,7 @@ Antes de ejecutar el triaje, leer `~/.claude/plugins/config/claude-for-legal/pro
 - **Postura de decisión** de `## Postura de decisión en juicios jurídicos
   subjetivos` — este skill nunca concluye "no infringe."
 
-Si `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` contiene `[PLACEHOLDER]`, mostrar este rebote:
+Si `PROFILE` contiene `[PLACEHOLDER]`, mostrar este rebote:
 
 > Noto que no has configurado tu perfil de práctica aún — así es como calibro
 > postura, jurisdicciones y cadena de aprobación a tu práctica.
@@ -158,8 +163,9 @@ Preguntar en un solo lote:
 >    documento de especificación que puedas compartir? (Entre más detalle, más
 >    real el triaje.)
 > 3. **Jurisdicciones.** ¿Dónde se fabricará, usará, venderá, ofrecerá en venta,
->    importará? (Cada acto es un acto de infracción separado bajo LFPPI Arts.
->    213-215 `[model knowledge — verify]`. Por defecto asumiré México si no
+>    importará? (El art. 55 LFPPI enumera actos que la persona titular puede
+>    impedir, con reglas distintas para producto y proceso; aplicar
+>    MX-LFPPI-PATENT-RIGHTS-001. Por defecto asumiré México si no
 >    especificas.)
 > 4. **Patentes conocidas.** ¿Hay patentes ya en tu radar — portafolio de un
 >    competidor, pool de patentes esenciales a estándar, carta de un NPE, algo
@@ -206,8 +212,9 @@ no hacer chart:
 
 También señalar como bandera cruzada **imagen comercial (trade dress)**: si la
 apariencia del producto es el riesgo, los mismos hechos pueden ser una
-infracción administrativa por imitación de imagen comercial bajo LFPPI Art. 213
-`[model knowledge — verify]`. Señalar como vía paralela.
+posible infracción administrativa dentro del catálogo vigente del artículo 386
+LFPPI (MX-LFPPI-INFRINGEMENT-REMEDIES-001); verificar la fracción aplicable.
+Señalar como vía paralela.
 
 **Variedades vegetales.** Si la invención involucra una variedad vegetal, enrutar
 a la Ley Federal de Variedades Vegetales — fuera de alcance de este skill.
@@ -216,16 +223,17 @@ a la Ley Federal de Variedades Vegetales — fuera de alcance de este skill.
 
 ## Búsqueda
 
-### Lo que el usuario ha conectado
+### Capacidad verificada en esta ejecución
 
-Leer `## Integraciones disponibles`:
+Leer el registro de capacidades; `PROFILE` es historial, no prueba. Descubrir la
+herramienta y ejecutar una consulta mínima no sensible antes de usarla:
 
-- **Solve Intelligence conectado:** ejecutar una búsqueda preliminar sobre la
+- **Solve Intelligence `verified` ahora:** ejecutar una búsqueda preliminar sobre la
   descripción técnica. Anotar la fecha de la búsqueda, la consulta usada, las
   jurisdicciones cubiertas, y cualquier ventana de fecha (patentes vigentes;
   solicitudes publicadas recientemente).
-- **MCP de investigación de patentes (Google Patents Public Datasets, PatSnap
-  export): disponible:** usarlo.
+- **Otro MCP personalizado:** usarlo solo si declara búsqueda de patentes y la
+  prueba runtime fue exitosa; registrar herramienta y alcance.
 - **Ninguno de los anteriores:** decirlo explícitamente. No inferir patentes
   del conocimiento del modelo y presentarlas como resultados de búsqueda.
 
@@ -271,8 +279,10 @@ Capturar:
 - **Fecha de prioridad y fecha de otorgamiento**
 - **Fecha de expiración** (conforme a SIGA/IMPI — verificar pago de anualidades
   y cualquier extensión)
-- **Estatus de anualidades / vigencia** — si una patente mexicana no ha pagado
-  una anualidad, está caduca y no es una barrera
+- **Estatus de anualidades / vigencia** — verificar en el expediente oficial el
+  pago exigible, el periodo aplicable y cualquier gracia, rehabilitación,
+  resolución o litigio. Una ausencia de pago aparente o una fuente secundaria
+  no bastan para declarar la caducidad ni para descartar la patente como barrera
 - **Tipo** — patente de invención o modelo de utilidad
 - **Conteo de reivindicaciones — independientes y dependientes**
 - **Reivindicaciones independientes como fueron otorgadas** (y cualquier
@@ -316,18 +326,16 @@ cada reivindicación independiente:**
   acusado practica cada elemento de al menos una reivindicación (regla de todos
   los elementos). Faltar un elemento literalmente significa no infracción
   literal sobre esa reivindicación. No omitir ninguno.
-- **Equivalentes son una pasada separada.** Primero hacer chart de infracción
-  literal. Luego, para cualquier elemento con "no," anotar si una lectura por
-  equivalentes es plausible (diferencias insustanciales / función-medio-resultado).
-  México reconoce la doctrina de equivalentes pero su desarrollo jurisprudencial
-  es limitado comparado con EE.UU. `[model knowledge — verify]`. Señalar el
-  análisis de equivalentes como requiriendo juicio del abogado.
+- **Equivalentes son una pregunta separada, no una regla asumida.** Primero
+  hacer chart literal. Para cualquier elemento con “no”, señalar que un abogado
+  debe verificar si el expediente, criterio vigente y vía mexicana admiten una
+  lectura no literal. No importar automáticamente las pruebas estadounidenses
+  de diferencias insustanciales o función-medio-resultado.
 - **La construcción de reivindicaciones es trabajo del abogado.** Donde un
   término pueda construirse de manera estrecha o amplia y la respuesta cambie
   la lectura de infracción, señalar el término y anotar ambas construcciones.
-  No elegir una silenciosamente. En México no existe un equivalente al
-  *Markman hearing* estadounidense; la construcción de reivindicaciones ocurre
-  dentro del procedimiento ante IMPI o en tribunales resolviendo el fondo.
+  No elegir una silenciosamente ni importar el procedimiento de un *Markman
+  hearing* estadounidense; identificar el foro mexicano y su regla vigente.
 - **Infracción indirecta (inducida, contribución) e infracción dividida** son
   solo señales. No intentar un análisis completo; anotar que pueden aplicar y
   requieren abogado de patentes.
@@ -362,13 +370,15 @@ concluye "no infringe." Las opciones:
 
 ## Exclusiones de patentabilidad — relevancia para FTO
 
-Las exclusiones de patentabilidad bajo Art. 4 LFPPI `[model knowledge — verify]`
+Las reglas de materia no considerada invención y exclusiones bajo LFPPI arts.
+47-49 (MX-LFPPI-PATENTABILITY-001)
 son relevantes para el triaje de FTO no porque el producto sea patentable, sino
 porque una patente bloqueante podría ser atacada por nulidad si sus
 reivindicaciones caen en una exclusión. Señalar como pregunta abierta si una
 reivindicación de la patente bloqueante parece recitar materia excluida:
 
-- Software *per se* (Art. 4 Fr. IV LFPPI `[model knowledge — verify]`)
+- Programas de computación reclamados como tales o en sí mismos (art. 47,
+  fr. V y párrafo final LFPPI)
 - Métodos de negocios
 - Métodos terapéuticos, quirúrgicos o de diagnóstico
 - Descubrimientos, teorías científicas, métodos matemáticos
@@ -443,26 +453,24 @@ Clasificar por lo que encontró el triaje:
 - **Si no se identificaron patentes en la búsqueda pero no se tenía acceso a
   base de datos:** La búsqueda formal es el siguiente paso, no una decisión de
   lanzamiento.
-- **Siempre:** señalar riesgo de conocimiento previo. Si el triaje expone una
-  patente específica, la empresa ahora tiene conocimiento de ella. Proceder sin
-  análisis adicional puede ser relevante para la determinación de dolo ante IMPI
-  y para la cuantificación agravada de daños y perjuicios en juicio civil. El
-  abogado debe documentar el camino a seguir.
+- **Siempre:** documentar qué patente identificó el triaje, de qué fuente
+  provino, quién debe revisarla y qué decisión queda pendiente. No afirmar que
+  el solo conocimiento configura dolo o agrava automáticamente sanciones o
+  daños. El abogado debe determinar cualquier consecuencia jurídica y
+  documentar el camino a seguir.
 
-**Nota sobre daños:** México NO tiene treble damages (daños triples) como
-EE.UU. Sin embargo, el conocimiento previo de la patente es relevante para:
-- Determinación de **dolo** en el procedimiento administrativo ante IMPI
-  (puede agravar sanciones administrativas — multas)
-- **Cuantificación de daños y perjuicios** en juicio civil (CCF Arts.
-  1910-1934) — el juez puede considerar la culpa grave o dolo del infractor
-- Eventual **responsabilidad penal** por delitos contra la propiedad industrial
-  (Art. 402 LFPPI `[model knowledge — verify]`) si hay dolo
+**Nota sobre remedios:** aplicar `MX-LFPPI-INFRINGEMENT-REMEDIES-001` a la vía
+concreta y no importar categorías de daños estadounidenses. El art. 396 LFPPI
+no establece un multiplicador por conocimiento previo. El art. 402 tampoco
+convierte la infracción de patente en delito genérico: solo considerar vía penal
+si los hechos satisfacen un tipo enumerado, previa revisión de
+`MX-LFPPI-CRIMINAL-OFFENSES-001`.
 
 ---
 
 ## Formato de resultado
 
-Anteponer el encabezado de confidencialidad de `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` `## Resultados`. Marcar el documento como confidencial si el rol es abogado; ver la puerta para no abogados abajo si no.
+Anteponer el encabezado de confidencialidad de `PROFILE` → `## Resultados`. Marcar el documento como confidencial si el rol es abogado; ver la puerta para no abogados abajo si no.
 
 ```markdown
 [ENCABEZADO DE CONFIDENCIALIDAD]
@@ -472,9 +480,10 @@ Anteponer el encabezado de confidencialidad de `~/.claude/plugins/config/claude-
 **Esto no es un dictamen de libertad de operación.** Un dictamen formal de FTO
 requiere una búsqueda exhaustiva, construcción completa de reivindicaciones, y
 análisis elemento por elemento de infracción por un abogado de patentes
-calificado. La infracción de patentes es responsabilidad objetiva; el
-conocimiento previo de la patente puede agravar la cuantificación de daños y la
-determinación de dolo ante IMPI. Un resultado de "no se encontraron patentes
+calificado. Deben analizarse los actos del artículo 55, sus limitaciones, la
+fracción aplicable del artículo 386 y los remedios de la vía elegida; no se
+presume responsabilidad ni un efecto jurídico automático por conocimiento
+previo. Un resultado de "no se encontraron patentes
 bloqueantes obvias" significa que el triaje no encontró una — no que el producto
 esté libre. Un abogado de patentes calificado evalúa antes de que alguien se
 apoye en esto para una decisión de producto.
@@ -487,7 +496,7 @@ apoye en esto para una decisión de producto.
 - **Detalle técnico en que se basó:** [qué se revisó — spec, diagrama, página
   pública, código, descripción del ingeniero]
 - **Jurisdicciones en alcance:** [fabricar / usar / vender / ofrecer / importar
-  — conforme a LFPPI Arts. 213-215]
+  — conforme a los derechos conferidos y conductas concretas verificadas]
 - **Timing:** [pre-lanzamiento / cerca de lanzamiento / ya en mercado]
 
 ## Alcance de la búsqueda
@@ -563,18 +572,18 @@ requerido]
 - [licencia / nulidad ante IMPI / análisis de riesgo según instruya el
   abogado]
 - [enrutamiento conforme a
-  `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`
+  `PROFILE`
   — despacho externo de patentes nombrado en el perfil de práctica]
 
-## Nota de conocimiento previo de patentes
+## Nota de gobernanza de patentes identificadas
 
-Este triaje expone patentes específicas. Proceder con el producto sin revisión
-adicional de abogado después de este conocimiento puede ser relevante para la
-determinación de dolo ante IMPI y para la cuantificación agravada de daños y
-perjuicios en juicio civil. El camino a seguir debe ser documentado por el
-abogado de patentes; la decisión de negocio de lanzar, diseñar alternativa, o
-licenciar se informa con un dictamen formal de FTO y el juicio del abogado —
-no con este triaje.
+Este triaje identifica patentes específicas. Registrar la fuente y fecha,
+preservar el análisis y obtener revisión jurídica antes de una decisión. No
+afirmar que el conocimiento, por sí solo, configura dolo o agrava sanciones o
+daños. El abogado de patentes determina las consecuencias aplicables y
+documenta el camino a seguir; la decisión de lanzar, diseñar una alternativa o
+licenciar se informa con un dictamen formal de FTO y el juicio del abogado, no
+con este triaje.
 
 ## Verificación de citas
 
@@ -593,9 +602,9 @@ Antes de emitir el resultado, leer `## Quién usa este plugin`. Si el Rol es No 
 
 > Este resultado es un triaje de investigación, no asesoría legal. Lanzar,
 > continuar vendiendo, o invertir en este producto basándose solo en este triaje
-> tiene consecuencias legales — incluyendo responsabilidad objetiva por
-> infracción de patentes, con potencial agravamiento de daños por conocimiento
-> previo. Un abogado de patentes necesita evaluar antes de que avances.
+> puede exponer a una reclamación si un derecho vigente cubre actos concretos
+> del producto. Este resultado no establece infracción ni calcula sanciones o
+> daños. Un abogado de patentes necesita evaluar antes de que avances.
 >
 > Aquí hay un resumen para llevar a un abogado — recortará el tiempo que toma
 > la conversación:
@@ -605,10 +614,11 @@ Antes de emitir el resultado, leer `## Quién usa este plugin`. Si el Rol es No 
 > patentes expuestas y las lecturas del chart de primera pasada, las preguntas
 > abiertas, y las tres preguntas para hacerle al abogado.]
 >
-> Si necesitas encontrar un abogado calificado en tu jurisdicción: en México,
-> un abogado de patentes requiere título de abogado con cédula profesional de
-> la SEP y conocimiento técnico; un agente de propiedad industrial registrado
-> ante IMPI puede representar en trámites administrativos pero no en litigio.
+> Si necesitas encontrar apoyo calificado en México, busca una persona abogada
+> con cédula y experiencia técnica/PI para el dictamen y cualquier litigio.
+> Para representación administrativa, verificar poder, personalidad y
+> requisitos del trámite concreto; no asumir una categoría o registro oficial
+> de "agente de propiedad industrial" sin fuente vigente.
 > El Colegio de Abogados de tu entidad federativa, la Barra Mexicana Colegio
 > de Abogados, o la AMPPI (Asociación Mexicana para la Protección de la
 > Propiedad Intelectual) mantienen directorios de especialistas.
@@ -622,9 +632,9 @@ confidencial y no debe reenviarse a terceros fuera de la cadena jurídica.
 ## Ubicación del resultado
 
 Si los espacios de trabajo por asunto están habilitados y un asunto está activo, escribir el resultado en
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<slug>/outputs/fto-triage-<slug-sujeto>-AAAA-MM-DD.md`.
+`DATA_ROOT/outputs/fto-triage-<slug-sujeto>-AAAA-MM-DD.md`.
 De lo contrario, escribir en
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/outputs/fto-triage-<slug-sujeto>-AAAA-MM-DD.md`
+`DATA_ROOT/outputs/fto-triage-<slug-sujeto>-AAAA-MM-DD.md`
 y mostrar la ruta.
 
 Agregar una entrada de una línea al `history.md` del asunto si hay un asunto activo.
@@ -641,7 +651,7 @@ Cerrar con el árbol de decisión de siguientes pasos conforme a CLAUDE.md `## R
 - **Construir reivindicaciones.** Donde la construcción es determinante, señala
   el término y ambas construcciones plausibles. No elige una.
 - **Adjudicar validez.** Puede anotar procedimientos conocidos ante IMPI; no
-  opina sobre novedad, actividad inventiva, exclusiones del Art. 4 LFPPI, o
+  opina sobre novedad, actividad inventiva, reglas de los arts. 47-49 LFPPI, o
   suficiencia de descripción.
 - **Redactar reivindicaciones de patente.** Este plugin no va ahí; enrutar al
   abogado de trámite de patentes.

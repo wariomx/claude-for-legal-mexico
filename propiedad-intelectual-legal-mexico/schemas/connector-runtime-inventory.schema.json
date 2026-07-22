@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://soft.law/schemas/ip-mx/connector-runtime-inventory.schema.json",
+  "type": "object",
+  "required": ["servers"],
+  "additionalProperties": false,
+  "properties": {
+    "servers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "tools"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string", "minLength": 1},
+          "tools": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "read_probes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["capability", "tool", "status", "operation", "tested_at", "non_sensitive", "result_observed"],
+              "additionalProperties": false,
+              "properties": {
+                "capability": {"type": "string", "minLength": 1},
+                "tool": {"type": "string", "minLength": 1},
+                "status": {"enum": ["passed", "failed", "not_run"]},
+                "operation": {"type": ["string", "null"]},
+                "tested_at": {"type": ["string", "null"], "format": "date-time"},
+                "non_sensitive": {"type": "boolean"},
+                "result_observed": {"type": "boolean"}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

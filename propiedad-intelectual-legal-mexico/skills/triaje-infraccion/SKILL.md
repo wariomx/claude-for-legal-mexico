@@ -22,7 +22,7 @@ responsabilidades por denuncia temeraria y daños agravados.
 ## Instrucciones
 
 1. Leer
-   `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.
+   `PROFILE` resuelto por `matter_workspace.py status`.
    Si contiene `[PLACEHOLDER]`, detenerse y dirigir a
    `/propiedad-intelectual-legal-mexico:cold-start-interview`.
 2. Seguir el flujo de trabajo abajo.
@@ -89,8 +89,9 @@ No omitirlo. No suavizarlo.**
 > probables. Actuar sobre un triaje — enviar una carta de requerimiento,
 > negarse a cesar, iniciar un procedimiento, o decidir no actuar — sin
 > revisión de abogado es cómo las empresas terminan del lado equivocado de
-> multas, costas, responsabilidades por denuncia temeraria (LFPPI Art. 221
-> `[model knowledge — verify]`), y daños agravados.
+> multas, costas y responsabilidades por una aserción improcedente; verificar
+> las vías y remedios del texto vigente (LFPPI arts. 386 y 396-397,
+> MX-LFPPI-INFRINGEMENT-REMEDIES-001) y otras consecuencias aplicables.
 
 Sub-calificar un conflicto es una puerta de un solo sentido — una carta no
 enviada y una marca se vuelve genérica en el mercado; una acción no perseguida
@@ -110,9 +111,10 @@ habilitado y no hay asunto activo, preguntar: "¿Para qué asunto es esto?
 Ejecuta `/propiedad-intelectual-legal-mexico:matter-workspace switch <slug>` o
 di `nivel-de-práctica`." Cargar el `matter.md` del asunto activo. Escribir
 resultados en la carpeta del asunto en
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<asunto-slug>/`.
-Nunca leer archivos de otro asunto a menos que `Contexto cruzado entre asuntos`
-esté `on`.
+`DATA_ROOT/`.
+Nunca leer archivos de otro asunto. El campo legado `Contexto entre asuntos`
+no anula el hook; para trabajo a nivel de práctica usar el controlador con
+`none` y un flujo agregado explícito.
 
 Los triajes de infracción frecuentemente llevan a la redacción de cartas de
 requerimiento o enrutamiento de notificación de infracción. Abrir un asunto
@@ -124,7 +126,7 @@ cualquier respuesta posterior pertenecen a un mismo workspace.
 ## Cargar el perfil de práctica primero
 
 Leer
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.
+`PROFILE`.
 Extraer:
 
 - **Rol** de `## Quién usa este plugin`.
@@ -218,62 +220,61 @@ Esperar la respuesta antes de recorrer factores.
 
 ---
 
-## Las tres vías de acción en México
+## Rutas de acción en México
 
-**Todo modo de triaje debe cerrar con las tres vías disponibles según apliquen
-al derecho en juego.** El titular de un derecho de PI en México tiene hasta
-tres vías de acción `[model knowledge — verify]`:
+**Todo modo de triaje debe cerrar con las rutas que realmente podrían aplicar
+al derecho y conducta concretos.** No presentar “tres vías” como menú universal
+ni como secuencia obligatoria. Identificar los elementos, legitimación,
+procedibilidad, prueba, plazo y objetivo de cada ruta antes de sugerirla.
 
 ### 1. Vía administrativa — IMPI (declaración administrativa)
 
-- **Fundamento:** LFPPI para propiedad industrial; LFDA canalizada a través de
-  IMPI para ciertas conductas de infracción en materia de derechos de autor
-  (Art. 231 LFDA) `[model knowledge — verify]`
-- **Procedimiento:** Solicitud de declaración administrativa de infracción ante
-  IMPI (Arts. 334-348 LFPPI) `[model knowledge — verify]`
-- **Medidas cautelares:** IMPI puede dictar medidas provisionales (aseguramiento
-  de mercancía, suspensión de actividades) — Arts. 349-362 LFPPI
-  `[model knowledge — verify]`
-- **Sanciones:** Multas (hasta 500,000 UMAs), clausura temporal o definitiva,
-  decomiso de mercancía infractora `[model knowledge — verify]`
-- **Duración estimada:** ~2 años `[model knowledge — verify]`
-- **Apelación:** Recurso de reconsideración ante IMPI → TFJA (antes TFJFA) →
-  Tribunales Colegiados de Circuito → SCJN (amparo)
-- **Ventaja:** No requiere cuantificar daños; IMPI investiga y resuelve.
-  Procedimiento más expedito que la vía civil.
+- **Fundamento:** LFPPI para propiedad industrial; para infracciones de derecho
+  de autor o en materia de comercio, verificar la categoría y autoridad bajo la
+  LFDA vigente.
+- **Procedimiento:** arts. 328 y siguientes LFPPI; requisitos, pruebas,
+  emplazamiento y resolución no se reducen al antiguo rango 334-348
+  (**MX-LFPPI-ENFORCEMENT-PROCEDURE-001**).
+- **Medidas provisionales:** arts. 344 y siguientes. Identificar la medida
+  concreta, apariencia del derecho, fianza/contrafianza y plazo; no prometerla.
+- **Inspección:** arts. 354 y siguientes, según proceda.
+- **Conducta:** citar la fracción aplicable del art. 386 solo después de
+  cotejarla con hechos y texto vigente.
+- **Tiempo e impugnación:** obtener estimación y medio de defensa del abogado
+  con el expediente actual; no usar duraciones ni cadenas procesales fijas de
+  plantilla.
 
-### 2. Vía civil — Juicio ordinario mercantil (daños y perjuicios)
+### 2. Indemnización y vía jurisdiccional
 
-- **Fundamento:** LFPPI Arts. 221-222 (daños por infracción de PI industrial);
-  LFDA Art. 216 bis (daños por infracción de derechos de autor)
-  `[model knowledge — verify]`
-- **Procedimiento:** Juicio ordinario mercantil ante Juzgados de Distrito en
-  Materia Civil (competencia federal) — Código de Comercio Arts. 1377 y ss.
-  `[model knowledge — verify]`
-- **Medidas cautelares:** Providencias precautorias bajo Código de Comercio
-  Arts. 1168 y ss.
-- **Daños:** Daños y perjuicios + ganancia ilícita del infractor. LFPPI Art.
-  221: el monto no podrá ser inferior al 40% del precio de venta al público
-  de cada producto o servicio que implique infracción
-  `[model knowledge — verify]`
-- **Duración estimada:** ~2-4 años (primera instancia + apelación)
-- **Ventaja:** Indemnización económica directa; medidas cautelares más amplias.
+- **Fundamento industrial:** arts. 396-410 LFPPI. El art. 396 permite elegir,
+  según sus condiciones, entre reclamar ante IMPI una vez concluido el
+  procedimiento o acudir directamente a tribunales; no exigir siempre una
+  declaración administrativa previa.
+- **Competencia:** el art. 407 prevé tribunales federales y, cuando solo se
+  afecten intereses particulares, la opción de juzgadores del orden común.
+  El abogado debe definir acción, vía procesal y foro.
+- **Piso del art. 396:** cuarenta por ciento del **indicador de valor legítimo**
+  presentado por la persona titular, desarrollado en el art. 397; no es un
+  cuarenta por ciento automático de ventas al público.
+- **Derecho de autor:** verificar art. 216 Bis LFDA, causalidad, prueba y vía
+  aplicables. No trasladar automáticamente la estructura industrial.
+- **Tiempo y medidas:** dependen de vía, foro y hechos; no usar un rango fijo de
+  plantilla (**MX-LFPPI-INFRINGEMENT-REMEDIES-001**).
 
 ### 3. Vía penal — UEIDDAPI (denuncia ante MP Federal)
 
-- **Fundamento:** LFPPI Art. 402 (delitos en materia de PI industrial);
-  CPF Arts. 424-429 (delitos en materia de derechos de autor)
-  `[model knowledge — verify]`
+- **Fundamento:** delitos enumerados en arts. 402-405 LFPPI o en las
+  disposiciones vigentes del CPF sobre derecho de autor, según la conducta.
 - **Procedimiento:** Denuncia o querella ante el Ministerio Público Federal
   (UEIDDAPI — Unidad Especializada en Investigación de Delitos contra los
   Derechos de Autor y la Propiedad Industrial)
-- **Sanciones:** Pena privativa de libertad + multa + reparación del daño
-- **Requisito previo:** Para PI industrial, generalmente se requiere resolución
-  administrativa previa de IMPI declarando la infracción
-  `[model knowledge — verify]`
-- **Cuándo procede:** Piratería a escala comercial, falsificación sistemática
-  de marcas, revelación dolosa de secretos industriales. No es la vía
-  ordinaria para disputas comerciales.
+- **No es universal:** el art. 402 no criminaliza toda infracción industrial.
+  Verificar fracción, dolo/fin exigido, querella u oficio y, cuando corresponda,
+  el dictamen técnico limitado del art. 405. No sustituirlo por una supuesta
+  resolución administrativa previa general.
+- **Cuándo considerar:** solo si los hechos satisfacen un tipo penal concreto;
+  no usar la vía penal como amenaza genérica
+  (**MX-LFPPI-CRIMINAL-OFFENSES-001**).
 
 > **⚠️ La vía penal es la opción más severa.** Señalar ÚNICAMENTE cuando los
 > hechos sugieran dolo, escala comercial significativa, o reincidencia. No
@@ -287,8 +288,9 @@ tres vías de acción `[model knowledge — verify]`:
 
 El análisis de confusión en México no sigue los tests multifactoriales de
 circuitos estadounidenses (Polaroid, Sleekcraft, du Pont). El IMPI aplica
-criterios propios derivados de la LFPPI y la jurisprudencia mexicana
-`[model knowledge — verify]`:
+la LFPPI y los criterios mexicanos que resulten aplicables. Citar la fracción
+exacta del art. 173 o 386 y recuperar cualquier tesis antes de atribuirle un
+"test" obligatorio (`MX-LFPPI-MARK-REFUSALS-001`).
 
 **Tipos de confusión que analiza el IMPI:**
 - **Confusión directa** — el consumidor confunde un producto/servicio con otro
@@ -297,7 +299,7 @@ criterios propios derivados de la LFPPI y la jurisprudencia mexicana
 - **Riesgo de asociación** — el consumidor asocia las marcas aunque no las
   confunda directamente
 
-**Factores del análisis de confusión (criterios IMPI):**
+**Ejes de comparación y evidencia — no presentarlos como lista legal cerrada:**
 
 - **Semejanza de las marcas** — fonética, gráfica, conceptual e impresión
   comercial en conjunto. El IMPI analiza las marcas en su TOTALIDAD, no
@@ -307,53 +309,37 @@ criterios propios derivados de la LFPPI y la jurisprudencia mexicana
 - **Grado de atención del consumidor** — consumidor promedio del sector
   relevante (no especializado, a menos que sea un mercado técnico).
 - **Canales de comercialización** — dónde y cómo se comercializan.
-- **Fuerza de la marca titular** — fantasía / arbitraria / sugestiva /
-  descriptiva con secondary meaning / genérica. Las marcas más fuertes
-  (fantasía, arbitraria) reciben protección más amplia.
-- **Intención** — evidencia de copia deliberada, imitación de imagen
-  comercial, marca cercana.
-- **Confusión real** — evidencia de consumidores confundidos (encuestas,
-  quejas, correos misdirected).
+- **Distintividad y alcance demostrado** de la marca anterior; no importar una
+  taxonomía estadounidense como si fuera texto de la LFPPI.
+- **Intención y confusión observada** — tratarlas como evidencia contextual,
+  no como requisitos universales ni factores obligatorios sin criterio citado.
 - **Coexistencia previa** — ¿han coexistido en el mercado sin confusión?
 
-### Marca notoriamente conocida
+### Marca notoriamente conocida o famosa
 
-LFPPI Arts. 190-198 `[model knowledge — verify]` — la marca notoriamente
-conocida recibe protección ampliada:
-
-- **Protección más allá de los productos/servicios registrados** — puede
-  oponerse a marcas en clases diferentes si hay riesgo de confusión o
-  aprovechamiento de la reputación.
-- **Declaración ante IMPI** — se puede solicitar declaración de notoriedad o
-  de marca famosa.
-- **Marca famosa** (Art. 190 LFPPI) `[model knowledge — verify]` — un escalón
-  arriba de notoriamente conocida; conocida por la mayoría del público
-  consumidor. Protección contra dilución.
-- **Dilución** — menoscabo del carácter distintivo o de la reputación.
-  Tarnishment (desprestigio) y blurring (dilución de distintividad).
+Para el impedimento de registro, las fracciones XVI y XVII del art. 173 pueden
+alcanzar cualquier producto o servicio; en notoriedad se exige además uno de
+los efectos enumerados en la fracción XVI. Separar notoriedad de fama y no
+traducir automáticamente categorías de *tarnishment/blurring*. Para una
+declaratoria ante IMPI, recuperar y citar el procedimiento vigente antes de
+describir requisitos (`MX-LFPPI-MARK-REFUSALS-001`).
 
 Si la marca titular no es claramente notoria o famosa, señalar la protección
 ampliada como un argumento débil.
 
 ### Competencia desleal
 
-LFPPI Arts. 213 y ss. `[model knowledge — verify]` — infracciones
-administrativas que incluyen:
-
-- Uso de una marca confusamente similar a otra registrada
-- Imitación de imagen comercial (trade dress)
-- Actos de competencia desleal relacionados con PI
-- Publicidad engañosa que involucre signos distintivos
-
-Señalar si los hechos configuran competencia desleal además de o en lugar de
-infracción marcaria.
+LFPPI art. 386 contiene supuestos distintos. Identificar la fracción e inciso y
+mapear cada elemento a hechos; no usar "competencia desleal", *trade dress* o
+"publicidad engañosa" como tipos genéricos. Para confusión sobre patrocinio de
+eventos masivos, aplicar `MX-LFPPI-EVENT-SPONSORSHIP-001`.
 
 ### Resultado de modo marca
 
 Tabla de factores; qué corta en cada dirección; una línea de "no es un
 dictamen" al cierre. Cerrar con sugerencia de vía de acción contra la postura
-de enforcement del perfil de práctica, identificando las tres vías disponibles
-y cuál se recomienda para los hechos.
+de enforcement del perfil de práctica, identificando solo las rutas que
+realmente procedan y cuál se recomienda para los hechos.
 
 ---
 
@@ -364,50 +350,39 @@ y cuál se recomienda para los hechos.
 ¿El reclamante es el autor o titular de los derechos patrimoniales (o
 licenciatario exclusivo con legitimación)? Puntos a señalar:
 
-- **Obra por encargo** — LFDA Arts. 83-84: los derechos patrimoniales
-  pertenecen al comitente, PERO los derechos morales siempre pertenecen al
-  autor `[model knowledge — verify]`
-- **Obra en colaboración** — LFDA Art. 78: los coautores son cotitulares
-  `[model knowledge — verify]`
+- **Obra por encargo** — art. 83: salvo pacto contrario, el comitente goza de
+  los patrimoniales/facultades enumeradas; revisar derecho de mención
+  (MX-LFDA-COMMISSIONED-WORK-001)
+- **Obra en colaboración** — recuperar el texto vigente y el acuerdo entre
+  participantes antes de caracterizar cotitularidad o facultades `[verify]`
 - **Transmisión de derechos patrimoniales** — LFDA Arts. 30-33: debe constar
   por escrito con requisitos específicos
-- **Relación laboral** — las obras creadas en el ejercicio de funciones: la
-  ley es menos clara que para invenciones; revisar el contrato
-  `[model knowledge — verify]`
+- **Relación laboral** — art. 84: con contrato individual escrito, reparto igual
+  por defecto salvo pacto contrario; sin contrato escrito, patrimoniales del
+  empleado (MX-LFDA-EMPLOYMENT-WORK-001)
 
 ### Registro INDAUTOR
 
-El registro ante INDAUTOR (Instituto Nacional del Derecho de Autor) NO es
-constitutivo — los derechos de autor nacen con la creación de la obra (LFDA
-Art. 5) `[model knowledge — verify]`. Sin embargo:
-
-- El registro es declarativo y genera una presunción de titularidad (prueba
-  prima facie)
-- NO es requisito para iniciar acciones de infracción (a diferencia de EE.UU.
-  donde el registro es prerrequisito para demandar)
-- El certificado de registro es útil como prueba en procedimientos
-
-Señalar estatus de registro; si no está registrado, NO señalar como barrera
-procesal (como sería en EE.UU.) sino como debilidad probatoria.
+No importar el prerrequisito registral estadounidense. Conforme a los arts. 5 y
+168, la protección no requiere registro, mientras la inscripción genera una
+presunción salvo prueba en contrario y deja a salvo derechos de terceros. La
+regla procesal de la vía, titularidad, legitimación y prueba aún requieren
+análisis. Señalar qué certificado o cadena existe y qué falta
+(`MX-LFDA-REGISTRATION-EFFECT-001`).
 
 ### Semejanza sustancial
 
-El análisis de semejanza en derecho mexicano `[model knowledge — verify]`:
-
-- **Reproducción total o parcial** — LFDA Art. 229 señala como infracción la
-  reproducción sin autorización `[model knowledge — verify]`
-- **Semejanza sustancial** — no se requiere copia exacta; la reproducción de
-  los elementos originales y protegibles es suficiente
-- **Elementos no protegibles** — ideas, procedimientos, métodos de operación,
-  conceptos matemáticos, datos, hechos (LFDA Art. 14)
-  `[model knowledge — verify]`
-- **Expresión original** — lo protegido es la expresión, no la idea
+No importar "substantial similarity" como test mexicano sin una fuente. Mapear
+qué acto exclusivo y qué infracción concreta se alegan; comparar solo expresión
+protegible y separar ideas, procedimientos, métodos, datos y demás materia del
+art. 14. Recuperar la fracción aplicable del art. 229 y cualquier criterio
+judicial antes de concluir `[verify]`.
 
 ### Excepciones y limitaciones (equivalente funcional de fair use)
 
-México NO tiene una doctrina de fair use como la de 17 U.S.C. § 107. En su
-lugar, la LFDA establece excepciones y limitaciones TAXATIVAS (Arts. 147-151)
-`[model knowledge — verify]`:
+No aplicar directamente 17 U.S.C. § 107. Clasificar el uso bajo la excepción o
+limitación concreta de la LFDA vigente y sus condiciones; recuperar el texto de
+los arts. 147-151 antes de usar cualquiera de estas posibilidades `[verify]`:
 
 - Cita de obras con fines de crítica, comentario, investigación o enseñanza
   (con atribución y sin exceder lo justificado)
@@ -417,24 +392,24 @@ lugar, la LFDA establece excepciones y limitaciones TAXATIVAS (Arts. 147-151)
 - Acceso a obras para personas con discapacidad
 - Parodia (debatido — no tan claro como en EE.UU.)
 
-**La diferencia clave con EE.UU.:** las excepciones mexicanas son una lista
-cerrada, no un test de factores abierto. Si el uso no cae en ninguna excepción
-enlistada, no hay defensa equivalente al fair use. Esto hace que el análisis
-de defensa sea más binario que en EE.UU.
+No declarar que la lista vuelve el resultado automáticamente binario: revisar
+texto, tratados, derechos fundamentales y precedentes realmente aplicables con
+abogado de autor.
 
 ### Derechos morales en el triaje
 
 Si los hechos involucran violación de derechos morales (falta de atribución,
 mutilación de la obra, divulgación no autorizada), señalar como línea separada.
 Los derechos morales son perpetuos, inalienables e irrenunciables (LFDA Art.
-19). La violación de derechos morales es infracción independiente de la
-infracción de derechos patrimoniales.
+19). Analizar su eventual violación en una línea separada de los derechos
+patrimoniales y verificar la infracción, acción y remedio concretos; no asumir
+que toda afectación produce automáticamente una causa independiente.
 
 ### Resultado de modo derecho de autor
 
 Factores señalados; balance de excepciones con "el triaje no concluye";
 notas de umbral de titularidad / registro / derechos morales. Enrutamiento per
-postura, con las tres vías de acción identificadas.
+postura, con las rutas aplicables identificadas.
 
 ---
 
@@ -444,16 +419,18 @@ postura, con las tres vías de acción identificadas.
 
 **Revisar el número de registro PRIMERO.** En México, IMPI otorga:
 
-- **Patente de invención** — 20 años de vigencia desde la solicitud
-  `[model knowledge — verify]`
+- **Patente de invención** — 20 años improrrogables desde la fecha de
+  presentación reconocida, sujeta a anualidades
+  (`MX-LFPPI-PATENT-TERM-001`)
 - **Modelo de utilidad** — 15 años de vigencia desde la solicitud (objetos,
   utensilios, aparatos o herramientas con una configuración o estructura
   diferente que presente función diferente o ventaja de uso práctico)
-  `[model knowledge — verify]`
-- **Diseño industrial** — 25 años de vigencia desde la solicitud (modelos
+  (`MX-LFPPI-UTILITY-MODEL-TERM-001`)
+- **Diseño industrial** — vigencia inicial de 5 años desde la presentación,
+  renovable por periodos sucesivos de 5 años hasta un máximo de 25 años
+  (LFPPI arts. 78-79; regla `MX-LFPPI-DESIGN-TERM-001`) (modelos
   industriales — forma tridimensional; y dibujos industriales — combinaciones
   de colores, líneas, figuras, formas, texturas, para aspecto ornamental)
-  `[model knowledge — verify]`
 
 El análisis de infracción difiere por tipo. No aplicar el análisis de
 reivindicaciones de patente de invención a un diseño industrial — los diseños
@@ -469,15 +446,16 @@ reivindicados.
 - Infracción literal primero. Equivalentes como señalamiento.
 - Infracción indirecta (contribución, inducción) como señalamientos.
 - **Defensas de nulidad a considerar** — novedad, actividad inventiva,
-  aplicación industrial, materia no patentable (LFPPI Arts. 45-50)
-  `[model knowledge — verify]`. Resultados conocidos de procedimientos de
+  aplicación industrial, materia no considerada invención o exclusiones
+  (LFPPI arts. 45-52 y causal vigente del art. 154;
+  `MX-LFPPI-PATENTABILITY-001`). Resultados conocidos de procedimientos de
   nulidad ante IMPI. Arte previo conocido. Expediente de trámite.
-- **Defensas de agotamiento de derechos** — si el producto fue legítimamente
-  puesto en comercio por el titular o con su consentimiento
-  `[model knowledge — verify]`
-- **Postura de daños** — daños y perjuicios bajo LFPPI Art. 221 (mínimo 40%
-  del precio de venta); ganancia ilícita del infractor
-  `[model knowledge — verify]`
+- **Agotamiento o limitación aplicable** — identificar la disposición vigente y
+  sus hechos; no trasladar automáticamente una regla extranjera `[verify]`
+- **Postura de daños** — indemnización bajo LFPPI arts. 396-397 (el art. 396
+  contiene el piso del 40% sobre el indicador de valor legítimo; no tratarlo
+  como 40% automático de ventas sin construir el indicador). La vía elegida,
+  legitimación, causalidad, indicador y prueba requieren revisión jurídica.
 
 ### Diseño industrial — análisis diferente
 
@@ -490,7 +468,7 @@ reivindicados.
 ### Resultado de modo patente
 
 Mapeos de reivindicaciones. Señalamientos de elementos. Señalamientos de
-defensas. Enrutamiento a abogado de patentes. Las tres vías de acción.
+defensas. Enrutamiento a abogado de patentes. Las rutas de acción aplicables.
 
 ### Transferencia a claim chart completo
 
@@ -508,7 +486,7 @@ verificación que las contestaciones requieren.
 
 ### ¿Era un secreto?
 
-Aplicar LFPPI Arts. 163-170 `[model knowledge — verify]` (secretos
+Aplicar LFPPI arts. 163-169 (`MX-LFPPI-TRADE-SECRETS-001`) (secretos
 industriales). Señalar:
 
 - **No es de conocimiento general** — no disponible para el público ni para
@@ -520,8 +498,8 @@ industriales). Señalar:
 
 ### Medidas razonables de protección
 
-LFPPI requiere que el titular haya adoptado "medidas suficientes" para mantener
-la secrecía `[model knowledge — verify]`:
+El art. 163 exige medios o sistemas suficientes para preservar la
+confidencialidad y acceso restringido (`MX-LFPPI-TRADE-SECRETS-001`):
 
 - Convenios de confidencialidad con empleados, contratistas, contrapartes.
   ¿Alcance, firmados, ejecutados?
@@ -537,8 +515,9 @@ específico a los hechos; el triaje no decide si las medidas fueron suficientes
 
 ### Apropiación indebida
 
-LFPPI Arts. 211-212 `[model knowledge — verify]` — adquisición por medios
-desleales, o divulgación/uso en incumplimiento de un deber de confidencialidad.
+LFPPI arts. 163-169 (**MX-LFPPI-TRADE-SECRETS-001**) — distinguir la definición
+de apropiación indebida, sus exclusiones y los deberes de confidencialidad; la
+infracción administrativa o delito requieren fundamento específico adicional.
 
 - **Patrón de ex-empleado:** nuevo empleador, trabajo similar, timing de
   salida, documentos llevados (¿y devueltos?), logs de acceso, canales de
@@ -552,9 +531,10 @@ desleales, o divulgación/uso en incumplimiento de un deber de confidencialidad.
 ### Resultado de modo secreto industrial
 
 Tres grupos de señalamientos — secrecía, medidas, apropiación — cada uno con
-qué corta en cada dirección. Enrutamiento per postura. Señalar las tres vías
-de acción (la vía penal es particularmente relevante en secretos industriales
-cuando hay dolo — LFPPI Art. 402 fracción IV `[model knowledge — verify]`).
+qué corta en cada dirección. Enrutamiento conforme a postura. Mostrar solo las
+rutas sustentadas. Para vía penal verificar qué fracción III-VI del art. 402
+corresponde a los hechos y los elementos subjetivos/procedibilidad; no asumir
+que toda apropiación administrativa es delito.
 
 ---
 
@@ -565,13 +545,13 @@ la dirección pero mantiene los mismos factores. Adicionalmente:
 
 ### Defensas comunes en derecho mexicano
 
-- **Uso previo de buena fe** — si el acusado usaba el signo antes del registro
-  del titular (LFPPI) `[model knowledge — verify]`
+- **Uso previo de buena fe** — verificar disposición, fechas, territorio y
+  alcance antes de invocarlo `[verify]`
 - **Nulidad del registro** — el registro del titular es nulo por falta de
   novedad, actividad inventiva, o por haber sido otorgado en contravención
   de la ley
-- **Prescripción de la acción** — verificar plazos según la vía
-  `[model knowledge — verify]`
+- **Prescripción/caducidad procesal** — identificar vía y disposición; no usar
+  un plazo genérico `[verify]`
 - **Agotamiento de derechos** — el producto fue legítimamente puesto en
   comercio
 - **Excepciones y limitaciones** — LFDA Arts. 147-151 para derechos de autor
@@ -591,7 +571,7 @@ contra-ataque.
 ## Formato de resultado (todos los modos)
 
 Anteponer el encabezado de confidencialidad de
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`
+`PROFILE`
 `## Resultados`.
 
 ```markdown
@@ -645,9 +625,9 @@ que cortan [dirección] son [resumen breve].
 
 | Vía | Fundamento | Plazo estimado | Ventaja | Desventaja |
 |---|---|---|---|---|
-| Administrativa (IMPI) | LFPPI Arts. 334-348 | ~2 años | No requiere cuantificar daños; IMPI investiga | No hay indemnización directa |
-| Civil (daños) | LFPPI Art. 221 / LFDA Art. 216 bis | ~2-4 años | Indemnización económica | Carga probatoria sobre el actor |
-| Penal (UEIDDAPI) | LFPPI Art. 402 / CPF Arts. 424-429 | Variable | Efecto disuasorio máximo | Solo para conductas dolosas y graves |
+| Administrativa (IMPI) | LFPPI arts. 328 y ss.; medida arts. 344 y ss.; conducta art. 386 | `[verify]` | Investigación, medidas y sanción según procedencia | Requiere fracción, prueba, garantías y estrategia procesal |
+| Indemnización / vía jurisdiccional según el caso | LFPPI arts. 396-410 / LFDA art. 216 Bis | `[verify]` | Reparación económica | Verificar vía, foro, legitimación, causalidad, indicador y prueba |
+| Penal (UEIDDAPI) | Tipo concreto de LFPPI arts. 402-405 / CPF vigente | `[verify]` | Persecución de conductas tipificadas | No aplica a toda infracción; verificar procedibilidad y elementos |
 
 **Vía recomendada para estos hechos:** [identificar con fundamento, pero NO
 decidir — el abogado aprueba] `[review]`
@@ -659,7 +639,7 @@ decidir — el abogado aprueba] `[review]`
 - [desarrollo de hechos necesario — ej., logs de acceso, historia de trámite
   ante IMPI, estudios de mercado, prueba pericial]
 - [enrutamiento per
-  `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`
+  `PROFILE`
   `## Postura de enforcement`, si la postura es de aserción]
 
 ## Verificación de citas
@@ -704,9 +684,9 @@ Entregar el triaje junto con el breve.
 
 Si los espacios de trabajo por asunto están habilitados y hay un asunto activo,
 escribir a
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<asunto-slug>/outputs/triaje-<modo>-<slug-del-sujeto>-AAAA-MM-DD.md`.
+`DATA_ROOT/outputs/triaje-<modo>-<slug-del-sujeto>-AAAA-MM-DD.md`.
 De lo contrario escribir a
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/outputs/triaje-<modo>-<slug-del-sujeto>-AAAA-MM-DD.md`
+`DATA_ROOT/outputs/triaje-<modo>-<slug-del-sujeto>-AAAA-MM-DD.md`
 y mostrar la ruta.
 
 Agregar una entrada de una línea al `history.md` del asunto si hay un asunto

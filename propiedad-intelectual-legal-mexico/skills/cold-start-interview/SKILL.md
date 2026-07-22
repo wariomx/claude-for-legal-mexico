@@ -13,7 +13,7 @@ argument-hint: "[--redo para re-ejecutar en un plugin ya configurado] [--check-i
 
 Si se invoca con `--local`:
 
-1. **Ruta de escritura:** `.claude-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` en el directorio de trabajo actual, en vez del path global (`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`).
+1. **Ruta de escritura:** `.claude-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` en el directorio de trabajo actual, en vez del fallback global.
 2. **`company-profile.md` compartido:** escribir también en `.claude-legal/company-profile.md` (en vez de global).
 3. **Crear directorio:** crear `.claude-legal/propiedad-intelectual-legal-mexico/` si no existe.
 4. **`.gitignore`:** si existe un `.gitignore` en el directorio actual y no contiene `.claude-legal/`, agregar esa línea automáticamente y notificar: "Agregué `.claude-legal/` a tu `.gitignore`."
@@ -24,11 +24,24 @@ Si se invoca con `--local`:
 
 # /cold-start-interview
 
-Ejecuta la entrevista de configuración inicial. La primera ejecución escribe `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`; ejecuciones posteriores con `--redo` re-entrevistan y muestran un diff antes de sobrescribir.
+Ejecuta la entrevista de configuración inicial. La primera ejecución escribe el
+perfil local solicitado o el fallback global; ejecuciones posteriores con
+`--redo` re-entrevistan y muestran un diff antes de sobrescribir.
 
 ## Instrucciones
 
-1. **Verificar estado actual:** Leer `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`. Si contiene `[PLACEHOLDER]` o `[Tu Empresa]`, proceder con entrevista nueva. Si está configurado y no se pasó `--redo`, preguntar: "Parece que ya estás configurado. ¿Quieres re-ejecutar la entrevista? Esto sobrescribirá `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` (te mostraré un diff primero)."
+1. **Resolver destino sin mezclar alcances.** Intentar
+   `python3 "${CLAUDE_PLUGIN_ROOT}/scripts/matter_workspace.py" status`:
+   - si responde, `TARGET_PROFILE=profile`, `TARGET_ROOT=config_root` y
+     `DATA_ROOT=data_root`;
+   - si no existe perfil y se pasó `--local`, usar
+     `TARGET_PROFILE=.claude-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`;
+   - si no existe perfil y no se pasó `--local`, usar el fallback global
+     declarado en la plantilla.
+   Nunca leer global y local en la misma entrevista. Si `TARGET_PROFILE`
+   contiene `[PLACEHOLDER]` o `[Tu Empresa]`, proceder. Si está configurado y no
+   se pasó `--redo`, pedir confirmación e identificar la ruta exacta antes del
+   diff.
 
 2. **Seguir el guión de entrevista de abajo.**
 
@@ -36,20 +49,28 @@ Ejecuta la entrevista de configuración inicial. La primera ejecución escribe `
 
 4. **Leer los documentos compartidos** y extraer las posiciones reales — umbrales de enforcement, cadena de aprobación, configuración de vigilancia de marca, reglas de OSS, política de cesión de invenciones. Notar deltas entre posiciones declaradas y lo que las plantillas/playbooks realmente requieren.
 
-5. **Migración:** Si existe un CLAUDE.md configurado (sin marcadores `[PLACEHOLDER]`) en `~/.claude/plugins/cache/claude-for-legal/propiedad-intelectual-legal-mexico/*/CLAUDE.md` pero no en la ruta de config, copiarlo a la ruta de config y mostrar al usuario lo que se migró.
+5. **Migración:** Solo si `TARGET_PROFILE` es global, no existe y hay un perfil
+   configurado en la caché antigua, mostrar fuente/destino y pedir confirmación
+   antes de copiar. Nunca migrar una caché/global a un `TARGET_PROFILE` local.
 
-6. **Escribir `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`** (crear directorios padre según sea necesario) conforme a la estructura de abajo. Usar las palabras del abogado donde sea posible.
+6. **Escribir `TARGET_PROFILE`** (crear directorios padre según sea necesario)
+   conforme a la estructura de abajo. Usar las palabras del abogado donde sea posible.
 
-7. **Sembrar el registro de portafolio** si el usuario compartió una exportación de portafolio o acceso a sistema de gestión de PI: escribir en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/portfolio.yaml`. Si no se compartió nada, dejar un puntero placeholder que el skill de portafolio pueda llenar después.
+7. **Sembrar el registro de portafolio** si el usuario compartió una exportación
+   o un MCP personalizado realmente verificado: escribir en
+   `DATA_ROOT/portfolio.json`. Si no se compartió nada, no inventar registros.
 
 8. **Mostrar resumen + proponer siguientes pasos:**
-   - "Esto es lo que escuché — `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` está escrito. ¿Qué no capté bien?"
+   - "Esto es lo que escuché — `[TARGET_PROFILE]` está escrito. ¿Qué no capté bien?"
    - Ofrecer una prueba: "¿Quieres probar una marca propuesta contra el skill de disponibilidad, o ver qué viene en el portafolio de renovaciones?"
-   - Si un sistema de gestión de PI está conectado: ofrecer cargar masivamente el registro de portafolio y mostrar renovaciones próximas.
+   - Solo si un MCP personalizado de gestión de PI fue realmente probado:
+     ofrecer cargar el registro. Los conectores incluidos no aportan un SGPI.
 
 ## `--check-integrations`
 
-Re-ejecuta la verificación de disponibilidad de integraciones (sistema de gestión de PI, investigación de patentes, investigación jurídica, almacenamiento de documentos, Slack) y actualiza `## Integraciones disponibles` en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`. No re-entrevista. Usar cuando conectes o desconectes un MCP y quieras que el plugin lo note sin re-ejecutar toda la configuración.
+Re-ejecuta la verificación de capacidades y actualiza `## Integraciones
+disponibles` en `TARGET_PROFILE`. No re-entrevista. Usar cuando conectes o
+desconectes un MCP.
 
 Al verificar: solo reportar ✓ si una llamada MCP tool realmente tuvo éxito. Conectores configurados pero no probados deben marcarse ⚪ con una línea explicando cómo confirmar. Nunca reportar ✓ basándose solo en declaraciones de `.mcp.json` — eso engaña al usuario haciéndole creer que algo está funcionando cuando no lo está.
 
@@ -77,7 +98,7 @@ El abogado debe salir de esta conversación sintiendo que acaba de integrar a un
 
 ## Qué significa "cold start"
 
-Leer `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`:
+Leer `TARGET_PROFILE`:
 - **No existe** → iniciar la entrevista.
 - **Contiene `<!-- SETUP PAUSED AT: -->`** → saludar al usuario y ofrecer retomar desde esa sección.
 - **Contiene `[PLACEHOLDER]` o `[Tu Empresa]` pero sin comentario de pausa** → la plantilla nunca se completó; ofrecer empezar de cero o retomar donde empiezan los placeholders.
@@ -182,9 +203,19 @@ Si la respuesta es 2 o 3, decir esto una vez (no repetirlo en cada resultado):
 
 Si la respuesta es 3, agregar:
 
-> Si necesitas encontrar un abogado titulado con cédula profesional: el Colegio de Abogados de tu entidad, la Barra Mexicana Colegio de Abogados, o la ANADE (Asociación Nacional de Abogados de Empresa) son buenos puntos de partida. Para PI específicamente, AMPPI (Asociación Mexicana para la Protección de la Propiedad Intelectual) y AIPPI México tienen directorios de especialistas. Varias universidades con clínicas jurídicas de PI pueden ser un recurso para empresas pequeñas. `[model knowledge — verify]`
+> Si necesitas encontrar una persona abogada, puedo buscar ahora directorios
+> oficiales o profesionales vigentes y ayudarte a verificar cédula, experiencia
+> y jurisdicción. No afirmar que una organización mantiene un directorio sin
+> comprobar su sitio actual.
 
-**Nota importante sobre privilegio en México.** A diferencia de EE.UU., México NO tiene el concepto de "patent agent privilege." No existe un equivalente al privilegio del agente de patentes reconocido en *In re Queen's University at Kingston*. Solo los abogados titulados con cédula profesional gozan de secreto profesional conforme al Art. 36 de la Ley Reglamentaria del Art. 5° Constitucional. Los agentes de propiedad industrial, ingenieros y consultores de PI que no son abogados titulados operan sin ninguna protección de privilegio sobre sus comunicaciones y análisis. Esta distinción ya está reflejada en el perfil de práctica: no hay opción "agente de patentes registrado" como rol.
+**Nota importante sobre confidencialidad y privilegio.** No importar el
+*patent-agent privilege* estadounidense. El art. 36 de la ley de profesiones de
+Ciudad de México se refiere a **todo profesionista** dentro del ámbito de esa
+ley, no solo a abogados, y no crea por sí solo un privilegio probatorio nacional.
+Preguntar entidad federativa, profesión/cédula, relación, destinatarios y vía
+procesal; aplicar `MX-LRART5-CDMX-CONFIDENTIALITY-001`. No afirmar que una
+persona no abogada carece de toda protección ni que existe una categoría
+oficial de "agente de patentes registrado" sin fuente vigente.
 
 #### Mezcla de áreas de práctica
 
@@ -220,25 +251,67 @@ Bifurcar fuerte. Una entrevista de 3 minutos bien enfocada con los campos correc
 
 #### ¿Qué está conectado?
 
-> Este plugin puede trabajar con: sistemas de gestión de PI (Anaqua, CPA Global, PatSnap, Clarivate), investigación de patentes (Solve Intelligence), investigación jurídica (LegalDataHunter), almacenamiento de documentos (Google Drive, SharePoint, Box), y Slack. Déjame verificar qué conectores tienes configurados — las funciones que los necesiten trabajarán, y las que no los tengan caerán a modo manual de forma elegante en vez de fallar silenciosamente.
+Leer primero
+`${CLAUDE_PLUGIN_ROOT}/references/connector-capabilities.json`. Ese registro
+enumera lo que la dependencia realmente declara y lo que no incluye.
+Ejecutar además:
 
-**Verificar qué está realmente conectado, no qué está configurado.** Un conector listado en `.mcp.json` está *disponible*. Un conector que realmente responde está *conectado*. Estos son diferentes, y confundirlos destruye la confianza. Para cada conector que este plugin usa:
+```bash
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/check_connectors.py" --strict
+```
 
-- Si puedes probar la conexión (llamar a un MCP tool simple como un list o search), reportar ✓ solo si la respuesta fue exitosa.
-- Si no puedes probar (no hay forma de verificar desde aquí), reportar ⚪ "configurado pero no verificado — abre tu configuración de MCP para confirmar" con una línea explicando cómo.
-- Nunca reportar ✓ basándose solo en configuración.
+Si detecta deriva entre el registro y `.mcp.json`, detener la afirmación de
+capacidades y reportar la deriva. Esto solo confirma configuración declarada;
+sin inventario runtime todos los servidores quedan `configured_unverified`.
 
-Para conectores que aparecen como no conectados, decir al usuario cómo conectar. Los servidores MCP ya están preconfigurados a través del plugin `conectores-legal-mexico` (instalado automáticamente como dependencia) — el usuario no necesita agregar nada vía `/mcp`. Solo necesita autenticar:
+**Prueba por capacidad, no por marca comercial:**
 
-- **LegalDataHunter (clave API):** "LegalDataHunter no está conectado. Ejecuta `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico` e ingresa tu clave API cuando se solicite. La clave se guarda de forma segura en el llavero del sistema. Sin ella, las citas se marcarán como `[model knowledge — verify]` — pero conectarlo permite verificar jurisprudencia, tesis y legislación vigente en tiempo real."
-- **Solve Intelligence (clave API):** "Solve Intelligence no está conectado. Ejecuta `claude plugin configure conectores-legal-mexico@claude-for-legal-mexico` para verificar si tu clave está configurada. Sin ella, las búsquedas de arte previo y FTO trabajan de forma manual."
-- **OAuth (Box, Slack, Google Drive):** "Box no está conectado. En Claude Cowork: Configuración → Conectores → Agregar → Box → iniciar sesión. En Claude Code: el servidor MCP ya está configurado — solo autoriza la conexión OAuth. Sin él, el usuario carga documentos manualmente."
+1. Descubrir las herramientas expuestas en esta ejecución. No inventar nombres
+   como `mcp__anaqua__*`, `mcp__cpa__*` o `slack_send_message`.
+2. Para cada servidor declarado, elegir una herramienta mínima, de solo lectura
+   y sin datos sensibles. Llamarla. No probar escritura enviando mensajes,
+   creando documentos o modificando expedientes.
+3. Registrar el estado exacto:
+   - `verified`: todas las capacidades declaradas del conector tienen prueba
+     válida ahora;
+   - `partially_verified`: al menos una capacidad fue probada y otra no;
+   - `configured_unverified`: servidor declarado, sin prueba exitosa ahora;
+   - `unavailable`: herramienta ausente o prueba fallida;
+   - `unsupported`: no hay conector incluido para esa capacidad.
+4. Guardar fecha, herramienta/capacidad efectivamente probada y alternativa.
+   Una prueba de búsqueda no verifica escritura; una prueba de Slack lectura no
+   verifica envío.
+5. Después de las pruebas, crear un inventario JSON **saneado** conforme a
+   `schemas/connector-runtime-inventory.schema.json`: solo nombres de servidor,
+   herramientas observadas y metadatos de la prueba. No guardar consulta,
+   resultado, token, encabezado ni dato de cliente. Ejecutar
+   `check_connectors.py --runtime-inventory <ruta>` y copiar sus estados al
+   perfil. Cada entrada de `read_probes` debe ligar capacidad y herramienta,
+   tener `status=passed`, `non_sensitive=true`, `result_observed=true` y una
+   fecha zonificada dentro de la ventana de 15 minutos. Una sola prueba no
+   verifica las demás capacidades.
 
-Luego reportar hallazgos en esta forma:
+**Límites declarados del paquete revisado:**
 
-> - ✓ [Integración] — conectada (probada)
-> - ⚪ [Integración] — configurada pero no verificada. Abre tu configuración de MCP para confirmar.
-> - ✗ [Integración] — no encontrada. [Función] caerá a [alternativa manual]. [Cómo conectar.]
+- LegalDataHunter usa la clave configurada por el plugin de conectores.
+- El manifiesto no declara una clave de usuario para Solve Intelligence; no
+  indicar que se configure una clave inexistente. Reportar el mecanismo de
+  autorización que el runtime realmente solicite, si alguno.
+- Google Drive, Box, iManage y Slack requieren autorización runtime según el
+  entorno. Este plugin solo registra capacidades de lectura; toda escritura o
+  envío queda bloqueado y requiere un adaptador/proceso separado, probado y
+  aprobado.
+- Anaqua, CPA Global, PatSnap, Clarivate IPfolio, Alt Legal y FoundationIP son
+  ejemplos de SGPI, pero **no tienen conector incluido**. Estado:
+  `unsupported`, salvo MCP personalizado descubierto y probado.
+
+Reportar así:
+
+> - `verified` — [servidor]: [capacidad] probada con [herramienta], [fecha]
+> - `partially_verified` — [servidor]: [capacidades probadas] sí; [restantes] no
+> - `configured_unverified` — [servidor]: declarado; no probado
+> - `unavailable` — [servidor]: [fallo/ausencia]; alternativa [X]
+> - `unsupported` — SGPI: no incluido; usar `DATA_ROOT/portfolio.json` o exportación
 
 No necesitas todas. Las funciones principales trabajan solo con acceso a archivos. Si configuras algo después, re-ejecuta `/propiedad-intelectual-legal-mexico:cold-start-interview --check-integrations`.
 
@@ -408,10 +481,10 @@ Saltar si el usuario no trabaja con reservas de derechos.
 
 > Reservas de derechos al uso exclusivo ante INDAUTOR: (Esto alimenta `/propiedad-intelectual-legal-mexico:reservas-derechos` y el portafolio — las reservas tienen vigencias cortas y renovaciones frecuentes.)
 >
-> - **¿Qué tipos de reservas manejas?** Publicaciones periódicas / difusiones periódicas / personajes ficticios / personajes humanos de caracterización / promociones publicitarias.
+> - **¿Qué tipos de reservas manejas?** Publicaciones periódicas / difusiones periódicas / personajes humanos de caracterización, ficticios o simbólicos / personas o grupos artísticos / eventos artísticos y culturales / promociones publicitarias.
 > - **¿Cuántas reservas activas tienes?** Número aproximado.
 > - **¿Quién rastrea las renovaciones actualmente?** Automático vía sistema / manual / nadie.
-> - **Vigencias:** Las reservas tienen vigencias de 1 a 5 años según tipo (Arts. 173-180 LFDA) — ¿has tenido problemas con vencimientos inesperados?
+> - **Vigencias:** Las reservas tienen vigencias de 1 o 5 años según categoría (arts. 173 y 189-191 LFDA); promociones publicitarias no se renuevan — ¿has tenido problemas con vencimientos inesperados?
 
 Registrar en el perfil de práctica de PI junto al portafolio.
 
@@ -421,7 +494,9 @@ Escribir la config del plugin siguiendo la estructura en `${CLAUDE_PLUGIN_ROOT}/
 
 Antes de escribir, re-leer cualquier documento compartido durante la Parte 3 — portafolio, plantillas, playbook, política de OSS. No confiar en memoria de antes en la conversación.
 
-Escribir en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` (crear directorios padre según sea necesario). Si el usuario compartió una exportación de portafolio, también sembrar `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/portfolio.yaml` con los registros extraídos.
+Escribir en `TARGET_PROFILE` (crear directorios padre según sea necesario). Si
+el usuario compartió una exportación de portafolio, sembrar
+`DATA_ROOT/portfolio.json` con los registros extraídos y su procedencia.
 
 **Encabezado condicional al rol.** En la sección `## Resultados` escrita, elegir el encabezado correcto basado en `## Quién usa este plugin`. No escribir ambas variantes. Abogado titulado → confidencial/secreto profesional; no abogado → notas de investigación.
 
@@ -459,7 +534,7 @@ Si sí, mostrar esta lista adaptada (no una plantilla genérica — estas son la
 
 4. **Cerrar con nota de modificabilidad.** Terminar con algo como:
 
-   > "Listo. Tu perfil de práctica está en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` — es un archivo de texto plano que puedes leer y editar directamente. Todo lo que respondiste se puede cambiar:
+   > "Listo. Tu perfil de práctica está en `[TARGET_PROFILE]` — es un archivo de texto plano que puedes leer y editar directamente. Todo lo que respondiste se puede cambiar:
    >
    > - Edita el archivo directamente para un cambio rápido (un nuevo aprobador, una lista de vigilancia revisada, un cambio de jurisdicción)
    > - Ejecuta `/propiedad-intelectual-legal-mexico:cold-start-interview --redo` para una re-entrevista completa
@@ -490,10 +565,13 @@ Si dan una respuesta corta, está bien hacer una pregunta de seguimiento ("agres
 
 ## Modos de falla a evitar
 
-- **No escribir YAML en el perfil de práctica.** El perfil es prosa con tablas ocasionales. El registro de portafolio es YAML; el perfil no.
+- **No escribir YAML en el perfil de práctica ni en el portafolio.** El perfil
+  es prosa con tablas ocasionales; el portafolio canónico es JSON v2.
 - **No saltar los documentos de práctica.** La entrevista te dice lo que creen que es su postura. Los documentos te dicen lo que realmente es. Ambos importan.
 - **No escribir una postura genérica.** Si sus respuestas son genéricas ("enviamos cartas cuando hay un problema real"), empujar gentilmente: "Dame el detonante. Cuando ves una cuenta de Instagram usando una marca casi idéntica en productos no relacionados, ¿qué haces?"
 - **No prometer cosas que los otros skills no pueden entregar.** Verificar qué skills existen en este plugin (ver roster en CLAUDE.md) antes de ofrecerlos.
 - **No ejecutar esta entrevista en cada sesión.** Verificar la config del plugin primero. Si está configurada, ya terminaste.
 - **No redactar reivindicaciones de patente ni ofrecer una opinión legal formal (dictamen).** Este plugin está intencionalmente fuera de esas zonas. Si lo piden, enrutar al abogado de patentes o al litigante.
-- **No asumir que existe privilegio de agente de patentes en México.** Solo los abogados titulados tienen secreto profesional. Si el usuario es consultor de PI sin cédula profesional, tratarlo como Rol 2 o 3, nunca como equivalente a un "registered patent agent" estadounidense.
+- **No asumir un privilegio estadounidense de agente de patentes.** Tampoco
+  negar toda confidencialidad a no abogados: clasificar rol y entidad y aplicar
+  la regla profesional/procesal realmente pertinente.

@@ -21,11 +21,14 @@ pasaron una búsqueda eliminatoria.
 
 ## Instrucciones
 
-1. Leer `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`. Si contiene `[PLACEHOLDER]`, detener y dirigir a `/propiedad-intelectual-legal-mexico:cold-start-interview`.
+1. Ejecutar `matter_workspace.py status` y leer `PROFILE`. Si contiene `[PLACEHOLDER]`, detener y dirigir a `/propiedad-intelectual-legal-mexico:cold-start-interview`.
 2. Seguir el flujo de trabajo de abajo.
 3. Correr la toma de datos (marca, productos/servicios, clases, jurisdicciones, visualización/estilización).
 4. Verificación eliminatoria de impedimentos intrínsecos — genéricos, descriptivos, contrarios al orden público, banderas/escudos, denominaciones de origen, nombres sin consentimiento, títulos/personajes con reserva, formas funcionales, falsas indicaciones de procedencia.
-5. Búsqueda de marcas similares contra lo que esté conectado (Solve Intelligence, LegalDataHunter, o cualquier MCP disponible). Si no hay nada conectado, decirlo en el resultado y proceder solo con el análisis de similitud.
+5. Probar en runtime una capacidad específica de búsqueda registral de marcas.
+   Los conectores incluidos no garantizan esa capacidad. Si no existe una
+   herramienta probada, decirlo y proceder solo con datos del usuario y análisis
+   estructurado; no reutilizar una herramienta de patentes como si fuera marcas.
 6. Recorrer el análisis de similitud conforme al marco mexicano: similitud fonética, gráfica e ideológica, similitud de productos/servicios, canales de comercialización, consumidores relevantes, distintividad de la marca anterior, notoriedad. Señalar cada eje; nunca concluir.
 7. Escribir el memorándum de triaje a la carpeta del asunto (si un asunto está activo) o la carpeta de resultados de la práctica. Aplicar el encabezado de confidencialidad conforme al rol.
 8. Cerrar con siguientes pasos recomendados y la compuerta de no abogado si el rol es no abogado.
@@ -73,20 +76,20 @@ puerta de dos sentidos.
 
 ## Contexto de asunto
 
-**Contexto de asunto.** Verificar `## Espacios de trabajo por asunto` en el perfil de práctica de CLAUDE.md. Si `Habilitado` es `✗` (el default para jurídico interno), saltar el resto de este párrafo — los skills usan contexto a nivel práctica y la maquinaria de asuntos es invisible. Si está habilitado y no hay asunto activo, preguntar: "¿Para cuál asunto es esto? Ejecuta `/propiedad-intelectual-legal-mexico:matter-workspace switch <slug>` o di `nivel práctica`." Cargar el `matter.md` del asunto activo para contexto y sobreescrituras específicas. Escribir resultados a la carpeta del asunto en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<slug-asunto>/`. Nunca leer archivos de otro asunto a menos que `Contexto entre asuntos` sea `on`.
+**Contexto de asunto.** Usar exclusivamente `DATA_ROOT`. Si los asuntos están habilitados y no hay activo, preguntar si debe cambiarse a uno o trabajar a nivel de práctica. Cargar `DATA_ROOT/matter.md` solo cuando haya slug activo y escribir en `DATA_ROOT/outputs/`. Nunca leer otra carpeta de `matters/`.
 
 ---
 
 ## Cargar el perfil de práctica primero
 
-Antes de correr la búsqueda de disponibilidad, leer `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`. Extraer:
+Antes de correr la búsqueda de disponibilidad, leer `PROFILE`. Extraer:
 
 - **Rol** de `## Quién usa este plugin` (abogado vs. no abogado cambia el encabezado de confidencialidad y la compuerta de no abogado abajo).
 - **Jurisdicciones de registro** y **dónde haces valer derechos** de `## Perfil de práctica de PI` y `## Postura de enforcement` (jurisdicciones por defecto si el usuario no especifica).
 - **Integraciones** de `## Integraciones disponibles` (LegalDataHunter / Solve Intelligence — cada una determina qué búsquedas están disponibles, cuál es la alternativa, y qué se atribuye en el resultado).
 - **Postura de decisión** de `## Postura de decisión en juicios jurídicos subjetivos` — este skill nunca concluye "no confusamente similar."
 
-Si `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` contiene `[PLACEHOLDER]` o `[Tu Empresa]`, mostrar este rebote:
+Si `PROFILE` contiene `[PLACEHOLDER]` o `[Tu Empresa]`, mostrar este rebote:
 
 > Noto que no has configurado tu perfil de práctica todavía — es como calibro postura, jurisdicciones y cadena de aprobación a tu práctica.
 >
@@ -124,7 +127,7 @@ Si la marca propuesta es claramente un eslogan, frase publicitaria o lema comerc
 
 > Lo que describes parece un **eslogan/lema**, no una marca denominativa. En México, los eslóganes se protegen como **avisos comerciales** (no como marcas) — tienen vigencia de 10 años, se tramitan ante IMPI con requisitos similares pero expediente separado. ¿Quieres que corra la búsqueda como aviso comercial, como marca, o ambos?
 
-Si el usuario confirma aviso comercial, ajustar la búsqueda para barrer tanto el registro de marcas como el de avisos comerciales. Los avisos comerciales también están sujetos a la declaración de uso real a los 3 años (Art. 233 LFPPI) `[model knowledge — verify]`.
+Si el usuario confirma aviso comercial, ajustar la búsqueda para barrer tanto el registro de marcas como el de avisos comerciales. La declaración de uso real puede alcanzar avisos comerciales conforme al artículo 233 y al régimen transitorio; los otorgados antes del 10 de agosto de 2018 tienen tratamiento distinto. Aplicar `MX-LFPPI-MARK-USE-DECLARATION-001`, no una regla universal sin fecha.
 
 ---
 
@@ -138,26 +141,33 @@ evaluar directamente y señalar. No racionalizar un problema evidente.
 |---|---|---|
 | **Genérico** | El término ES la categoría (ej., "Jabón" para jabón) | La marca nombra lo que es el producto |
 | **Descriptivo sin distintividad adquirida** | Describe directamente una característica, función, cualidad o ingrediente | El consumidor lee la marca y sabe qué hace el producto sin imaginación — y no hay evidencia de distintividad adquirida (secondary meaning) |
-| **Forma funcional o usual** | Forma tridimensional esencial para el uso, determinada por la naturaleza del producto o que le da ventaja funcional | Marca tridimensional — y la forma cumple una función técnica o es la forma usual del producto `[model knowledge — verify]` |
+| **Forma funcional o usual** | Forma tridimensional esencial para el uso, determinada por la naturaleza del producto o que le da ventaja funcional | Marca tridimensional — recuperar y aplicar la fracción exacta del art. 173 antes de concluir `[verify]` |
 | **Contrario al orden público o buenas costumbres** | La marca contiene elementos ofensivos, violentos, discriminatorios | La marca sería rechazada por razones de moralidad pública |
-| **Banderas, escudos, emblemas oficiales sin autorización** | Signos oficiales de México o de cualquier Estado, escudos municipales, emblemas de organizaciones internacionales | La marca contiene o imita un signo oficial sin autorización expresa de la autoridad competente `[model knowledge — verify]` |
-| **Denominación de origen / indicación geográfica protegida** | Nombres protegidos como Tequila, Mezcal, Talavera, Bacanora, Sotol, Charanda, Café de Veracruz, Vainilla de Papantla, Olinalá, Ámbar de Chiapas — y las indicaciones geográficas inscritas ante IMPI | La marca contiene, incluye o imita una denominación de origen o indicación geográfica — bloquea en TODAS las clases, no solo en la del producto protegido `[model knowledge — verify]` |
+| **Banderas, escudos, emblemas oficiales sin autorización** | Signos oficiales de México o de cualquier Estado, escudos municipales, emblemas de organizaciones internacionales | La marca contiene o imita un signo oficial; recuperar la fracción, excepción y autorización aplicables `[verify]` |
+| **Denominación de origen / indicación geográfica protegida** | Nombres protegidos e indicaciones geográficas reconocidas por IMPI | El signo es idéntico o semejante en grado de confusión y los productos/servicios solicitados son idénticos o similares a los vinculados o protegidos; aplicar art. 173, fr. XI, no un bloqueo automático en todas las clases (`MX-LFPPI-MARK-REFUSALS-001`) |
 | **Nombre de persona viva sin consentimiento** | No se puede registrar el nombre, seudónimo o imagen de una persona sin su consentimiento | La marca es o incluye el nombre o imagen de una persona identificable viva |
-| **Título de obra / nombre de personaje amparado por reserva de derechos (INDAUTOR)** | Títulos de publicaciones periódicas, difusiones periódicas, personajes ficticios y humanos de caracterización protegidos por reserva de derechos al uso exclusivo | La marca coincide con un título de obra o nombre de personaje que tiene reserva vigente ante INDAUTOR — verificar en el portal de INDAUTOR `[model knowledge — verify]` |
+| **Título/nombre relacionado con obra o reserva (INDAUTOR)** | Posible cruce LFDA-LFPPI | Recuperar la fracción vigente y comprobar la reserva/titularidad; no tratar toda coincidencia como impedimento `[verify]` |
 | **Falsa indicación de procedencia** | La marca sugiere un origen geográfico que los productos no tienen | La marca indica un lugar de origen y los productos no provienen de ahí, y el origen sería material para el consumidor |
-| **Marca notoria o famosa** | Marcas con protección ampliada más allá de los productos/servicios registrados | La marca es confusamente similar a una marca declarada notoria o famosa por IMPI — protección ampliada a todas las clases (famosa) o clases relacionadas (notoria) `[model knowledge — verify]` |
-| **Anti-ambush marketing (reforma 2026)** | Nuevas disposiciones contra uso no autorizado de PI en eventos deportivos/culturales de alto perfil | La marca evoca, sugiere o aprovecha la imagen de un evento deportivo o cultural protegido (Olímpicos, Copa del Mundo, etc.) `[model knowledge — verify]` |
+| **Marca notoria o famosa** | Marcas con protección ampliada bajo los supuestos expresos del art. 173 | Para cualquier producto o servicio: en notoriedad, verificar además confusión/asociación, aprovechamiento, desprestigio o dilución de la fr. XVI; en fama, aplicar fr. XVII (`MX-LFPPI-MARK-REFUSALS-001`) |
 
 **Nota sobre impedimentos intrínsecos en México vs. EE.UU.** Los impedimentos
 intrínsecos mexicanos se fundamentan en la LFPPI (no en el §2 del Lanham Act).
 Diferencias clave:
 
-- México protege **denominaciones de origen/indicaciones geográficas como impedimento absoluto** en todas las clases — no solo como indicación geográfica descriptiva.
+- México protege **denominaciones de origen/indicaciones geográficas** mediante
+  la fr. XI, pero el texto vigente vincula el impedimento a productos o
+  servicios idénticos o similares; no describirlo como absoluto en todas las
+  clases.
 - México tiene el impedimento de **títulos de obras y personajes amparados por reserva de derechos** (cruce LFDA-LFPPI sin equivalente directo en EE.UU.).
-- Después de la reforma 2026, México tiene disposiciones de **anti-ambush marketing** — sin equivalente federal en EE.UU. `[model knowledge — verify]`
+- La reforma 2026 añadió al art. 386, fr. II, inc. e), un supuesto de confusión
+  sobre patrocinio oficial de eventos masivos. Es un análisis de infracción y
+  competencia desleal, **no** un impedimento autónomo de registro ni una regla
+  general de “anti-ambush marketing” (`MX-LFPPI-EVENT-SPONSORSHIP-001`).
 - México NO tiene los impedimentos de "primarily merely a surname" ni "false connection" como categorías independientes de la ley estadounidense. Los nombres de personas se tratan bajo la fracción específica de la LFPPI que requiere consentimiento.
 
-Las fracciones específicas del Art. 173 de la LFPPI que fundamentan cada impedimento no se citan en línea porque la numeración puede haber cambiado con la reforma 2026. `[model knowledge — verify]` — verificar contra la versión vigente de la LFPPI antes de citar una fracción específica en un dictamen.
+Las fracciones del artículo 173 deben cotejarse con el texto vigente al emitir
+un dictamen. Usar `MX-LFPPI-MARK-REFUSALS-001` como punto de partida, pero citar
+la fracción exacta y su fuente primaria en el entregable.
 
 **Resultado:** para cada categoría de impedimento, "sin problema identificado" o
 una señal específica con razón de una línea. No producir una tabla en blanco de
@@ -170,19 +180,21 @@ aprobaciones.
 El propósito aquí es **encontrar marcas previas potencialmente confusamente
 similares**, no decidir si la confusión es probable. Eso es criterio del abogado.
 
-### Qué tiene conectado el usuario
+### Qué capacidad está verificada ahora
 
-Leer `## Integraciones disponibles` de `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`:
+Leer el registro de capacidades y tratar `PROFILE` solo como historial. Antes de
+usar un conector, ejecutar una prueba mínima de solo lectura en esta sesión:
 
-- **Si hay un conector de búsqueda de marcas disponible** (Solve Intelligence,
-  o cualquier MCP que exponga búsqueda de registro de marcas): correr una
+- **Si una herramienta expone explícitamente búsqueda de registro de marcas y
+  la prueba tuvo éxito:** correr una
   búsqueda preliminar en las clases y jurisdicciones relevantes. Atribuir cada
   resultado a su fuente. Anotar la fecha de la búsqueda y el alcance (cuáles
   registros, cuáles clases, exacta vs. difusa, búsqueda de diseño o no).
-- **Si hay un conector de investigación jurídica disponible** (LegalDataHunter
-  para jurisprudencia y resoluciones de IMPI): barrer por disputas reportadas
+- **Si LegalDataHunter u otro conector jurídico fue probado:** puede buscar
+  jurisprudencia/documentos; no presentarlo como búsqueda del registro de
+  marcas salvo que esa capacidad concreta se verificó. Barrer por disputas
   que involucren la marca o una variante cercana. Misma regla de atribución.
-- **Si no hay conector de búsqueda disponible:** decirlo, explícitamente, en el
+- **Si no hay capacidad registral verificada:** decirlo, explícitamente, en el
   resultado. No inferir resultados de conocimiento del modelo y presentarlos
   como hallazgos de búsqueda.
 
@@ -290,7 +302,10 @@ Verificar disponibilidad de dominios `.mx` y `.com.mx` relevantes vía NIC Méxi
 
 > **El marco de confusión es específico de cada jurisdicción.** México, EE.UU. y la UE evalúan el riesgo de confusión de forma diferente. No aplicar el marco equivocado.
 >
-> - **México (IMPI / LFPPI):** Análisis holístico de similitud a través de tres ejes — **similitud fonética**, **similitud gráfica** y **similitud ideológica** — evaluados en conjunto con la similitud de productos/servicios, los canales de comercialización, el consumidor relevante, la distintividad de la marca anterior y, en su caso, su notoriedad. No es una lista numerada de 8 o 13 factores como en EE.UU. — es un análisis integral desarrollado por criterios de examen del IMPI y jurisprudencia del SCJN y Tribunales Colegiados. `[model knowledge — verify]`
+> - **México (IMPI / LFPPI):** Comparar similitud fonética, gráfica e ideológica,
+>   productos/servicios y contexto pertinente como ejes de investigación. No
+>   presentarlos como test cerrado u obligatorio hasta recuperar el criterio
+>   mexicano aplicable; no importar factores estadounidenses `[verify]`.
 > - **EE.UU. (circuitos federales):** Tests multi-factor (*du Pont*, *Polaroid*, *Sleekcraft*) — fuerza de la marca, similitud (sight/sound/meaning), proximidad de productos, canales, sofisticación del comprador, confusión actual, intención.
 > - **UE (Art. 8(1)(b) RMUE):** Apreciación global — todos los factores relevantes evaluados holísticamente a través de los ojos del consumidor medio. Mayor peso a similitud fonética; equivalentes de traducción como estándar; "riesgo de asociación" más allá de confusión de origen.
 > - **Otras jurisdicciones:** Si la toma de datos incluye una jurisdicción sin marco arriba, decir: "No tengo el marco de confusión de [jurisdicción]. Aplicar el criterio mexicano daría una respuesta incorrecta que parece correcta. Opciones: (a) busco el estándar aplicable, (b) lo enrutas a un especialista en [jurisdicción], (c) noto que esta jurisdicción está fuera de alcance." Nunca aplicar silenciosamente doctrina mexicana.
@@ -322,11 +337,12 @@ apunta en cada dirección y dónde está la incertidumbre:
   fantasiosa, sugestiva o descriptiva con distintividad adquirida? Mayor
   distintividad = mayor protección = mayor riesgo de confusión.
 - **Notoriedad / renombre.** ¿La marca anterior ha sido declarada notoria o
-  famosa por IMPI? Las marcas notorias tienen protección ampliada a productos
-  o servicios relacionados; las famosas tienen protección en todas las clases.
-  `[model knowledge — verify]`
+  famosa por IMPI? Las fracciones XVI y XVII del artículo 173 pueden operar
+  para cualquier producto o servicio; en notoriedad, comprobar además al menos
+  uno de los efectos enumerados por la fracción XVI. No resumir el análisis por
+  clase de Niza. `MX-LFPPI-MARK-REFUSALS-001`
 
-Conforme a la postura de decisión en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`:
+Conforme a la postura de decisión en `PROFILE`:
 
 - **Nunca concluir "no confusamente similar."**
 - Si hay duda, escribir: "Marcas similares encontradas — evaluación de confusión
@@ -373,7 +389,7 @@ agrupados por lo que el triaje encontró:
 
 ## Formato del resultado
 
-Anteponer el encabezado de confidencialidad de `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` → `## Resultados`.
+Anteponer el encabezado de confidencialidad de `PROFILE` → `## Resultados`.
 
 ```markdown
 [ENCABEZADO DE CONFIDENCIALIDAD]
@@ -465,7 +481,7 @@ cada dirección.
 - [siguiente paso específico 1 — ej., "Búsqueda profesional completa en Marcanet, MARCia, registros de nombre comercial, INDAUTOR (reservas), NIC México, y Madrid Monitor antes de adopción"]
 - [siguiente paso específico 2 — ej., "Evaluar rediseño de la marca `APEXLEAF` en Clase 25 si la intención es continuar"]
 - [siguiente paso específico 3 — ej., "Reformular la marca — la forma actual es descriptiva y requerirá distintividad adquirida"]
-- [enrutamiento conforme a `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` — abogado de marcas o despacho externo nombrado en el perfil de práctica]
+- [enrutamiento conforme a `PROFILE` — abogado de marcas o despacho externo nombrado en el perfil de práctica]
 
 ## Verificación de citas
 
@@ -500,7 +516,8 @@ Antes de emitir el resultado, leer `## Quién usa este plugin`. Si el Rol es No 
 > especializado en propiedad intelectual: la Barra Mexicana Colegio de
 > Abogados, AMPPI (Asociación Mexicana para la Protección de la Propiedad
 > Intelectual), AIPPI México, o ANADE (Asociación Nacional de Abogados de
-> Empresa) son buenos puntos de partida. `[model knowledge — verify]`
+> Empresa) pueden ser puntos de partida solo después de verificar sus
+> directorios y datos actuales.
 
 Entregar el memorándum de triaje completo junto con el resumen. No retener el
 análisis.
@@ -511,9 +528,9 @@ análisis.
 
 Si los espacios de trabajo por asunto están habilitados y hay un asunto activo,
 escribir el resultado en
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<slug-asunto>/outputs/clearance-<marca-slug>-AAAA-MM-DD.md`.
+`DATA_ROOT/outputs/clearance-<marca-slug>-AAAA-MM-DD.md`.
 De lo contrario escribir en
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/outputs/clearance-<marca-slug>-AAAA-MM-DD.md`
+`DATA_ROOT/outputs/clearance-<marca-slug>-AAAA-MM-DD.md`
 y mostrar la ruta al usuario.
 
 Agregar una entrada de una línea al `history.md` del asunto si hay un asunto

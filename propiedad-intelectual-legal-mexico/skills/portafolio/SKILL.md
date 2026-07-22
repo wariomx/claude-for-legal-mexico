@@ -16,7 +16,7 @@ Muestra qué vence, agrega activos, registra trámites y audita el registro.
 ## Instrucciones
 
 1. **Seguir el flujo de trabajo de abajo** y leer
-   `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/portfolio.yaml`.
+   `DATA_ROOT/portfolio.json`, después de resolver con `matter_workspace.py status`.
 
 2. **Por defecto (sin args):** equivalente a `--reporte` — mostrar plazos en los
    próximos 90 días agrupados por urgencia (🔴 caducado/gracia, ⏰ vence pronto,
@@ -32,24 +32,24 @@ Muestra qué vence, agrega activos, registra trámites y audita el registro.
    regla personalizada si la jurisdicción no está incluida.
 
 5. **`--actualizar`:** Modo 4. Registrar que se realizó un trámite o pago,
-   sincronizar con el sistema de gestión de PI, o cambiar el estatus de un
-   activo. Aplicar la compuerta de acción consecuencial antes de marcar
+   importar desde un MCP de gestión personalizado solo si su capacidad fue
+   probada, o cambiar el estatus de un activo. Aplicar la compuerta antes de marcar
    cualquier plazo como `tramitado`.
 
 6. **`--auditar`:** Modo 5. Revisión amplia de salud — higiene de plazos,
    brechas de registro, cuestiones de uso real, inconsistencias de titularidad,
    horizonte de expiración, marcas sin vigilancia.
 
-7. **Si el registro está vacío y hay un sistema de gestión de PI conectado:**
-   Ofrecer Modo 1 — jalar el portafolio del sistema de registro e inicializar.
+7. **Si el registro está vacío:** ofrecer importar una exportación del usuario.
+   Solo ofrecer sincronización si un MCP personalizado de SGPI aparece en
+   runtime y una llamada de lectura tuvo éxito en esta ejecución.
 
 8. **Recordatorio de salvaguarda:** Los plazos calculados son solo de referencia.
    Todo resultado cierra con una línea dirigiendo verificación contra
    Marcanet / MARCia / VIDOC / SIGA del IMPI, el portal de INDAUTOR, OMPI, o
    el registro relevante antes de tramitar o pagar. Un plazo registrado pero
    equivocado crea falsa confianza; no permitir que el usuario trate esto como
-   el sistema de registro a menos que el sistema de gestión de PI esté
-   sincronizado vía integración.
+   el sistema oficial de registro, incluso si fue importado de otro sistema.
 
 ## Ejemplos
 
@@ -75,17 +75,16 @@ Muestra qué vence, agrega activos, registra trámites y audita el registro.
 
 ---
 
-## Funciona mejor conectado
+## Fuentes de datos y capacidad real
 
-Este skill rastrea plazos a partir de lo que le informas. Funciona mucho mejor
-conectado a:
+Este skill rastrea plazos a partir de datos proporcionados. Consultar
+`${CLAUDE_PLUGIN_ROOT}/references/connector-capabilities.json` antes de prometer
+una importación:
 
-- **Un sistema de gestión de PI (SGPI) vía MCP** — Anaqua, CPA Global, PatSnap,
-  Clarivate IPfolio, Alt Legal, FoundationIP. Un SGPI conectado te da el
-  expediente completo, calendarios de anualidades y correspondencia entrante en
-  un solo lugar, en vez de que el registro sea lo que el abogado recuerda pegar.
-  Pregunta a tu proveedor de SGPI si tienen un conector MCP, o consulta
-  `CONNECTORS.md` en la raíz del repositorio para cómo solicitar uno.
+- **SGPI:** Anaqua, CPA Global, PatSnap, Clarivate IPfolio, Alt Legal y
+  FoundationIP **no vienen conectados**. Usar exportación o MCP personalizado.
+  No afirmar sincronización hasta descubrir una herramienta de lectura y
+  probarla; registrar proveedor, herramienta y hora de la prueba.
 - **Herramientas de práctica IMPI** (Marcanet, MARCia, VIDOC, SIGA) — estas NO
   son integraciones MCP del plugin; son herramientas web que el practicante usa
   directamente para verificar estatus, consultar expedientes y confirmar plazos.
@@ -98,8 +97,8 @@ Sin ninguno, pega tu expediente o sube una hoja de cálculo y rastrearé desde a
 
 ## Propósito
 
-Un registro de marca que no se renueva a tiempo puede ser cancelado. Una patente
-sin pago de anualidad caduca. Una declaración de uso real no presentada a los
+Un registro de marca que no se renueva conforme a la ley puede caducar. Una patente
+sin pago de anualidad puede caducar conforme al expediente y reglas aplicables. Una declaración de uso real no presentada a los
 3 años del otorgamiento causa caducidad de la marca. Una reserva de derechos que
 vence se pierde. Todo esto es evitable, y todo depende de una cosa: que el plazo
 correcto esté en el calendario de alguien, vinculado al número de registro
@@ -113,13 +112,14 @@ Este skill mantiene ese calendario.
 > disponibles a la fecha de construcción del skill. Los requisitos de IMPI e
 > INDAUTOR, periodos de gracia, estructuras de tarifas y calendarios de
 > mantenimiento cambian — la LFPPI fue reformada sustancialmente en 2020 y
-> nuevamente en abril 2026 `[model knowledge — verify]`. **Siempre confirmar
+> nuevamente en abril de 2026 (fuentes `MX-LFPPI-CONSOLIDATED-2026-04-03` y
+> `MX-LFPPI-REFORM-2026-04-03`). **Siempre confirmar
 > plazos calculados contra Marcanet / MARCia / VIDOC / SIGA del IMPI, el portal
 > de INDAUTOR, OMPI Madrid Monitor / Patentscope, o el registro nacional
-> relevante antes de actuar.** Si usas Anaqua, CPA Global, Clarivate, Alt Legal
-> u otro sistema de gestión de PI, su expediente es autoritativo para tus
-> activos — usa este rastreador para organizar y surfear sus datos, no para
-> reemplazarlos.
+> relevante antes de actuar.** Si la práctica designa otro sistema como fuente
+> de registro, documentar esa decisión y conciliar manualmente o mediante un MCP
+> personalizado verificado; no asumir que está disponible por aparecer en el
+> perfil.
 >
 > Un plazo registrado pero equivocado es peor que uno no registrado: crea falsa
 > confianza. Los resultados de "ningún plazo próximo" especialmente merecen una
@@ -134,25 +134,28 @@ La mecánica de mantenimiento varía por jurisdicción y tipo de activo:
 - **Marcas (IMPI):** Vigencia de 10 años desde la fecha de otorgamiento del
   registro. Renovable cada 10 años. **Declaración de uso real obligatoria dentro
   de los 3 meses siguientes al tercer aniversario del otorgamiento** (Art. 233
-  LFPPI) — la omisión dentro de esa ventana causa caducidad automática de pleno
-  derecho `[verified 2026-05-23]`. El plazo es el tercer aniversario + 3 meses de
-  ventana; no exactamente "a los 3 años". Para la renovación decenal, hay un
-  periodo de gracia de 6 meses con recargo.
+  LFPPI) — la omisión dentro de esa ventana causa caducidad de pleno derecho.
+  Antes de aplicar, verificar el régimen transitorio por fecha de otorgamiento
+  (MX-LFPPI-MARK-USE-DECLARATION-001). Para la renovación, aplicar la ventana
+  de 6 meses anteriores y 6 posteriores del art. 237
+  (MX-LFPPI-MARK-RENEWAL-001).
 - **Avisos comerciales (IMPI):** Vigencia de 10 años. Renovable cada 10 años.
   Mecánica similar a marcas, incluyendo declaración de uso real dentro de los
   3 meses siguientes al tercer aniversario del otorgamiento (Art. 233 LFPPI)
-  `[verified 2026-05-23]`.
+  (`MX-LFPPI-MARK-USE-DECLARATION-001`; comprobar transición).
 - **Patentes (IMPI):** Vigencia de 20 años desde la fecha de presentación de la
-  solicitud (no desde otorgamiento). **Anualidades anuales** — no 3 pagos
-  puntuales como en EE.UU. (3.5/7.5/11.5 años). La falta de pago de cualquier
-  anualidad causa caducidad. No renovable; al vencer los 20 años el invento
-  pasa a dominio público. No existe un mecanismo general de "revival" por
-  caducidad involuntaria como el "unintentional lapse petition" de USPTO.
+  solicitud reconocida (no desde otorgamiento), sujeta al pago de anualidades
+  (`MX-LFPPI-PATENT-TERM-001`). La tarifa y el expediente pueden organizar el
+  pago individual o por quinquenios; no calcular aquí la fecha ni importar el
+  calendario estadounidense. No renovable al terminar su vigencia legal.
 - **Modelos de utilidad (IMPI):** Vigencia de 15 años desde la fecha de
-  presentación. **Anualidades anuales.** No renovable.
-- **Diseños industriales (IMPI):** Vigencia de 25 años desde la fecha de
-  presentación. **Pagos por quinquenios** (cada 5 años), no anualidades anuales.
-  No renovable.
+  presentación y sujeto al pago de anualidades
+  (`MX-LFPPI-UTILITY-MODEL-TERM-001`). Confirmar mecánica y pago en expediente
+  y tarifa vigente; no renovable al terminar su vigencia legal.
+- **Diseños industriales (IMPI):** Vigencia inicial de 5 años desde la fecha de
+  presentación, **renovable por periodos sucesivos de 5 años hasta un máximo de
+  25 años** (arts. 78-79; MX-LFPPI-DESIGN-TERM-001). No describirlo como un
+  derecho único de 25 años ni como “no renovable”.
 - **Secretos industriales:** No requieren registro ni renovación ante IMPI. La
   protección dura mientras se mantenga la confidencialidad. No se rastrean en
   este registro por plazos, pero pueden listarse para inventario.
@@ -162,164 +165,114 @@ La mecánica de mantenimiento varía por jurisdicción y tipo de activo:
 
 ### México — INDAUTOR (Derechos de Autor)
 
-- **Registro de obras:** No requiere mantenimiento. La protección patrimonial
-  dura la vida del autor más 100 años (Art. 29 LFDA) `[model knowledge — verify]`.
+- **Registro de obras:** No requiere mantenimiento. La regla de vida de la
+  persona autora más 100 años tiene supuestos distintos para coautoría y obras
+  de la fracción II (art. 29; `MX-LFDA-PATRIMONIAL-TERM-001`).
   Los derechos morales son perpetuos, inalienables e irrenunciables (Art. 19
   LFDA). Sin plazos de renovación.
-- **Reservas de derechos al uso exclusivo (INDAUTOR):** Vigencia variable según
-  tipo (Arts. 173-180 LFDA) `[model knowledge — verify]`:
+- **Reservas de derechos al uso exclusivo (INDAUTOR):** seis categorías y
+  vigencia conforme a los arts. 173 y 189-191 LFDA:
 
   | Tipo de reserva | Vigencia | Renovable |
   |---|---|---|
   | Publicaciones periódicas | 1 año | Sí, indefinidamente |
   | Difusiones periódicas | 1 año | Sí, indefinidamente |
-  | Personajes ficticios | 5 años | Sí, indefinidamente |
-  | Personajes humanos de caracterización | 5 años | Sí, indefinidamente |
-  | Promociones publicitarias | Variable (duración de la promoción) | Según tipo |
+  | Personajes humanos de caracterización, ficticios o simbólicos | 5 años | Sí, por periodos iguales |
+  | Personas o grupos artísticos | 5 años | Sí, por periodos iguales |
+  | Eventos artísticos y culturales | 1 año | Sí, por periodos iguales |
+  | Promociones publicitarias | 5 años | No |
 
   Las reservas son de los activos de PI con vigencia más corta. Un vencimiento
-  inadvertido pierde la exclusividad del nombre/título/personaje.
+  inadvertido puede perder la exclusividad. La ventana de solicitud va de un
+  mes antes a un mes después del vencimiento; no usar la ventana marcaria de 6
+  meses (MX-LFDA-RESERVA-RENEWAL-001).
 
-### Internacional (cuando el portafolio incluye activos fuera de México)
+### Activos fuera de México
 
-- **Marcas Madrid (OMPI):** Vigencia de 10 años renovable en OMPI; las
-  designaciones individuales pueden tener requisitos locales adicionales (ej.,
-  §71 Declaration en EE.UU. para designaciones Madrid-US).
-- **Marcas EUIPO:** Renovación decenal; 6 meses de gracia con recargo.
-- **Patentes PCT / fase nacional:** Las anualidades dependen de cada oficina
-  nacional. Confirmar por jurisdicción — la EPO tiene anualidades anuales desde
-  la presentación; USPTO tiene 3 pagos puntuales.
-- **Diseños industriales La Haya:** Renovación quinquenal por periodos de 5 años
-  hasta el máximo permitido por cada designación.
-- **Copyright US Copyright Office:** Sin mantenimiento para obras creadas 1978 o
-  después.
-- **Dominios:** Renovación anual o multianual según registrador; típicamente
-  30 días de gracia, luego periodo de redención (~30 días con tarifa alta),
-  luego liberación.
-
-Si el portafolio incluye activos en jurisdicciones no listadas arriba, capturar
-la mecánica de mantenimiento en el bloque `custom_rules` del registro y el
-reporte los mostrará como `gestionado_por_agente` — confirmar estatus con el
-corresponsal extranjero en vez de calcular una fecha que este skill no entiende.
+El motor de reglas de este plugin no calcula plazos extranjeros ni de nombres
+de dominio. Pueden inventariarse, pero sus `deadline_events` quedan vacíos y el
+activo se marca `agent_managed: true` hasta que un agente de la jurisdicción o
+el registrador aporte el evento documentado. No crear `custom_rules` locales ni
+reutilizar una regla mexicana por analogía: este vigilante solo verifica IDs del
+registro canónico México.
 
 ---
 
 ## El registro
 
-Vive en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/portfolio.yaml`.
+Vive en `DATA_ROOT/portfolio.json` y debe ser JSON válido conforme a
+`schemas/portfolio.schema.json`. No escribir comentarios ni sintaxis YAML.
 Estructura:
 
-```yaml
-# Registro de Portafolio de PI
-# Generado: [fecha]
-# Última actualización: [fecha]
-# Advertencia: los plazos calculados son solo de referencia — confirmar con
-# IMPI (Marcanet/MARCia/VIDOC/SIGA) / INDAUTOR / OMPI / registro relevante
-# o el sistema de gestión de PI antes de actuar.
-
-metadata:
-  empresa: "[Razón Social]"
-  generado: "[fecha]"
-  ultima_actualizacion: "[fecha]"
-  ultima_auditoria: "[fecha o null]"
-  sistema_fuente: "[Anaqua / CPA Global / manual / ninguno]"
-
-custom_rules:   # jurisdicciones no incluidas capturadas manualmente
-  []
-
-assets:
-  - id: "MCA-MX-001"
-    type: "marca"                               # marca / patente / modelo_utilidad / diseno_industrial / aviso_comercial / derecho_autor / reserva_derechos / dominio
-    jurisdiction: "MX-IMPI"
-    mark_or_title: "[Marca o denominación]"
-    owner: "[Titular registral — razón social]"
-    status: "registrada"                        # en_tramite / registrada / caducada / abandonada / cancelada / nula
-    application_number: "[número o null]"
-    registration_number: "[número o null]"
-    classes: ["9", "42"]                        # Clasificación de Niza para marcas; CIP para patentes; null para otros
-    filing_date: "[AAAA-MM-DD o null]"
-    registration_date: "[AAAA-MM-DD o null]"
-    grant_date: "[AAAA-MM-DD o null]"           # patentes / modelos / diseños
-    priority_date: "[AAAA-MM-DD o null]"
-    next_deadlines:                             # calculados; se refrescan en --reporte y --auditar
-      - type: "Declaración de uso real (Art. 233 LFPPI)"
-        due_date: "[AAAA-MM-DD]"
-        grace_end: null                         # La declaración de uso NO tiene periodo de gracia
-        basis: "3 años desde otorgamiento del registro"
-        action: "Presentar declaración de uso real ante IMPI con pruebas de uso efectivo"
-        status: "proximo"                       # proximo / vence_pronto / vencido / gracia / caducado / tramitado
-      - type: "Renovación decenal"
-        due_date: "[AAAA-MM-DD]"
-        grace_end: "[AAAA-MM-DD o null]"        # 6 meses con recargo
-        basis: "10 años desde otorgamiento"
-        action: "Presentar solicitud de renovación ante IMPI"
-        status: "proximo"
-    uso_real: true                              # solo marcas/avisos — alimenta análisis de declaración de uso
-    agent_managed: false                        # true para corresponsal extranjero / despacho externo gestionado
-    local_agent: null
-    docket_id: "[ID de sistema de gestión o null]"
-    outside_counsel: "[despacho o null]"
-    business_owner: "[correo o equipo]"
-    notes: ""
-
-  - id: "PAT-MX-001"
-    type: "patente"
-    jurisdiction: "MX-IMPI"
-    mark_or_title: "[Título de la invención]"
-    owner: "[Titular]"
-    status: "otorgada"
-    application_number: "[número]"
-    registration_number: "[número de patente]"
-    filing_date: "[AAAA-MM-DD]"
-    grant_date: "[AAAA-MM-DD]"
-    priority_date: "[AAAA-MM-DD o null]"
-    expiration_date: "[AAAA-MM-DD]"             # 20 años desde fecha de solicitud
-    next_deadlines:
-      - type: "Anualidad [año N]"
-        due_date: "[AAAA-MM-DD]"
-        grace_end: "[AAAA-MM-DD o null]"
-        basis: "Anualidad anual desde solicitud"
-        action: "Pagar anualidad ante IMPI"
-        status: "proximo"
-    claims_count: 20
-    entity_size: null                           # México no tiene tarifa diferenciada por tamaño de entidad como USPTO
-    docket_id: null
-    outside_counsel: null
-    business_owner: null
-    notes: ""
-
-  - id: "RES-MX-001"
-    type: "reserva_derechos"
-    jurisdiction: "MX-INDAUTOR"
-    mark_or_title: "[Título o nombre reservado]"
-    owner: "[Titular]"
-    status: "vigente"
-    application_number: "[número o null]"
-    registration_number: "[número de certificado]"
-    category: "personaje_ficticio"              # publicacion_periodica / difusion_periodica / personaje_ficticio / personaje_humano / promocion_publicitaria
-    filing_date: "[AAAA-MM-DD]"
-    registration_date: "[AAAA-MM-DD]"
-    expiration_date: "[AAAA-MM-DD]"             # 1-5 años según tipo
-    next_deadlines:
-      - type: "Renovación de reserva"
-        due_date: "[AAAA-MM-DD]"
-        grace_end: "[AAAA-MM-DD o null]"
-        basis: "Vencimiento de vigencia según tipo de reserva"
-        action: "Presentar solicitud de renovación ante INDAUTOR"
-        status: "proximo"
-    docket_id: null
-    outside_counsel: null
-    business_owner: null
-    notes: ""
+```json
+{
+  "metadata": {
+    "schema_version": "2.0.0",
+    "empresa": "[Razón social]",
+    "generado": "[AAAA-MM-DD]",
+    "ultima_actualizacion": "[AAAA-MM-DD]",
+    "ultima_auditoria": null,
+    "sistema_fuente": "manual",
+    "fuente_detalle": null,
+    "fuente_verificada_en": null
+  },
+  "custom_rules": [],
+  "assets": [
+    {
+      "id": "MCA-MX-001",
+      "type": "marca",
+      "jurisdiction": "MX-IMPI",
+      "mark_or_title": "[Marca o denominación]",
+      "owner": "[Titular registral]",
+      "status": "registrada",
+      "application_number": null,
+      "registration_number": "[Número]",
+      "classes": ["9", "42"],
+      "filing_date": null,
+      "registration_date": "[AAAA-MM-DD]",
+      "deadline_events": [
+        {
+          "event_id": "MCA-MX-001-uso-3",
+          "rule_id": "MX-LFPPI-MARK-USE-DECLARATION-001",
+          "action": "Presentar declaración de uso real ante IMPI",
+          "due_date": "[AAAA-MM-DD]",
+          "grace_end": null,
+          "status": "pending",
+          "source": {
+            "kind": "official_certificate",
+            "reference": "[Certificado, expediente, URL o archivo]",
+            "captured_at": "[AAAA-MM-DDTHH:MM:SSZ]"
+          },
+          "human_verified": false,
+          "verified_by": null,
+          "verified_against_registry_at": null,
+          "calculation_trace": "[Fecha base + regla + transición/calendario revisados]"
+        }
+      ],
+      "uso_real": null,
+      "agent_managed": false,
+      "docket_id": null,
+      "outside_counsel": null,
+      "business_owner": null,
+      "notes": ""
+    }
+  ]
+}
 ```
 
-Valores de estatus para `next_deadlines`:
-- `proximo` — más de 90 días
-- `vence_pronto` — vence dentro de 90 días, no se ha tramitado
-- `vencido` — pasó la fecha límite principal, dentro del periodo de gracia (si hay)
-- `gracia` — en el periodo de gracia (marca explícita — conlleva recargo)
-- `caducado` — pasó el periodo de gracia sin acción; activo efectivamente perdido salvo recurso
-- `tramitado` — acción completada en este ciclo
+El ejemplo muestra la forma, no hechos predeterminados. Reemplazar todos los
+corchetes antes de guardar. Si falta una fecha necesaria, **no crear** el
+`deadline_event`: dejar `deadline_events` vacío y explicar la brecha en
+`notes`. Repetir la misma estructura para `patente`, `modelo_utilidad`,
+`diseno_industrial`, `aviso_comercial`, `derecho_autor`, `reserva_derechos` o
+`dominio`; los eventos mexicanos deben usar el `rule_id` verificado aplicable.
+
+Valores persistidos para `deadline_events.status`: `pending`, `pendiente`,
+`scheduled`, `programado`, `tramitado`, `completed`, `paid`, `filed`, `closed`.
+Urgencia (`next_30_days`, `grace`, `overdue`, etc.)
+no se almacena: `renewal_watch.py` la recalcula determinísticamente desde
+`--as-of`. Un evento legado `next_deadlines` se muestra como desconocido hasta
+que se añadan `rule_id`, fuente, traza y verificación.
 
 ---
 
@@ -329,35 +282,38 @@ Se ejecuta cuando no existe registro, o con `--reconstruir`.
 
 ### Paso 1: Determinar la fuente
 
-Leer `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`:
-- **Sistema de gestión de PI conectado** (Anaqua, CPA Global, etc.): jalar el portafolio vía su integración. El sistema de PI es la fuente autoritativa; este registro lo espeja y no agrega plazos que el sistema no tenga.
+Leer `PROFILE` y el registro de capacidades:
+- **MCP personalizado de SGPI verificado ahora:** importar con la herramienta
+  de solo lectura probada; conservar IDs y procedencia. La fuente de registro es
+  la que la práctica haya designado, no automáticamente el MCP.
 - **Sin sistema de PI, pero hoja de cálculo / exportación disponible:** pedir al usuario que la comparta. Importar lo presente; marcar cualquier activo sin fecha de registro u otorgamiento como `desconocido` para cálculo de plazos.
 - **Nada a la mano:** guiar los activos interactivamente — tipo, jurisdicción, número, fechas clave, titular.
 
-### Paso 2: Para cada activo, calcular plazos
+### Paso 2: Para cada activo, documentar eventos de plazo
 
-Aplicar las reglas al inicio de este archivo. Poblar `next_deadlines` con los
-dos o tres plazos más próximos — plazos lejanos (renovaciones decenales décadas
-en el futuro) se calculan bajo demanda durante reportes en vez de almacenarse
-especulativamente.
+Usar exclusivamente reglas vigentes de `references/verified-rules.json`.
+Poblar `deadline_events` solo cuando existan: `rule_id`, fecha base documentada,
+fuente, fecha de captura y `calculation_trace`. Un cálculo aritmético crea un
+candidato con `human_verified: false`; solo cambia a `true` después de cotejar
+el expediente/registro oficial y guardar `verified_by` y
+`verified_against_registry_at`.
 
 **Atención especial a la declaración de uso real (Art. 233 LFPPI):** Para toda
-marca y aviso comercial registrado ante IMPI, calcular si la declaración de uso
-a los 3 años del otorgamiento ya fue presentada o si está pendiente. Si la marca
-tiene más de 3 años y no hay registro de declaración de uso, marcar como
-🔴 `caducado` hasta que el usuario confirme que fue presentada.
+marca registrada ante IMPI, revisar fecha de otorgamiento y transición. La
+ausencia de evidencia de presentación se marca `unknown/review_required`, **no
+`caducado`**: no confundir falta en el registro local con falta real ante IMPI.
 
 **Para activos que el skill no puede calendarizar con confianza:**
 - Jurisdicción desconocida → agregar un stub bajo `custom_rules` y marcar el
   activo `agent_managed: true` con un TODO para confirmar con el corresponsal.
 - Fechas faltantes necesarias para cálculo (sin fecha de otorgamiento para marca,
-  sin fecha de solicitud para patente) → dejar `next_deadlines` vacío con nota
+  sin fecha de solicitud para patente) → dejar `deadline_events` vacío con nota
   en `notes`, y listar el activo como `desconocido` en el resumen de
   inicialización.
 
 ### Paso 3: Escribir el registro
 
-Generar `portfolio.yaml` en la ruta de config. Mostrar resumen:
+Generar `DATA_ROOT/portfolio.json`. Mostrar resumen:
 
 ```
 Registro de portafolio inicializado.
@@ -372,7 +328,8 @@ Activos: [N]
   Reservas de derechos:[N]  ([N vigentes] / [N por vencer])
   Dominios:           [N]
 
-Plazos calculados: [N]
+Eventos con procedencia completa: [N]
+Eventos que requieren verificación humana/registral: [N]
 Gestionados por agente / jurisdicción TBC: [N] — confirmar con corresponsales
 Desconocidos (datos clave faltantes): [N] — llenar antes de confiar en reportes
 
@@ -390,19 +347,26 @@ Ejecuta /propiedad-intelectual-legal-mexico:portafolio --reporte para ver qué v
 /propiedad-intelectual-legal-mexico:portafolio --reporte [--dias 30|60|90|180]
 ```
 
-Ventana por defecto: 90 días. Refrescar plazos calculados para cada activo antes
-de producir el reporte — no confiar solo en fechas almacenadas.
+Ventana por defecto: 90 días. Ejecutar el clasificador determinístico:
 
-Resultado (anteponer encabezado de confidencialidad conforme a `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` → Resultados):
+```bash
+python3 "${CLAUDE_PLUGIN_ROOT}/scripts/renewal_watch.py" --resolve --days <N> --format markdown
+```
+
+No recalcular fechas dentro del prompt. El programa valida `rule_id`, vigencia
+de regla, fuente, revisión humana y antigüedad de cotejo; clasifica respecto de
+`as_of` y expone datos legados/desconocidos.
+
+Resultado (anteponer encabezado de confidencialidad conforme a `PROFILE` → Resultados):
 
 ```
 REPORTE DE PLAZOS DEL PORTAFOLIO DE PI — [fecha]
 [Razón social] — ventana: próximos [N] días
 
-🔴 CADUCADOS / EN GRACIA ([N])
+🔴 VENCIDOS / EN GRACIA — CANDIDATOS ([N])
   [ID Activo] / [Jurisdicción] / [Tipo] / [Marca o título]
     [Acción] — fecha original [fecha], gracia termina [fecha]
-    Estatus: [gracia / caducado]
+    Estatus temporal: [gracia / vencido] | Verificación: [verified / review_required]
 
 ⚠️ DECLARACIONES DE USO REAL PENDIENTES ([N])
   [ID Activo] / MX-IMPI / Marca / [Marca]
@@ -412,7 +376,7 @@ REPORTE DE PLAZOS DEL PORTAFOLIO DE PI — [fecha]
 ⏰ VENCE DENTRO DE [N] DÍAS ([N])
   [ID Activo] / [Jurisdicción] / [Tipo] / [Marca o título]
     [Acción] — vence [fecha]
-    Base: [ej., "anualidad año 5 desde solicitud"]
+    Regla: [rule_id] | Fuente: [reference] | Traza: [calculation_trace]
     [Agente: despacho / expediente: id — si presente]
 
 🟡 PRÓXIMOS (más allá de 30 días, dentro de [N] días)
@@ -468,7 +432,7 @@ Después de captura:
   explícitamente.
 - Si las reglas de la jurisdicción no están incluidas, iniciar el flujo de
   captura de `custom_rules` (ver abajo).
-- Agregar a `assets:` en `portfolio.yaml`.
+- Agregar a `assets` en `portfolio.json`.
 
 ### Captura de reglas personalizadas
 
@@ -497,7 +461,7 @@ Almacenar bajo `custom_rules:` y aplicar a futuros activos en esa jurisdicción.
 ### Compuerta de acción consecuencial
 
 **Antes de registrar que se realizó un trámite o pago:** Leer
-`## Quién usa este plugin` en `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`. Si el Rol es **No abogado**:
+`## Quién usa este plugin` en `PROFILE`. Si el Rol es **No abogado**:
 
 > Registrar una declaración de uso real, una renovación de marca, un pago de
 > anualidad de patente, una renovación de reserva de derechos, o un quinquenio
@@ -527,24 +491,26 @@ requieren la compuerta.
 
 **Actualización manual:** "Presentamos la declaración de uso real para
 MCA-MX-001 el 4 de marzo, con pruebas de uso adjuntas." Actualizar el plazo
-correspondiente: `status: tramitado`, `fecha_tramite`, y calcular el siguiente
-plazo en su ciclo de vida (para la declaración de uso, el siguiente es la
-renovación decenal).
+correspondiente: `status: tramitado`, `fecha_tramite` y evidencia. Crear el
+siguiente evento como candidato separado solo con regla, fecha base, fuente y
+traza; no inferir que IMPI aceptó el trámite.
 
-**Desde sincronización con sistema de gestión:** Si Anaqua / CPA Global / similar
-está conectado, jalar el último expediente y conciliar. Señalar discrepancias
-entre el registro y el sistema de gestión — el sistema de gestión prevalece;
-actualizar el registro para coincidir y mostrar cualquier cosa que el registro
-tenía y el sistema no.
+**Desde MCP personalizado de gestión:** Solo si la herramienta de lectura fue
+descubierta y probada en esta ejecución, importar y conciliar. Mostrar
+discrepancias; no sobrescribir automáticamente. Pedir confirmación y aplicar la
+fuente de registro configurada por la práctica. Si no hay prueba exitosa, usar
+`configured_unverified`/`unsupported` y caer a exportación manual.
 
 **Cambio de estatus:** "Marca MCA-MX-004 como abandonada." Actualizar `status`,
-limpiar `next_deadlines`, anotar fecha de abandono.
+cerrar (no borrar) `deadline_events` pendientes y anotar fuente/fecha de abandono.
 
 **Registro de cesión / cambio de titularidad:** "La marca MCA-MX-002 fue cedida
 a [nuevo titular] con fecha [fecha]." Actualizar `owner`, anotar fecha de
 inscripción de la cesión ante IMPI si aplica. Verificar que la cesión esté
-inscrita ante el registro correspondiente — una cesión no inscrita ante IMPI es
-inoponible a terceros (Art. 143 LFPPI) `[model knowledge — verify]`.
+inscrita ante el registro correspondiente — para patente, registro o solicitud,
+el art. 137 exige inscripción para que la transmisión o gravamen produzca
+efectos en perjuicio de terceros
+(MX-LFPPI-ASSIGNMENT-REGISTRATION-001).
 
 ---
 
@@ -560,13 +526,13 @@ Revisión amplia de salud más allá de los plazos del mes:
 - ¿Hay plazos en estatus `gracia` actualmente? (En curso pero con recargo.)
 - ¿Hay activos `caducados` que no están marcados `abandonada` o `cancelada`?
   Evaluar si hay recurso o actualizar estatus.
-- ¿Hay activos sin `next_deadlines` calculados? Datos faltantes o jurisdicción
+- ¿Hay activos sin `deadline_events` con procedencia? Datos faltantes o jurisdicción
   desconocida.
 
 **Declaraciones de uso real (Art. 233 LFPPI)**
-- ¿Hay marcas con más de 3 años desde otorgamiento sin registro de declaración
-  de uso? **Esta es la verificación más crítica.** Listar cada una como
-  🔴 hasta que el usuario confirme que fue presentada.
+- ¿Hay marcas con más de 3 años desde otorgamiento sin evidencia local de
+  declaración de uso? **Esta es la verificación más crítica.** Listar como
+  `review_required`; no declarar caducidad sin cotejo registral y transición.
 - ¿Hay marcas próximas al plazo de 3 años (dentro de 6 meses)? Listar como
   ⏰ con recordatorio de reunir pruebas de uso real.
 
@@ -582,8 +548,8 @@ Revisión amplia de salud más allá de los plazos del mes:
 **Uso real (solo marcas)**
 - ¿Se acerca la declaración de uso (Art. 233) en una marca señalada
   `uso_real: false` o incierto? La declaración requiere uso real efectivo;
-  la marca necesita auditoría de uso antes de presentar o evaluar si procede
-  solicitar prórroga por falta de uso.
+  la marca necesita auditoría de uso y revisión urgente por abogado antes de
+  presentar. No asumir que existe una prórroga por falta de uso.
 
 **Higiene de titularidad**
 - ¿Hay activos donde el `titular` no es una entidad activa según el registro
@@ -604,9 +570,11 @@ Revisión amplia de salud más allá de los plazos del mes:
 
 **Reforma LFPPI 2026**
 - ¿Hay activos que podrían beneficiarse de los nuevos tipos de marca (posición,
-  movimiento, multimedia) introducidos por la reforma? `[model knowledge — verify]`
+  movimiento, multimedia) introducidos por la reforma?
+  (`MX-LFPPI-NONTRADITIONAL-MARKS-001`)
 - ¿Hay solicitudes provisionales de patente que requieran seguimiento bajo el
-  nuevo mecanismo? `[model knowledge — verify]`
+  nuevo mecanismo? (`MX-LFPPI-PROVISIONAL-PATENT-001`; verificar transición y
+  requisitos reglamentarios)
 
 Formato de salida:
 
@@ -673,9 +641,10 @@ inmediatamente sin importar el calendario.
 
 - **No presenta nada.** Toda acción que muestra es para que el abogado o
   corresponsal la ejecute.
-- **No verifica plazos contra IMPI, INDAUTOR, OMPI ni ningún otro registro.**
-  Los calcula a partir de las fechas que le proporcionas. El registro es una
-  copia de trabajo; el registro oficial es la fuente de verdad.
+- **No convierte aritmética en certeza jurídica.** Clasifica eventos documentados
+  y expone su procedencia. La fecha solo aparece `verified` si una persona la
+  cotejó contra el registro dentro de la ventana configurada; el registro
+  oficial y expediente siguen siendo fuente de verdad.
 - **No decide si renovar.** La renovación es una decisión de negocio — ¿la marca
   sigue en uso?, ¿la patente sigue siendo valiosa?, ¿la reserva sigue siendo
   relevante? Este skill muestra el plazo y el costo; el negocio y el abogado

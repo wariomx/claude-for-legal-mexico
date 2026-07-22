@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "as_of": "2026-07-22",
+  "dependency": {
+    "plugin": "conectores-legal-mexico",
+    "minimum_reviewed_version": "1.1.0",
+    "source_manifest": "../../conectores-legal-mexico/.mcp.json",
+    "source_manifest_sha256": "d55a8415bbb140affbf62f911412ac0fa5b704259a49ad7267f362d8319a434e"
+  },
+  "status_model": {
+    "verified": "Una llamada mínima, de solo lectura y no sensible tuvo éxito en esta ejecución.",
+    "partially_verified": "Al menos una capacidad declarada tuvo una prueba válida, pero otras siguen sin verificar.",
+    "configured_unverified": "El servidor está declarado, pero no se ejecutó una prueba exitosa en esta ejecución.",
+    "unavailable": "El servidor/herramienta no está expuesto en esta ejecución o la prueba falló.",
+    "unsupported": "No existe un conector incluido para esta capacidad; requiere MCP personalizado o flujo manual."
+  },
+  "connectors": [
+    {
+      "id": "legaldatahunter",
+      "declared_server": "LegalDataHunter",
+      "expected_manifest": {"type": "http", "url": "https://api.legaldatahunter.com/mcp/v1"},
+      "capabilities": ["mexico_legal_research", "primary_source_discovery"],
+      "authentication": "user_config_api_key",
+      "runtime_probe": "Descubrir una herramienta de búsqueda de solo lectura y ejecutar una consulta mínima no sensible.",
+      "write_capabilities_assumed": false
+    },
+    {
+      "id": "solve-intelligence",
+      "declared_server": "Solve Intelligence",
+      "expected_manifest": {"type": "http", "url": "https://api.solveintelligence.com/mcp/"},
+      "capabilities": ["patent_research", "prior_art_search", "claim_analysis"],
+      "authentication": "provider_managed_or_runtime_authorization",
+      "runtime_probe": "Descubrir una herramienta de búsqueda de solo lectura y ejecutar una consulta mínima no sensible.",
+      "write_capabilities_assumed": false,
+      "notes": "El manifiesto revisado no declara una clave Solve en userConfig; no indicar al usuario que configure una clave inexistente."
+    },
+    {
+      "id": "google-drive",
+      "declared_server": "Google Drive",
+      "expected_manifest": {"type": "http", "url": "https://drivemcp.googleapis.com/mcp/v1"},
+      "capabilities": ["document_search", "document_read"],
+      "authentication": "oauth_or_runtime_authorization",
+      "runtime_probe": "Listar o buscar metadatos con alcance mínimo y sin abrir contenido de cliente.",
+      "write_capabilities_assumed": false
+    },
+    {
+      "id": "box",
+      "declared_server": "Box",
+      "expected_manifest": {"type": "http", "url": "https://mcp.box.com/mcp"},
+      "capabilities": ["document_search", "document_read"],
+      "authentication": "oauth_or_runtime_authorization",
+      "runtime_probe": "Listar o buscar metadatos con alcance mínimo y sin abrir contenido de cliente.",
+      "write_capabilities_assumed": false
+    },
+    {
+      "id": "imanage",
+      "declared_server": "iManage",
+      "expected_manifest": {"type": "http", "url": "https://cloudimanage.com/mcp/work"},
+      "capabilities": ["document_search", "document_read"],
+      "authentication": "runtime_authorization",
+      "runtime_probe": "Listar o buscar metadatos con alcance mínimo y sin abrir contenido de cliente.",
+      "write_capabilities_assumed": false
+    },
+    {
+      "id": "slack",
+      "declared_server": "Slack",
+      "expected_manifest": {"type": "http", "url": "https://mcp.slack.com/mcp"},
+      "capabilities": ["message_search", "channel_read"],
+      "authentication": "oauth_or_runtime_authorization",
+      "runtime_probe": "Ejecutar una operación de lectura mínima; no enviar mensajes como prueba.",
+      "write_capabilities_assumed": false,
+      "notes": "El manifiesto revisado solo describe búsqueda/lectura. Envío requiere que una herramienta de escritura aparezca y sea probada en runtime, más confirmación humana del destino."
+    }
+  ],
+  "unsupported_capabilities": [
+    {
+      "id": "ip_management_system",
+      "examples": ["Anaqua", "CPA Global", "PatSnap", "Clarivate IPfolio", "Alt Legal", "FoundationIP"],
+      "status": "unsupported",
+      "fallback": "Usar DATA_ROOT/portfolio.json o una exportación proporcionada por el usuario.",
+      "rule": "No inventar nombres de herramientas MCP ni afirmar sincronización. Un MCP personalizado debe registrarse y probarse antes de usarlo."
+    },
+    {
+      "id": "official_impi_registry_api",
+      "examples": ["Marcanet", "MARCia", "VIDOC", "SIGA"],
+      "status": "unsupported",
+      "fallback": "Verificación humana directa en el portal oficial o evidencia exportada por el usuario.",
+      "rule": "Estas herramientas de práctica no son conectores MCP incluidos."
+    }
+  ]
+}

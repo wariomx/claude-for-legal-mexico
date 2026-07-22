@@ -4,7 +4,7 @@ description: >
   Reservas de derechos al uso exclusivo ante INDAUTOR — búsqueda de
   disponibilidad, clasificación de categoría, preparación y presentación de
   solicitud, seguimiento de vigencia y renovación. Régimen exclusivamente
-  mexicano sin equivalente en derecho estadounidense (LFDA Arts. 173-180).
+  mexicano sin equivalente en derecho estadounidense (LFDA arts. 173-191).
 argument-hint: "[nombre a reservar] [--buscar | --solicitar | --renovar | --revisar]"
 ---
 
@@ -12,8 +12,9 @@ argument-hint: "[nombre a reservar] [--buscar | --solicitar | --renovar | --revi
 
 Las reservas de derechos al uso exclusivo son un régimen de protección
 **exclusivamente mexicano** administrado por INDAUTOR (Instituto Nacional del
-Derecho de Autor), regulado por la LFDA Arts. 173-180 y su Reglamento
-`[model knowledge — verify]`. No existe equivalente en el derecho
+Derecho de Autor), regulado por la LFDA arts. 173-191 y su Reglamento.
+Aplicar MX-LFDA-RESERVA-CATEGORIES-001, MX-LFDA-RESERVA-TERM-001 y
+MX-LFDA-RESERVA-RENEWAL-001. No existe equivalente en el derecho
 estadounidense ni en la mayoría de las jurisdicciones.
 
 Este régimen protege nombres, títulos y denominaciones que no son susceptibles
@@ -23,7 +24,7 @@ terceros.
 ## Instrucciones
 
 1. **Cargar
-   `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md`.**
+   `PROFILE` resuelto por `matter_workspace.py status`.**
    Si contiene `[PLACEHOLDER]`, detenerse y dirigir a
    `/propiedad-intelectual-legal-mexico:cold-start-interview`.
 
@@ -63,30 +64,33 @@ terceros.
 
 Es el derecho a usar y explotar de forma exclusiva títulos, nombres y
 denominaciones en las categorías que establece la ley. Se tramita ante INDAUTOR
-(no ante IMPI). Es independiente del registro de marca — un titular puede
-tener ambos, o solo uno, sobre el mismo nombre `[model knowledge — verify]`.
+(no ante IMPI). Reserva y marca son figuras distintas; verificar impedimentos,
+prioridades y alcance antes de afirmar que pueden coexistir en un caso concreto.
 
 ### Categorías (LFDA Art. 173)
 
-La LFDA establece cinco categorías de reserva (Art. 173 LFDA) `[verified 2026-05-23]`:
+La LFDA establece seis categorías después de la reforma DOF 14-05-2026:
 
-| Frac. | Categoría (Art. 173 LFDA) | Descripción | Vigencia (Art. 174) | ¿Renovable? |
+| Frac. | Categoría (Art. 173 LFDA) | Descripción | Vigencia (Arts. 189-190) | ¿Renovable? |
 |---|---|---|---|---|
 | I | Títulos de publicaciones periódicas | Revistas, periódicos, boletines, gacetas y cualquier publicación periódica | 1 año | Sí, por periodos iguales |
 | II | Difusiones periódicas | Programas de radio, televisión y cualquier difusión periódica | 1 año | Sí, por periodos iguales |
 | III | Personajes humanos de caracterización, o ficticios o simbólicos | Personajes de ficción, simbólicos (representativos de marca/empresa/concepto) y personas físicas cuando adoptan una caracterización para uso comercial | 5 años | Sí, por periodos iguales |
 | IV | Personas o grupos dedicados a actividades artísticas | Nombres de artistas, intérpretes, ejecutantes, conjuntos musicales, grupos de teatro, danza, circo u otras actividades artísticas | 5 años | Sí, por periodos iguales |
-| V | Denominaciones de promociones publicitarias | Nombres de promociones comerciales: ofertas, sorteos, concursos, rifas | Vigencia de la promoción; máximo 1 año | No renovable |
+| V | Eventos artísticos y culturales | Festivales, concursos, ferias u otros de naturaleza similar | 1 año | Sí, por periodos iguales |
+| VI | Denominaciones y características de operación de promociones publicitarias | Mecanismo novedoso y sin protección para promover/ofertar bienes o servicios con un incentivo adicional; no anuncios comerciales | 5 años | No renovable |
 
-> ⚠️ **La renovación se solicita dentro del mes anterior al vencimiento o hasta un mes después** (con recargo). El margen de maniobra no es de 6 meses. `[verified 2026-05-23]`
+> ⚠️ **La solicitud de renovación se presenta desde un mes antes hasta un mes
+> después del vencimiento y exige comprobación fehaciente de uso** (art. 191).
+> El margen no es de seis meses. Las promociones publicitarias no se renuevan.
 
 ### Diferencia con el registro de marca (IMPI)
 
 | Aspecto | Reserva de derechos (INDAUTOR) | Registro de marca (IMPI) |
 |---|---|---|
 | Autoridad | INDAUTOR | IMPI |
-| Marco legal | LFDA Arts. 173-180 | LFPPI |
-| Objeto | Títulos, nombres, denominaciones en 5 categorías | Signos distintivos para productos/servicios |
+| Marco legal | LFDA arts. 173-191 | LFPPI |
+| Objeto | Títulos, nombres y denominaciones en 6 categorías | Signos distintivos para productos/servicios |
 | Vigencia | 1-5 años según categoría | 10 años renovables |
 | Alcance | Categoría específica | Clases de productos/servicios (NIZA) |
 | Coexistencia | Puede coexistir con marca | Puede coexistir con reserva |
@@ -94,19 +98,15 @@ La LFDA establece cinco categorías de reserva (Art. 173 LFDA) `[verified 2026-0
 
 ### Reglas clave
 
-- **Uso obligatorio** — la reserva debe ser utilizada. El no uso puede
-  resultar en la pérdida del derecho al no renovar o en una acción de
-  tercero. LFDA establece consecuencias por falta de uso
-  `[model knowledge — verify]`
-- **No conflicto con marcas registradas** — INDAUTOR puede negar una reserva
-  si el nombre entra en conflicto con una marca registrada ante IMPI. La
-  coordinación IMPI-INDAUTOR es necesaria.
-- **No conflicto con reservas previas** — la misma categoría o categoría
-  confundible
+- **Uso para renovación** — el art. 191 exige comprobación fehaciente del uso
+  en la forma que disponga el Reglamento; no convertir falta de evidencia local
+  en pérdida automática (`MX-LFDA-RESERVA-RENEWAL-001`).
+- **Conflictos con marcas o reservas previas** — recuperar la causal vigente,
+  categoría, titularidad y antecedentes antes de predecir negativa `[verify]`.
 - **Requisitos formales** — la solicitud debe contener información específica
   según la categoría
-- **Transmisión** — las reservas de derechos son transmisibles. La
-  transmisión debe registrarse ante INDAUTOR `[model knowledge — verify]`
+- **Transmisión** — no redactar ni prometer efectos registrales hasta recuperar
+  la disposición y requisitos vigentes de INDAUTOR `[verify]`.
 
 ---
 
@@ -115,7 +115,7 @@ La LFDA establece cinco categorías de reserva (Art. 173 LFDA) `[verified 2026-0
 Revisar `## Espacios de trabajo por asunto` en el CLAUDE.md a nivel de
 práctica. Si `Habilitado` es `✗`, omitir. Si está habilitado y no hay asunto
 activo, preguntar. Escribir resultados en la carpeta del asunto en
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/matters/<asunto-slug>/`.
+`DATA_ROOT/`.
 
 ---
 
@@ -156,8 +156,10 @@ en el uso pretendido.
 > - **Categoría** — confirmada en el Paso 1
 
 **Búsqueda recomendada:**
-1. Consulta en el sistema de INDAUTOR (si hay integración disponible)
-   `[INDAUTOR]`
+1. Consulta en el sistema de INDAUTOR. El paquete no incluye un conector
+   registral de INDAUTOR; solo etiquetar `[INDAUTOR]` si una herramienta
+   específica fue descubierta, probada y devolvió el resultado en esta sesión.
+   De lo contrario, requerir verificación humana en el portal oficial.
 2. Búsqueda fonética y conceptual de nombres similares en la misma categoría
 3. **Búsqueda paralela ante IMPI** — verificar si existe marca registrada
    confundible en clases relevantes
@@ -207,11 +209,11 @@ proceder] `[review]`
 ## Verificación de citas
 
 [Etiquetas de fuente para cada resultado: `[INDAUTOR]`, `[IMPI]`,
-`[model knowledge — verify]`, `[user provided]`]
+`[model knowledge — research lead only]`, `[user provided]`]
 ```
 
 Escribir resultado a
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/outputs/reserva-busqueda-<slug>-AAAA-MM-DD.md`
+`DATA_ROOT/outputs/reserva-busqueda-<slug>-AAAA-MM-DD.md`
 (o en carpeta del asunto si aplica).
 
 ---
@@ -241,18 +243,19 @@ ante INDAUTOR.
 - Datos del representante legal (si aplica): nombre, datos del poder
 - Categoría seleccionada
 
-**Información adicional por categoría:**
+**Hechos de intake por categoría (no sustituye el formulario vigente):**
 
 | Categoría | Información específica requerida |
 |---|---|
 | I — Publicación periódica | Género de la publicación (informativo, cultural, científico, etc.), periodicidad (diaria, semanal, mensual, etc.), idioma, editor responsable |
-| II — Personaje ficticio/simbólico | Descripción del personaje, características físicas y psicológicas, contexto de uso (serie, película, publicidad, etc.), si es ficticio o simbólico |
-| III — Persona física | Nombre completo de la persona, uso comercial pretendido (distinto a actividad profesional), consentimiento de la persona (si es diferente al solicitante) |
-| IV — Grupo artístico | Género artístico (musical, teatral, danza, etc.), integrantes, representante del grupo |
-| V — Promoción publicitaria | Descripción de la promoción, fecha de inicio y término, mecánica, bases de participación |
+| II — Difusión periódica | Nombre, naturaleza del programa/difusión, periodicidad, medio o canal y responsable |
+| III — Personaje | Descripción y representación del personaje humano de caracterización, ficticio o simbólico; contexto y evidencia de uso |
+| IV — Persona o grupo artístico | Nombre, actividad artística, integrantes/representación y consentimientos relevantes |
+| V — Evento artístico o cultural | Nombre, naturaleza, organizador, fechas/periodicidad y evidencia de uso |
+| VI — Promoción publicitaria | Denominación, características de operación, incentivo, vigencia y bases disponibles |
 
-`[model knowledge — verify]` — los requisitos exactos pueden diferir del
-Reglamento de la LFDA vigente. Verificar contra fuente primaria.
+Estos son datos para preparar la revisión. Los campos y anexos exactos se
+obtienen del formulario y fuente primaria vigente; no inferirlos de esta tabla.
 
 #### Paso 3: Preparar borrador de solicitud
 
@@ -294,7 +297,7 @@ para revisión del abogado antes de presentación ante INDAUTOR.
 ## Costos estimados
 
 - Derechos de solicitud ante INDAUTOR: [consultar tasa vigente]
-  `[model knowledge — verify]`
+  `[verify against current official tariff]`
 - Honorarios profesionales: [según acuerdo]
 ```
 
@@ -327,22 +330,21 @@ vencimiento.
 
 #### Paso 2: Verificar renovabilidad
 
-- **Categoría V (promociones publicitarias) NO es renovable**
-  `[model knowledge — verify]`. Si es categoría V, informar que se necesita
-  una nueva solicitud para una nueva promoción.
-- Verificar si la reserva ha sido utilizada — el no uso puede ser obstáculo
-  para la renovación `[model knowledge — verify]`
+- **Categoría VI (promociones publicitarias) NO es renovable** conforme al art.
+  191. Si es categoría VI, detener el flujo de renovación y pedir estrategia
+  para cualquier protección posterior; no prometer una nueva concesión.
+- Verificar uso y evidencia: el art. 191 exige comprobación fehaciente para la
+  renovación (`MX-LFDA-RESERVA-RENEWAL-001`).
 - Verificar si hay cambios en titularidad que requieran trámite previo de
   transmisión
 
 #### Paso 3: Plazo de renovación
 
-- La renovación debe solicitarse dentro del plazo establecido por la ley
-  (generalmente dentro de los últimos 6 meses de vigencia o dentro de los
-  6 meses posteriores al vencimiento, con recargos)
-  `[model knowledge — verify]`
-- **⚠️ Verificar plazos exactos contra la LFDA y su Reglamento** — los plazos
-  arriba son heurísticos
+- La solicitud se presenta desde **un mes antes hasta un mes después** del día
+  de vencimiento, con comprobación fehaciente de uso (art. 191;
+  MX-LFDA-RESERVA-RENEWAL-001).
+- Verificar el certificado, categoría, uso, tarifa y requisitos vigentes ante
+  INDAUTOR antes de presentar. No calcular desde una categoría desconocida.
 
 #### Paso 4: Preparar solicitud de renovación
 
@@ -353,7 +355,7 @@ vencimiento.
 
 **Reserva número:** [número de expediente]
 **Nombre/título:** [nombre reservado]
-**Categoría:** [I-V]
+**Categoría:** [I-VI]
 **Titular:** [nombre del titular]
 **Vencimiento actual:** [fecha]
 **Nuevo vencimiento si se renueva:** [fecha calculada]
@@ -387,7 +389,7 @@ identificar vencimientos próximos, oportunidades de protección adicional
 #### Paso 1: Cargar la cartera
 
 Leer
-`~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/portfolio.yaml`
+`DATA_ROOT/portfolio.json`
 — filtrar por tipo `reserva-derechos`. Si no hay datos en el portfolio,
 preguntar al usuario por la lista de reservas vigentes.
 
@@ -475,9 +477,9 @@ Si el Rol es No-abogado:
 - **Decidir si la reserva es la protección adecuada.** En muchos casos, una
   marca registrada ante IMPI da protección más amplia y durable que una
   reserva. El abogado evalúa la estrategia óptima.
-- **Calcular plazos exactos.** Los plazos indicados son heurísticos basados
-  en `[model knowledge — verify]`. Verificar contra la LFDA y su Reglamento
-  vigentes.
+- **Calcular fechas de expediente.** Las ventanas legales del registro están
+  verificadas, pero la fecha base, día inhábil, uso y presentación real deben
+  cotejarse antes de convertirlas en fecha operativa.
 
 ---
 

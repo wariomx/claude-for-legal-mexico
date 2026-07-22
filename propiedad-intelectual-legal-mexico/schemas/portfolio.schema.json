@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://soft.law/schemas/ip-mx/portfolio.schema.json",
+  "type": "object",
+  "required": ["metadata", "assets"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["schema_version", "ultima_actualizacion", "sistema_fuente"],
+      "properties": {
+        "schema_version": {"const": "2.0.0"},
+        "ultima_actualizacion": {"type": "string", "format": "date"},
+        "sistema_fuente": {"enum": ["exportacion_usuario", "manual", "mcp_personalizado", "ninguno"]},
+        "fuente_detalle": {"type": ["string", "null"]},
+        "fuente_verificada_en": {"type": ["string", "null"], "format": "date-time"}
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "jurisdiction", "mark_or_title", "status", "deadline_events"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1, "maxLength": 100},
+          "type": {"type": "string", "minLength": 1},
+          "jurisdiction": {"type": "string", "minLength": 1},
+          "mark_or_title": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "minLength": 1},
+          "deadline_events": {
+            "type": "array",
+            "items": {"$ref": "#/$defs/deadline_event"}
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "deadline_event": {
+      "type": "object",
+      "required": ["event_id", "rule_id", "action", "due_date", "grace_end", "status", "source", "human_verified", "verified_by", "verified_against_registry_at", "calculation_trace"],
+      "properties": {
+        "event_id": {"type": "string", "minLength": 1, "maxLength": 120},
+        "rule_id": {"type": "string", "pattern": "^MX-(LFPPI|LFDA)-"},
+        "action": {"type": "string", "minLength": 1, "maxLength": 500},
+        "due_date": {"type": "string", "format": "date"},
+        "grace_end": {"type": ["string", "null"], "format": "date"},
+        "status": {"enum": ["pending", "pendiente", "scheduled", "programado", "tramitado", "completed", "filed", "paid", "closed"]},
+        "source": {
+          "type": "object",
+          "required": ["kind", "reference", "captured_at"],
+          "properties": {
+            "kind": {"enum": ["official_registry", "official_certificate", "user_export", "correspondent_confirmation", "manual"]},
+            "reference": {"type": "string", "minLength": 1, "maxLength": 500},
+            "captured_at": {"type": "string", "format": "date-time"}
+          }
+        },
+        "human_verified": {"type": "boolean"},
+        "verified_by": {"type": ["string", "null"], "minLength": 1},
+        "verified_against_registry_at": {"type": ["string", "null"], "format": "date-time"},
+        "calculation_trace": {"type": "string", "minLength": 1, "maxLength": 1000}
+      }
+    }
+  }
+}

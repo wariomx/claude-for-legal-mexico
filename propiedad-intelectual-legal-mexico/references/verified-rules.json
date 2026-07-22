@@ -1,0 +1,346 @@
+{
+  "schema_version": "1.0.0",
+  "as_of": "2026-07-22",
+  "rules": [
+    {
+      "id": "MX-LFPPI-PATENTABILITY-001",
+      "topic": "patentability",
+      "proposition": "La materia que no se considera invención se analiza bajo el artículo 47; las exclusiones de patentabilidad se analizan bajo el artículo 49. No usar los artículos 4 o 19 de la ley abrogada.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "arts. 47-49"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-INVENTIVE-ACTIVITY-001",
+      "topic": "inventive_activity",
+      "proposition": "La actividad inventiva se define como el proceso creativo cuyos resultados no se deducen del estado de la técnica de forma obvia o evidente para una persona técnica en la materia; la patentabilidad y su evaluación se rigen, entre otros, por los artículos 45 fracción III, 48, 51 y 115. No usar el artículo 13 para esta proposición.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "arts. 45, fr. III; 48; 51 y 115"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-PATENT-RIGHTS-001",
+      "topic": "patent_exclusive_rights",
+      "proposition": "El artículo 55 confiere a la persona titular la prerrogativa de impedir, sin consentimiento, la fabricación, uso, venta, oferta en venta o importación de la invención patentada; para producto y proceso deben aplicarse los supuestos específicos del propio artículo y las limitaciones del artículo 57.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "arts. 54-57"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-DISCLOSURE-GRACE-001",
+      "topic": "patent_disclosure_grace",
+      "proposition": "Ciertas divulgaciones de la materia por la persona inventora, causahabiente o tercero que obtuvo la información de ellos no integran el estado de la técnica si ocurrieron dentro de los 12 meses previos; deben revisarse las condiciones y excepciones del artículo 52 y su Reglamento.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "art. 52"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-PROVISIONAL-PATENT-001",
+      "topic": "provisional_patent_application",
+      "proposition": "La solicitud provisional mexicana requiere presentar la solicitud de patente correspondiente dentro del plazo improrrogable de 12 meses desde su recepción para beneficiarse del derecho previsto; verificar requisitos reglamentarios antes de presentar.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "art. 105 Bis"}],
+      "status": "verified_primary_with_transition_check",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-08-21",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-PATENT-TERM-001",
+      "topic": "patent_term",
+      "proposition": "La patente dura 20 años improrrogables desde la fecha de presentación reconocida y está sujeta al pago de anualidades.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "art. 53"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-UTILITY-MODEL-TERM-001",
+      "topic": "utility_model_term",
+      "proposition": "El modelo de utilidad dura 15 años improrrogables desde la fecha de presentación y está sujeto al pago de anualidades.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "art. 62"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-DESIGN-TERM-001",
+      "topic": "industrial_design_term",
+      "proposition": "El diseño industrial tiene una vigencia inicial de 5 años desde la presentación y puede renovarse por periodos sucesivos de 5 años hasta un máximo de 25 años; la solicitud ordinaria se presenta en los 6 meses anteriores y el artículo 79 remite al plazo de gracia del artículo 160, fracción II.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "arts. 78-79 y 160, fr. II"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-MARK-TERM-001",
+      "topic": "trademark_term",
+      "proposition": "El registro de marca dura 10 años desde su otorgamiento y puede renovarse por periodos de igual duración.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "art. 178"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-MARK-USE-DECLARATION-001",
+      "topic": "trademark_use_declaration",
+      "proposition": "La declaración de uso real y efectivo se presenta durante los 3 meses posteriores a que se cumpla el tercer año del otorgamiento; la omisión produce caducidad de pleno derecho. El régimen alcanza marcas, avisos comerciales y efectos de nombres comerciales sujetos por la transición, pero los otorgados antes del 10 de agosto de 2018 quedan exceptuados de esta declaración conforme al Décimo Primero Transitorio; verificar siempre fecha y transición.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "art. 233 y Décimo Primero Transitorio"}, {"authority_id": "MX-LFPPI-REGULATION-2026-04-28", "pinpoint": "art. 7; aplicar solo después de verificar vigencia"}],
+      "status": "verified_primary_with_transition_check",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-08-21",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-MARK-RENEWAL-001",
+      "topic": "trademark_renewal",
+      "proposition": "La renovación se solicita dentro de los 6 meses anteriores al vencimiento; IMPI también dará trámite a las solicitudes presentadas dentro de los 6 meses posteriores. La solicitud incluye declaración de uso real y efectivo y limita la protección a los productos o servicios declarados.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "arts. 237-238"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-NONTRADITIONAL-MARKS-001",
+      "topic": "trademark_subject_matter",
+      "proposition": "La lista de signos registrables incluye, después de la reforma de abril de 2026, signos de posición, de movimiento y multimedia.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "art. 172, frs. VIII-X"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-MARK-REFUSALS-001",
+      "topic": "trademark_registration_refusals",
+      "proposition": "El artículo 173 contiene impedimentos específicos y no deben ampliarse por etiqueta. Para denominaciones de origen e indicaciones geográficas, la fracción XI exige que los productos o servicios solicitados sean idénticos o similares a los vinculados o protegidos. Las fracciones XVI y XVII alcanzan cualquier producto o servicio para marcas notoriamente conocidas o famosas, pero la fracción XVI exige además alguno de los efectos enumerados en sus incisos. Verificar siempre la fracción aplicable.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "art. 173, frs. XI, XVI y XVII"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-EVENT-SPONSORSHIP-001",
+      "topic": "false_event_sponsorship_unfair_competition",
+      "proposition": "El artículo 386, fracción II, inciso e), incluye entre ciertos actos contrarios a buenos usos y costumbres que implican competencia desleal causar confusión sobre una relación de patrocinio oficial entre un signo distintivo y un evento público o privado de concentración masiva. No convertir esta infracción en un impedimento autónomo de registro ni describirla como un derecho general de 'anti-ambush marketing' sin analizar los elementos del artículo.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "art. 386, fr. II, inc. e)"}, {"authority_id": "MX-LFPPI-REFORM-2026-04-03", "pinpoint": "artículo único: art. 386, fr. II, inc. e)"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-INFRINGEMENT-REMEDIES-001",
+      "topic": "industrial_property_infringement",
+      "proposition": "Las infracciones administrativas están en el artículo 386. El artículo 396 establece un piso de cuarenta por ciento del indicador de valor legítimo presentado por la persona titular —no cuarenta por ciento automático de ventas— y permite reclamar ante IMPI tras el procedimiento o directamente ante tribunales; los artículos 397 y 407-410 contienen reglas adicionales. No usar las numeraciones de la ley abrogada ni exigir siempre una declaración administrativa previa.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "arts. 386, 396-397 y 407-410"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-ENFORCEMENT-PROCEDURE-001",
+      "topic": "administrative_enforcement_procedure",
+      "proposition": "Las solicitudes de declaración administrativa se sustancian desde el artículo 328 y siguientes; las medidas provisionales se regulan desde el artículo 344 y las facultades de inspección desde el artículo 354. Los artículos 334-348 no describen por sí solos todo el procedimiento y los artículos 349-362 no son el bloque correcto para todas las medidas.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "arts. 328-353 y 354 y ss."}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-TRADE-SECRETS-001",
+      "topic": "trade_secrets",
+      "proposition": "El secreto industrial, la apropiación indebida, sus exclusiones, licencias, deberes de confidencialidad y protección procesal se regulan en los artículos 163-169. No usar los artículos 211-212 como fundamento de estas proposiciones; verificar por separado la fracción aplicable del artículo 386 o el delito específico del artículo 402.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "arts. 163-169, 386 y 402, frs. III-VI"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-ASSIGNMENT-REGISTRATION-001",
+      "topic": "patent_and_registration_assignment",
+      "proposition": "Los derechos derivados de patente, registro o solicitud pueden transmitirse o gravarse; para que la transmisión o gravamen produzcan efectos en perjuicio de terceros deben inscribirse ante IMPI. El fundamento es el artículo 137, no el artículo 143.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "art. 137"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-MARK-NULLITY-LAPSE-001",
+      "topic": "trademark_nullity_and_lapse",
+      "proposition": "La nulidad del registro de marca se analiza bajo el artículo 258. La caducidad —incluida la falta de uso durante los tres años consecutivos anteriores a la solicitud, salvo causa justificada— se analiza bajo el artículo 260; la cancelación por genericidad es una figura distinta del artículo 261.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "arts. 258-261"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFPPI-CRIMINAL-OFFENSES-001",
+      "topic": "industrial_property_crimes",
+      "proposition": "El artículo 402 contiene delitos industriales enumerados —incluidas falsificación de marca y ciertas conductas sobre secretos industriales—, no una vía penal genérica para toda infracción de propiedad industrial. Antes de sugerir denuncia debe verificarse la fracción, elementos subjetivos, procedibilidad y hechos concretos.",
+      "authority_refs": [{"authority_id": "MX-LFPPI-CONSOLIDATED-2026-04-03", "pinpoint": "arts. 402-405"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFT-EMPLOYEE-INVENTIONS-001",
+      "topic": "employee_inventions",
+      "proposition": "La persona inventora siempre tiene derecho a ser nombrada. Cuando la persona trabajadora se dedica, por cuenta del patrón, a investigación o perfeccionamiento de procedimientos, la propiedad y explotación de la patente corresponden al patrón, con posible compensación complementaria si existe desproporción. En cualquier otro caso, la propiedad corresponde a quien realizó la invención y el patrón tiene, en igualdad de circunstancias, derecho preferente al uso exclusivo o adquisición. El artículo 163 no crea una tercera categoría basada solo en uso de recursos ni dice que toda invención ajena deja al patrón sin derecho preferente.",
+      "authority_refs": [{"authority_id": "MX-LFT-CONSOLIDATED-2026-01-15", "pinpoint": "art. 163, frs. I-III"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFDA-MORAL-RIGHTS-001",
+      "topic": "moral_rights",
+      "proposition": "La persona autora es titular originaria y única de los derechos morales; el derecho moral es inalienable, imprescriptible, irrenunciable e inembargable. El efecto concreto de una cláusula incompatible—incluida nulidad parcial o severabilidad—requiere análisis; no declarar automáticamente nulo todo el contrato.",
+      "authority_refs": [{"authority_id": "MX-LFDA-CONSOLIDATED-2026-05-14", "pinpoint": "arts. 18-21"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFDA-PATRIMONIAL-TERM-001",
+      "topic": "copyright_economic_rights_term",
+      "proposition": "Como regla de la fracción I del artículo 29, los derechos patrimoniales duran la vida de la persona autora y cien años después de su muerte; para coautoría, el plazo corre desde la muerte de la última persona coautora. La fracción II contiene una regla distinta de cien años después de la divulgación para sus supuestos, por lo que no debe aplicarse una sola fórmula sin clasificar autoría y divulgación.",
+      "authority_refs": [{"authority_id": "MX-LFDA-CONSOLIDATED-2026-05-14", "pinpoint": "art. 29, frs. I-II"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFDA-REGISTRATION-EFFECT-001",
+      "topic": "copyright_protection_and_registration",
+      "proposition": "La protección se concede desde que la obra se fija en un soporte material y el reconocimiento no requiere registro, documento ni formalidad. La inscripción sí establece, salvo prueba en contrario, la presunción de certeza de los hechos y actos asentados y deja a salvo derechos de terceros. No importar el prerrequisito registral estadounidense ni confundir ausencia de registro con ausencia de cuestiones de titularidad, legitimación o prueba.",
+      "authority_refs": [{"authority_id": "MX-LFDA-CONSOLIDATED-2026-05-14", "pinpoint": "arts. 5 y 168"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFDA-PATRIMONIAL-TRANSFER-FORM-001",
+      "topic": "copyright_transfer",
+      "proposition": "La transmisión de derechos patrimoniales y las licencias exclusivas deben constar por escrito; de lo contrario son nulas de pleno derecho en los términos del artículo 30.",
+      "authority_refs": [{"authority_id": "MX-LFDA-CONSOLIDATED-2026-05-14", "pinpoint": "art. 30"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFDA-COMMISSIONED-WORK-001",
+      "topic": "commissioned_work",
+      "proposition": "Salvo pacto en contrario, quien comisiona la producción de una obra goza de los derechos patrimoniales y ciertas facultades previstas en el artículo 83; la persona participante conserva el derecho de mención y los términos del contrato deben ser claros y precisos.",
+      "authority_refs": [{"authority_id": "MX-LFDA-CONSOLIDATED-2026-05-14", "pinpoint": "arts. 83 y 83 Bis"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFDA-EMPLOYMENT-WORK-001",
+      "topic": "employment_work",
+      "proposition": "Para obra creada bajo relación laboral con contrato individual escrito, a falta de pacto en contrario, los derechos patrimoniales se dividen por partes iguales entre empleador y empleado; sin contrato escrito, corresponden al empleado.",
+      "authority_refs": [{"authority_id": "MX-LFDA-CONSOLIDATED-2026-05-14", "pinpoint": "art. 84"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFDA-ISP-NOTICE-001",
+      "topic": "online_notice_and_counter_notice",
+      "proposition": "El artículo 114 Octies establece una limitación condicionada de responsabilidad para proveedores y el mecanismo de aviso/contra-aviso. El aviso legal mínimo identifica al titular o representante y medio de contacto, el contenido reclamado, el interés o derecho y la ubicación electrónica. El contra-aviso debe demostrar titularidad/autorización para ese uso o justificar una limitación o excepción. Tras informar el contra-aviso, el proveedor habilita el contenido salvo que quien avisó inicie, en no más de 15 días hábiles, procedimiento judicial o administrativo, denuncia penal o mecanismo alterno. El texto legal no incluye firma ni declaración bajo protesta dentro de esos cuatro mínimos; verificar por separado el formulario/reglamento del proveedor. Una falsa declaración que cause afectación está sancionada por el artículo 232 Quinquies, fracción I.",
+      "authority_refs": [{"authority_id": "MX-LFDA-CONSOLIDATED-2026-05-14", "pinpoint": "arts. 114 Octies, fr. III, y 232 Quinquies, fr. I"}, {"authority_id": "MX-LFDA-ISP-REFORM-2020-07-01", "pinpoint": "artículo único: arts. 114 Octies y 232 Quinquies"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFDA-RESERVA-CATEGORIES-001",
+      "topic": "reserva_categories",
+      "proposition": "Desde la reforma de mayo de 2026 existen seis categorías: publicaciones periódicas; difusiones periódicas; personajes; personas o grupos artísticos; eventos artísticos y culturales; y promociones publicitarias.",
+      "authority_refs": [{"authority_id": "MX-LFDA-CONSOLIDATED-2026-05-14", "pinpoint": "art. 173, frs. I-VI"}, {"authority_id": "MX-LFDA-REFORM-2026-05-14", "pinpoint": "artículo segundo: art. 173"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFDA-RESERVA-TERM-001",
+      "topic": "reserva_term",
+      "proposition": "Publicaciones periódicas, difusiones periódicas y eventos artísticos/culturales tienen vigencia de 1 año. Personajes y nombres de personas/grupos artísticos tienen 5 años. Las promociones publicitarias tienen 5 años pero no se renuevan.",
+      "authority_refs": [{"authority_id": "MX-LFDA-CONSOLIDATED-2026-05-14", "pinpoint": "arts. 189-191"}, {"authority_id": "MX-LFDA-REFORM-2026-05-14", "pinpoint": "artículo segundo: art. 189"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LFDA-RESERVA-RENEWAL-001",
+      "topic": "reserva_renewal",
+      "proposition": "Las reservas renovables pueden renovarse por periodos sucesivos iguales, previa comprobación de uso; la solicitud se presenta en el periodo comprendido desde 1 mes antes hasta 1 mes después del vencimiento. Las promociones publicitarias no son renovables.",
+      "authority_refs": [{"authority_id": "MX-LFDA-CONSOLIDATED-2026-05-14", "pinpoint": "art. 191"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-CPF-COPYRIGHT-OFFENSES-001",
+      "topic": "copyright_crimes",
+      "proposition": "Los artículos 424 a 429 contienen tipos, penas y reglas de persecución distintos. El artículo 424 Bis, fracción I cubre ciertas conductas de producción, reproducción, introducción, almacenamiento, transporte, distribución, venta o arrendamiento dolosas, con especulación comercial y sin autorización; el artículo 424 Ter se limita a venta a consumidor final en vías o lugares públicos; el artículo 426 regula conductas sobre señales cifradas. No intercambiar estas descripciones ni tratar toda infracción autoral como delito.",
+      "authority_refs": [{"authority_id": "MX-CPF-CONSOLIDATED-2026-03-13", "pinpoint": "arts. 424-429"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-CPF-CALUMNY-REPEAL-001",
+      "topic": "repealed_federal_calumny_offenses",
+      "proposition": "Los artículos 356 a 359 del Código Penal Federal, antes ubicados en el capítulo de calumnia, están derogados desde 2007. El artículo 251 trata la acumulación por uso de documentos u objetos falsos, no calumnia. No citar los artículos 251 o 356 como delito federal vigente de calumnia o denuncia calumniosa; evaluar por separado cualquier responsabilidad realmente aplicable.",
+      "authority_refs": [{"authority_id": "MX-CPF-CONSOLIDATED-2026-03-13", "pinpoint": "arts. 251 y 356-359"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2026-10-20",
+      "requires_human_review": true
+    },
+    {
+      "id": "MX-LRART5-CDMX-CONFIDENTIALITY-001",
+      "topic": "professional_confidentiality_scope",
+      "proposition": "El artículo 36 de la ley de profesiones aplicable en Ciudad de México obliga al profesionista a guardar el secreto de los asuntos confiados por sus clientes, salvo informes legalmente obligatorios. No es una regla nacional uniforme ni equivale por sí sola al attorney-client privilege estadounidense; deben verificarse la entidad federativa, reglas procesales, normas profesionales y los artículos 210-211 del Código Penal Federal cuando resulten pertinentes.",
+      "authority_refs": [{"authority_id": "MX-CDMX-PROFESSIONS-LAW-CONSOLIDATED-2018-01-19", "pinpoint": "art. 36"}, {"authority_id": "MX-CPF-CONSOLIDATED-2026-03-13", "pinpoint": "arts. 210-211"}],
+      "status": "verified_primary",
+      "last_verified": "2026-07-22",
+      "next_review": "2027-01-18",
+      "requires_human_review": true
+    }
+  ]
+}
