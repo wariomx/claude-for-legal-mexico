@@ -24,7 +24,7 @@ Los plugins en este repositorio están licenciados bajo dos términos diferentes
 
 - **Plugins upstream** (commercial-legal, privacy-legal, product-legal, corporate-legal, employment-legal, regulatory-legal, ai-governance-legal, litigation-legal, law-student, legal-clinic, legal-builder-hub, ip-legal, cocounsel-legal) — **Apache 2.0**. Ver el archivo `LICENSE` raíz y `NOTICE`.
 
-- **Plugins México** (conectores-legal-mexico, corporativo-legal-mexico, litigacion-legal-mexico, propiedad-intelectual-legal-mexico, laboral-legal-mexico, privacidad-legal-mexico, regulatorio-legal-mexico, fiscal-legal-mexico, ia-governanza-legal-mexico, seguros-legal-mexico) — **AGPLv3+**. Libres de usar, modificar y distribuir bajo la Licencia Pública General de Affero GNU v3.0 o posterior — incluyendo uso comercial, siempre que las modificaciones se compartan bajo los mismos términos. Una licencia comercial (sin el requisito de compartir de la AGPLv3) está disponible — contactar **wario@soft.law**. Ver `LICENSE` y `LICENSE-EXCEPTIONS.md` en cada directorio de plugin.
+- **Plugins México** (conectores-legal-mexico, corporativo-legal-mexico, civil-legal-mexico, litigacion-legal-mexico, propiedad-intelectual-legal-mexico, laboral-legal-mexico, privacidad-legal-mexico, regulatorio-legal-mexico, fiscal-legal-mexico, ia-governanza-legal-mexico, seguros-legal-mexico) — **AGPLv3+**. Libres de usar, modificar y distribuir bajo la Licencia Pública General de Affero GNU v3.0 o posterior — incluyendo uso comercial, siempre que las modificaciones se compartan bajo los mismos términos. Una licencia comercial (sin el requisito de compartir de la AGPLv3) está disponible — contactar **wario@soft.law**. Ver `LICENSE` y `LICENSE-EXCEPTIONS.md` en cada directorio de plugin.
 
 Lo que hay en el repositorio:
 
@@ -146,6 +146,7 @@ Este repositorio incluye plugins adaptados al sistema jurídico mexicano. Cada p
 |---|---|---|---|
 | **[conectores-legal-mexico](./conectores-legal-mexico/)** | Conectores MCP compartidos — LegalDataHunter, Solve Intelligence, CJJ (Jalisco), MXLegal (STJJ), Slack, Google Drive, Box, iManage. Dependencia automática de los otros plugins. Incluye `/setup-completo` para configurar todos los plugins en un solo comando | 3 | — |
 | **[corporativo-legal-mexico](./corporativo-legal-mexico/)** | F&A, debida diligencia, Consejo de Administración, gestión de entidades bajo LGSM — SA de CV, S de RL de CV, SAS | 13 | — |
+| **[civil-legal-mexico](./civil-legal-mexico/)** | Derecho civil por entidad federativa — revisión de arrendamientos de inmuebles bajo el código civil del estado del inmueble (Jalisco verificado, arts. 1980-2146), reglas irrenunciables, preferencia y tanto, inscripción en RPP | 4 | — |
 | **[litigacion-legal-mexico](./litigacion-legal-mexico/)** | Portafolio de litigios, plazos procesales, cuadros de elementos, cronologías, plantillas de demanda (7 tipos), redacción de escritos, preparación de pruebas, monitoreo de boletín judicial CJJ | 22 | 2 |
 | **[propiedad-intelectual-legal-mexico](./propiedad-intelectual-legal-mexico/)** | Portafolio de PI ante IMPI e INDAUTOR, FTO, clearance de marca, cartas de requerimiento, derechos morales (LFDA Art. 19), reservas de derechos | 13 | 1 |
 | **[laboral-legal-mexico](./laboral-legal-mexico/)** | Práctica laboral bajo la LFT — riesgo de terminación, cálculo de liquidación constitucional, conciliación CJFCA, cumplimiento NOM-035/037-STPS, IMSS/INFONAVIT, plataformas digitales | 11 | 1 |
@@ -163,6 +164,7 @@ claude plugin marketplace add .
 
 # 2. Instalar los plugins — conectores-legal-mexico se instala automáticamente como dependencia
 claude plugin install corporativo-legal-mexico@claude-for-legal-mexico
+claude plugin install civil-legal-mexico@claude-for-legal-mexico
 claude plugin install litigacion-legal-mexico@claude-for-legal-mexico
 claude plugin install propiedad-intelectual-legal-mexico@claude-for-legal-mexico
 claude plugin install laboral-legal-mexico@claude-for-legal-mexico
@@ -225,6 +227,7 @@ ip-legal/                 # clearance de marca, FTO, C&D, DMCA, OSS, cláusulas 
 litigation-legal/         # portafolio, asuntos, retenciones, requerimientos, prep de deposición, cuadros de elementos
 conectores-legal-mexico/  # conectores MCP compartidos — LegalDataHunter, CJJ, MXLegal, integraciones de productividad
 corporativo-legal-mexico/ # F&A, debida diligencia, Consejo, entidades — derecho mexicano
+civil-legal-mexico/       # arrendamiento de inmuebles por entidad federativa, Jalisco verificado — derecho mexicano
 litigacion-legal-mexico/  # portafolio de litigios, plazos, escritos, boletín CJJ — derecho mexicano
 propiedad-intelectual-legal-mexico/ # PI ante IMPI/INDAUTOR, FTO, marcas, derechos morales — derecho mexicano
 laboral-legal-mexico/     # LFT, liquidación, CJFCA, NOM-035/037, IMSS/INFONAVIT — derecho mexicano
@@ -677,6 +680,15 @@ El mapa completo a través de todos los plugins. La entrevista de configuración
 | `/corporativo-legal-mexico:ai-tool-handoff` | ai-tool-handoff | Detecta salida de herramienta de revisión masiva y ejecuta QA |
 | `/corporativo-legal-mexico:matter-workspace` | matter-workspace | Administra espacios de trabajo por asunto |
 | `/corporativo-legal-mexico:customize` | customize | Personaliza el perfil de práctica sin re-entrevista completa |
+
+### civil-legal-mexico
+
+| Comando | Skill | Qué hace |
+|---|---|---|
+| `/civil-legal-mexico:cold-start-interview` | cold-start-interview | Entrevista de configuración — perfil civil, entidades federativas, lado habitual, playbook de arrendamiento |
+| `/civil-legal-mexico:revision-arrendamiento` | revision-arrendamiento | Revisión cláusula a cláusula de arrendamiento de inmueble bajo el código civil de la entidad — 14 temas, reglas irrenunciables, calendario derivado |
+| `/civil-legal-mexico:customize` | customize | Ajusta entidad, lado, playbook o rol sin re-entrevista |
+| `/civil-legal-mexico:matter-workspace` | matter-workspace | Administra espacios de trabajo por asunto (práctica multicliente) |
 
 ### litigacion-legal-mexico
 

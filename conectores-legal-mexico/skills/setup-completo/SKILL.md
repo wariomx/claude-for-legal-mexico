@@ -35,6 +35,7 @@ Antes de mostrar cualquier cosa:
 |--------|------|-----------------------|
 | Conectores | conectores-legal-mexico | `~/.claude/plugins/config/claude-for-legal/conectores-legal-mexico/CLAUDE.md` |
 | Corporativo | corporativo-legal-mexico | `~/.claude/plugins/config/claude-for-legal/corporativo-legal-mexico/CLAUDE.md` |
+| Civil | civil-legal-mexico | `~/.claude/plugins/config/claude-for-legal/civil-legal-mexico/CLAUDE.md` |
 | Litigación | litigacion-legal-mexico | `~/.claude/plugins/config/claude-for-legal/litigacion-legal-mexico/CLAUDE.md` |
 | Propiedad Intelectual | propiedad-intelectual-legal-mexico | `~/.claude/plugins/config/claude-for-legal/propiedad-intelectual-legal-mexico/CLAUDE.md` |
 | Laboral | laboral-legal-mexico | `~/.claude/plugins/config/claude-for-legal/laboral-legal-mexico/CLAUDE.md` |
@@ -124,6 +125,7 @@ Mostrar menú de selección. Marcar `(no instalado)` los plugins que no están p
 > Selecciona todas las que aplican (puedes agregar más después con `--from <plugin>`):
 >
 > [ ] **Corporativo** — F&A, Consejo de Administración, Administración de Entidades
+> [ ] **Civil** — arrendamiento de inmuebles por entidad federativa (código civil estatal, RPP)
 > [ ] **Litigación** — Juicio Ordinario/Ejecutivo Mercantil, Amparo, etapa probatoria
 > [ ] **Propiedad Intelectual** — marcas, patentes, derechos de autor, OSS
 > [ ] **Laboral** — LFT, liquidación, CJFCA, NOM-035/037, IMSS/INFONAVIT
@@ -154,7 +156,7 @@ Ejecutar la entrevista completa de `/conectores-legal-mexico:cold-start-intervie
 
 ## Paso 6 — Configuración por área de práctica
 
-Para cada plugin seleccionado en el Paso 4, en este orden: corporativo → litigacion → propiedad-intelectual → laboral → privacidad → regulatorio → fiscal → seguros → ia-governanza:
+Para cada plugin seleccionado en el Paso 4, en este orden: corporativo → civil → litigacion → propiedad-intelectual → laboral → privacidad → regulatorio → fiscal → seguros → ia-governanza:
 
 Si ya está `configurado` y no `--redo`:
 > ✓ **[Plugin] ya configurado.** Saltando.
@@ -181,14 +183,14 @@ Cuando se invoca con `--check-integrations`:
 
 > **Estado de integraciones — todos los plugins**
 >
-> | Integración | Conectores | Corp. | Lit. | PI | Laboral | Privacidad | Regulatorio | Fiscal | Seguros | IA |
-> |---|---|---|---|---|---|---|---|---|---|---|
-> | LegalDataHunter | [✓/✗/⚪] | ... | | | | | | | | |
-> | CJJ Boletín | [✓/✗/⚪] | — | [✓/✗/⚪] | — | — | — | — | — | — | — |
-> | MXLegal (STJJ) | [✓/✗/⚪] | — | [✓/✗/⚪] | — | — | — | — | — | — | — |
-> | Solve Intelligence | [✓/✗/⚪] | — | — | [✓/✗/⚪] | — | — | — | — | — | — |
-> | Slack | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] |
-> | Google Drive / Box | [✓/✗/⚪] | ... | | | | | | | | |
+> | Integración | Conectores | Corp. | Civil | Lit. | PI | Laboral | Privacidad | Regulatorio | Fiscal | Seguros | IA |
+> |---|---|---|---|---|---|---|---|---|---|---|---|
+> | LegalDataHunter | [✓/✗/⚪] | ... | [✓/✗/⚪] | | | | | | | | |
+> | CJJ Boletín | [✓/✗/⚪] | — | [✓/✗/⚪] | [✓/✗/⚪] | — | — | — | — | — | — | — |
+> | MXLegal (STJJ) | [✓/✗/⚪] | — | — | [✓/✗/⚪] | — | — | — | — | — | — | — |
+> | Solve Intelligence | [✓/✗/⚪] | — | — | — | [✓/✗/⚪] | — | — | — | — | — | — |
+> | Slack | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] | [✓/✗/⚪] |
+> | Google Drive / Box | [✓/✗/⚪] | ... | [✓/✗/⚪] | | | | | | | | |
 
 ---
 
@@ -241,6 +243,7 @@ Sin `--new-client`: preguntar opcionalemente: "¿Quieres crear un directorio ais
 > **Para empezar:**
 > - `/litigacion-legal-mexico:matter-intake` — admitir un asunto
 > - `/corporativo-legal-mexico:closing-checklist` — checklist de cierre
+> - `/civil-legal-mexico:revision-arrendamiento` — revisar un contrato de arrendamiento de inmueble
 > - `/laboral-legal-mexico:termination-risk` — análisis de riesgo de terminación
 > - `/privacidad-legal-mexico:aviso-privacidad` — redactar aviso de privacidad
 > - `/regulatorio-legal-mexico:dof-digest` — novedades DOF

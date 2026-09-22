@@ -61,6 +61,15 @@
       }
     },
     {
+      "name": "civil-legal-mexico",
+      "displayName": "Civil Legal México",
+      "source": "./civil-legal-mexico",
+      "description": "Práctica civil mexicana — revisión de contratos de arrendamiento de inmuebles, compraventa y promesa, contratos civiles (mutuo, comodato, donación, mandato, prestación de servicios, obra), garantías (hipoteca, fianza civil, prenda, obligado solidario) y cómputo de prescripción, con marco legal parametrizado por entidad federativa (código civil local, CCF supletorio) y seguimiento de la transición al CNPCF.",
+      "author": {
+        "name": "Softlaw S.A. de C.V."
+      }
+    },
+    {
       "name": "employment-legal",
       "displayName": "Employment Legal",
       "source": "./employment-legal",
